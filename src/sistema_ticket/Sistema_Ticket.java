@@ -5,6 +5,8 @@
  */
 package sistema_ticket;
 
+import modelos.dbConnection;
+
 /**
  *
  * @author TuKK
@@ -16,6 +18,8 @@ public class Sistema_Ticket {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        dbConnection dbc = new dbConnection();
+        dbc.conectar();
     }
     
 }
