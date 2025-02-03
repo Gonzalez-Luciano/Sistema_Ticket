@@ -44,16 +44,17 @@ public class UsuarioModelo {
         }
     }
 
-    public AuthResponse validarUsuario(String dni, String contrasena) {
+    public AuthResponse validarUsuario(String nombreDNI, String contrasena) {
         String sql = "SELECT u.*, t.fallas, t.marcas "
                 + "FROM usuarios u "
                 + "LEFT JOIN tecnicos t ON u.usuario_id = t.usuario_id "
-                + "WHERE u.dni = ?";
+                + "WHERE u.dni = ? or u.nombre = ?";
 
         try (Connection conn = dbConnection.conectar();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, dni);
+            stmt.setString(1, nombreDNI);
+            stmt.setString(2, nombreDNI);
             ResultSet rs = stmt.executeQuery();
 
             //El usuario no se encontro
@@ -74,15 +75,15 @@ public class UsuarioModelo {
             // Crear el usuario correcto según el tipo
             switch (tipo.toLowerCase()) {
                 case "administrador":
-                    usuario = new Administrador(rs.getString("nombre"), dni, rs.getInt("legajo"), contrasena, rs.getString("estado"));
+                    usuario = new Administrador(rs.getString("nombre"), rs.getString("dni"), rs.getInt("legajo"), contrasena, rs.getString("estado"));
                     break;
                 case "tecnico":
                     int fallas = rs.getInt("fallas");
                     int marcas = rs.getInt("marcas");
-                    usuario = new Tecnico(rs.getString("nombre"), dni, rs.getInt("legajo"), contrasena, rs.getString("estado"), fallas, marcas);
+                    usuario = new Tecnico(rs.getString("nombre"), rs.getString("dni"), rs.getInt("legajo"), contrasena, rs.getString("estado"), fallas, marcas);
                     break;
                 case "trabajador":
-                    usuario = new Trabajador(rs.getString("nombre"), dni, rs.getInt("legajo"), contrasena, rs.getString("estado"));
+                    usuario = new Trabajador(rs.getString("nombre"), rs.getString("dni"), rs.getInt("legajo"), contrasena, rs.getString("estado"));
                     break;
                 default:
                     return new AuthResponse(null, Mensaje.USUARIO_NO_ENCONTRADO);
