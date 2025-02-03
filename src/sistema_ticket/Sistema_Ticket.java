@@ -5,13 +5,6 @@
  */
 package sistema_ticket;
 
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import modelos.dbConnection;
-import com.formdev.flatlaf.FlatLightLaf;
-import javax.swing.SwingUtilities;
-import vistas.Vista_Sistema_Ticket;
-
 /**
  *
  * @author TuKK
@@ -22,6 +15,12 @@ public class Sistema_Ticket {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+
+        /** Test para modificación de contraseña
+         * UsuarioModelo us = new UsuarioModelo();
+         * us.modificarContrasenia("44335769", "1234", "12345");
+        */
+        
         //Inicialización de la vista Login
         /**
          * try { UIManager.setLookAndFeel(new FlatLightLaf()); } catch
