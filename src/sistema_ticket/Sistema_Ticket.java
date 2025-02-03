@@ -5,7 +5,12 @@
  */
 package sistema_ticket;
 
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import modelos.dbConnection;
+import com.formdev.flatlaf.FlatLightLaf;
+import javax.swing.SwingUtilities;
+import vistas.Vista_Sistema_Ticket;
 
 /**
  *
@@ -17,9 +22,13 @@ public class Sistema_Ticket {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-        dbConnection dbc = new dbConnection();
-        dbc.conectar();
+        //Inicialización de la vista Login
+        /**
+         * try { UIManager.setLookAndFeel(new FlatLightLaf()); } catch
+         * (UnsupportedLookAndFeelException ex) { System.err.println("Error al
+         * inicializar FlatLaf: " + ex.getMessage()); }
+         * SwingUtilities.invokeLater(() -> new loginVista());
+         */
     }
-    
+
 }
