@@ -5,6 +5,8 @@
  */
 package sistema_ticket;
 
+import vistas.CambioContrasenia;
+
 /**
  *
  * @author TuKK
@@ -16,6 +18,9 @@ public class Sistema_Ticket {
      */
     public static void main(String[] args) {
 
+        CambioContrasenia a = new CambioContrasenia("44335769");
+        a.setVisible(true);
+        a.setLocationRelativeTo(null);
         /** Test para modificación de contraseña
          * UsuarioModelo us = new UsuarioModelo();
          * us.modificarContrasenia("44335769", "1234", "12345");
