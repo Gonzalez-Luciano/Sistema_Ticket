@@ -125,6 +125,15 @@ public class UsuarioModelo {
                 System.out.println("Contraseña correcta: "+antiguaContrasena+"\n");
             }
 
+            String idStr = rs.getString("usuario_id");
+            
+            //La contraseña es igual al ID del usuario
+            if (nuevaContrasena.equals(idStr)) {
+                return Mensaje.ERROR_DATO_INCORRECTO;
+            } else {
+                System.out.println("Contraseña valida: "+nuevaContrasena+"\n");
+            }
+            
             String query = "UPDATE usuarios "
                     + " SET contrasena = ? "
                     + " WHERE dni = ? ";
