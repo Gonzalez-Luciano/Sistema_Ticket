@@ -6,6 +6,7 @@
 package sistema_ticket;
 
 import vistas.CambioContrasenia;
+import vistas.GenerarTicket;
 
 /**
  *
@@ -18,7 +19,8 @@ public class Sistema_Ticket {
      */
     public static void main(String[] args) {
 
-        CambioContrasenia a = new CambioContrasenia("44335769");
+//        CambioContrasenia a = new CambioContrasenia("44335769");
+        GenerarTicket a = new GenerarTicket();
         a.setVisible(true);
         a.setLocationRelativeTo(null);
         /** Test para modificación de contraseña

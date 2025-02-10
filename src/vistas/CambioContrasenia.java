@@ -7,9 +7,7 @@ package vistas;
 
 import Clases.Mensaje;
 import controladores.UsuarioControlador;
-import javafx.scene.control.Alert;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 /**
  *
@@ -38,36 +36,32 @@ public class CambioContrasenia extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         actualLbl = new javax.swing.JLabel();
-        actualValue = new javax.swing.JTextField();
+        actualValue = new javax.swing.JPasswordField();
         newLbl = new javax.swing.JLabel();
-        newValue = new javax.swing.JTextField();
+        newValue = new javax.swing.JPasswordField();
         confirmLbl = new javax.swing.JLabel();
-        confirmValue = new javax.swing.JTextField();
-        title = new javax.swing.JLabel();
+        confirmValue = new javax.swing.JPasswordField();
         modifyBtn = new javax.swing.JButton();
+        title = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(500, 400));
-        setResizable(false);
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(500, 400));
 
         actualLbl.setText("Contraseña actual:");
 
-        actualValue.addActionListener(new java.awt.event.ActionListener() {
+        newLbl.setText("Nueva contraseña:");
+
+        newValue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                actualValueActionPerformed(evt);
+                newValueActionPerformed(evt);
             }
         });
 
-        newLbl.setText("Nueva contraseña:");
-
         confirmLbl.setText("Confirmar contraseña:");
-
-        title.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        title.setText("Cambiar contraseña");
-        title.setMaximumSize(new java.awt.Dimension(200, 29));
-        title.setMinimumSize(new java.awt.Dimension(200, 29));
 
         modifyBtn.setText("Modificar contraseña");
         modifyBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -76,33 +70,42 @@ public class CambioContrasenia extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(161, 161, 161)
-                        .addComponent(modifyBtn))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(100, 100, 100)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(actualLbl)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(actualValue, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(confirmLbl)
-                                    .addComponent(confirmValue, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(newValue, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(newLbl))))))
-                .addGap(100, 100, 100))
+        title.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        title.setText("Cambiar contraseña");
+        title.setMaximumSize(new java.awt.Dimension(200, 29));
+        title.setMinimumSize(new java.awt.Dimension(200, 29));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(title, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(confirmLbl)
+                            .addComponent(confirmValue, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(100, 100, 100)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(newLbl)
+                                    .addComponent(actualValue, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(actualLbl)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(100, 100, 100)
+                                .addComponent(newValue, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(160, 160, 160)
+                        .addComponent(modifyBtn)))
+                .addContainerGap(100, Short.MAX_VALUE))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(37, Short.MAX_VALUE)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
                 .addComponent(actualLbl)
@@ -116,22 +119,33 @@ public class CambioContrasenia extends javax.swing.JFrame {
                 .addComponent(confirmLbl)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(confirmValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addComponent(modifyBtn)
-                .addGap(31, 31, 31))
+                .addGap(40, 40, 40))
+        );
+
+        confirmValue.getAccessibleContext().setAccessibleName("300");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void actualValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualValueActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_actualValueActionPerformed
-
     private void modifyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyBtnActionPerformed
-        String actualValueStr = actualValue.getText();
-        String newValueStr = newValue.getText();
-        String confirmValueStr = confirmValue.getText();
+        String actualValueStr = String.valueOf(actualValue.getPassword());
+        String newValueStr = String.valueOf(newValue.getPassword());
+        String confirmValueStr = String.valueOf(confirmValue.getPassword());
+        
+        System.out.println(actualValueStr+" "+newValueStr+" "+confirmValueStr+" "+dni);
         
         //llamo al controlador para ejecutar el cambio de contraseña, no importa el tipo de usuario
         Mensaje respuesta = controlador.cambiarContrasenia(dni, actualValueStr, newValueStr, confirmValueStr);
@@ -143,14 +157,19 @@ public class CambioContrasenia extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_modifyBtnActionPerformed
 
+    private void newValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newValueActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_newValueActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel actualLbl;
-    private javax.swing.JTextField actualValue;
+    private javax.swing.JPasswordField actualValue;
     private javax.swing.JLabel confirmLbl;
-    private javax.swing.JTextField confirmValue;
+    private javax.swing.JPasswordField confirmValue;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JButton modifyBtn;
     private javax.swing.JLabel newLbl;
-    private javax.swing.JTextField newValue;
+    private javax.swing.JPasswordField newValue;
     private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 }

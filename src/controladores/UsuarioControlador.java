@@ -22,11 +22,13 @@ public class UsuarioControlador {
     
     public Mensaje cambiarContrasenia(String dni, String valorActual, String nuevoValor, String confirmarValor) {
        
-        if(!nuevoValor.equals(confirmarValor)) {
+        System.out.println(nuevoValor+" "+confirmarValor);
+        if(nuevoValor.compareTo(confirmarValor) != 0) {
             return Mensaje.ERROR_CONFIRMACION_INVALIDA;
         }
         
-        if(valorActual.equals(nuevoValor)) {
+        System.out.println(nuevoValor+" "+valorActual);
+        if(valorActual.compareTo(nuevoValor) != 0) {
             return modelo.modificarContrasenia(dni, valorActual, nuevoValor);
         } else {
             return Mensaje.ERROR_CONTRASENIA_REPETIDA;
