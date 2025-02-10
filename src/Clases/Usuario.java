@@ -58,6 +58,14 @@ public abstract class Usuario {
         this.tipo = dni;
     }
 
+    public int getLegajo() {
+        return legajo;
+    }
+
+    public void setLegajo(int legajo) {
+        this.legajo = legajo;
+    }
+
     public String getContrasena() {
         return contrasena;
     }
@@ -74,4 +82,20 @@ public abstract class Usuario {
         this.estado = estado;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Usuario usuario = (Usuario) obj;
+        return this.dni.equals(usuario.getDNI());
+    }
+
+    @Override
+    public int hashCode() {
+        return dni.hashCode();
+    }
 }
