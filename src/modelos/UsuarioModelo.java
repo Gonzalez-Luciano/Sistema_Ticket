@@ -156,4 +156,66 @@ public class UsuarioModelo {
         return usuarios;
     }
 
-}
+	public Mensaje modificarContrasenia(String dni, String antiguaContrasena, String nuevaContrasena){
+        
+        // valido la existencia del usuario
+        String sql = "SELECT u.* "
+                + " FROM usuarios u "
+                + " WHERE u.dni = ? ";
+
+        try (Connection conn = dbConnection.conectar();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, dni);
+            ResultSet rs = stmt.executeQuery();
+
+            //El usuario no se encontro
+            if (!rs.next()) {
+                return Mensaje.USUARIO_NO_ENCONTRADO;
+            } else {
+                System.out.println("Usuario encontrado\n");
+            }
+
+            String hashedPassword = rs.getString("contrasena");
+
+            //Se encontro el usuario pero la contraseña es incorrecta
+            if (!BCrypt.checkpw(antiguaContrasena, hashedPassword)) {
+                return Mensaje.ERROR_DATO_INCORRECTO;
+            } else {
+                System.out.println("Contraseña correcta: "+antiguaContrasena+"\n");
+            }
+
+            String idStr = rs.getString("usuario_id");
+            
+            //La contraseña es igual al ID del usuario
+            if (nuevaContrasena.equals(idStr)) {
+                return Mensaje.ERROR_DATO_INCORRECTO;
+            } else {
+                System.out.println("Contraseña valida: "+nuevaContrasena+"\n");
+            }
+            
+            String query = "UPDATE usuarios "
+                    + " SET contrasena = ? "
+                    + " WHERE dni = ? ";
+            
+            //no es posible reasignar una instancia de PreparedStatement
+            PreparedStatement stmt2 = conn.prepareStatement(query);
+            
+            // reutilizo la variable que utilzamos para validar la password
+            hashedPassword = BCrypt.hashpw(nuevaContrasena, BCrypt.gensalt());
+            
+            stmt2.setString(1, hashedPassword);
+            stmt2.setString(2, dni);
+            
+            int rowsAffected = stmt2.executeUpdate();
+            return rowsAffected > 0 ? Mensaje.EXITO : Mensaje.ERROR;
+            
+        } catch (SQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
+            return Mensaje.ERROR_DNI_REPETIDO;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Mensaje.ERROR;
+        }
+    }}

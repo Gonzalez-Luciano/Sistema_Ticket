@@ -5,13 +5,6 @@
  */
 package sistema_ticket;
 
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import modelos.dbConnection;
-import com.formdev.flatlaf.FlatLightLaf;
-import javax.swing.SwingUtilities;
-import vistas.Vista_Sistema_Ticket;
-
 /**
  *
  * @author TuKK
