@@ -16,8 +16,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.ArrayList;
-import java.util.List;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -161,63 +159,4 @@ public class UsuarioModelo {
             return Mensaje.ERROR;
         }
     }
-  
-    public List<Usuario> obtenerTodosLosUsuarios(Usuario usuarioNoDeseado) {
-        List<Usuario> usuarios = new ArrayList<>();
-        String sql = "SELECT u.*, t.fallas, t.marcas "
-                + "FROM usuarios u "
-                + "LEFT JOIN tecnicos t ON u.usuario_id = t.usuario_id";
-
-        try (Connection conn = dbConnection.conectar();
-                PreparedStatement stmt = conn.prepareStatement(sql);
-                ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                String tipo = rs.getString("tipo");
-                Usuario usuario = null;
-
-                switch (tipo.toLowerCase()) {
-                    case "administrador":
-                        usuario = new Administrador(
-                                rs.getString("nombre"),
-                                rs.getString("dni"),
-                                rs.getInt("legajo"),
-                                rs.getString("contrasena"),
-                                rs.getString("estado")
-                        );
-                        break;
-                    case "tecnico":
-                        usuario = new Tecnico(
-                                rs.getString("nombre"),
-                                rs.getString("dni"),
-                                rs.getInt("legajo"),
-                                rs.getString("contrasena"),
-                                rs.getString("estado"),
-                                rs.getInt("fallas"),
-                                rs.getInt("marcas")
-                        );
-                        break;
-                    case "trabajador":
-                        usuario = new Trabajador(
-                                rs.getString("nombre"),
-                                rs.getString("dni"),
-                                rs.getInt("legajo"),
-                                rs.getString("contrasena"),
-                                rs.getString("estado")
-                        );
-                        break;
-                }
-
-                if (usuario != null && !usuario.equals(usuarioNoDeseado)) {
-                    usuarios.add(usuario);
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return usuarios;
-    }
-
 }
