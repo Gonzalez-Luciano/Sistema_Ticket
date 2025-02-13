@@ -61,7 +61,7 @@
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabelInicioMouseClicked"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jLabelInicio.setForeground(Color.BLUE);"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jLabelInicio.setForeground(colorAzul);"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelPerfil">
@@ -271,6 +271,9 @@
           <Properties>
             <Property name="name" type="java.lang.String" value="inicioAdminVista" noResource="true"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new vistas.InicioAdminVista(usuarioActual.getNombre());"/>
+          </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
               <CardConstraints cardName="inicioAdminVista"/>
@@ -291,6 +294,9 @@
           </Constraints>
         </Component>
         <Component class="vistas.ListaUsuariosVista" name="listaUsuariosVista">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new vistas.ListaUsuariosVista(usuarioActual);"/>
+          </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
               <CardConstraints cardName="listaUsuariosVista"/>
