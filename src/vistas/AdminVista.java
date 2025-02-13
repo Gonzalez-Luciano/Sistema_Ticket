@@ -5,9 +5,10 @@
  */
 package vistas;
 
+import Clases.Administrador;
+import Clases.Usuario;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
@@ -25,11 +26,14 @@ public class AdminVista extends javax.swing.JFrame {
     private boolean dropdownTicketVisible = false;
     private boolean dropdownUsuarioVisible = false;
     private boolean dropdownPerfilVisible = false;
+    private final Usuario usuarioActual;
+    private final Color colorAzul = new Color(75, 55, 255);
 
     /**
      * Creates new form AdminVista
      */
     public AdminVista() {
+        this.usuarioActual = new Administrador("Nicolas González", "543423456", 101, "1234", "activo"); // Usuario Demo
         initComponents();
         setTitle("Sistema de Tickets");
         setSize(800, 500);
@@ -57,21 +61,21 @@ public class AdminVista extends javax.swing.JFrame {
         jLabelSolucitudes.setForeground(Color.BLACK);
 
         // Resaltar el label seleccionado
-        labelSeleccionado.setForeground(Color.BLUE);
+        labelSeleccionado.setForeground(colorAzul);
 
         // Si la selección está en las opciones de Tickets, cambiar color de Tickets
         if (labelSeleccionado == jLabelSolucitudes || labelSeleccionado == jLabelListaTickets) {
-            jLabelTicket.setForeground(Color.BLUE);
+            jLabelTicket.setForeground(colorAzul);
         }
 
         // Si la selección está en las opciones de Usuarios, cambiar color de Usuarios
         if (labelSeleccionado == jLabelCrearUsuario || labelSeleccionado == jLabelListaUsuarios) {
-            jLabelUsuario.setForeground(Color.BLUE);
+            jLabelUsuario.setForeground(colorAzul);
         }
 
         // Si la selección está en las opciones de Perfil, cambiar color de Perfil
         if (labelSeleccionado == jLabelModificarPerfil || labelSeleccionado == jLabelCerrarSesion) {
-            jLabelPerfil.setForeground(Color.BLUE);
+            jLabelPerfil.setForeground(colorAzul);
         }
     }
 
@@ -82,11 +86,11 @@ public class AdminVista extends javax.swing.JFrame {
         if (panelSeleccionado == jPanelUsuarioOpciones) {
             dropdownUsuarioVisible = true;
         }
-        
+
         if (panelSeleccionado == jPanelPerfilOpciones) {
             dropdownPerfilVisible = true;
         }
-        
+
         panelSeleccionado.setVisible(true);
         panelSeleccionado.setSize(panelSeleccionado.getWidth(), 0); // Inicia desde 0
         Timer timer = new Timer(10, new ActionListener() {
@@ -162,10 +166,10 @@ public class AdminVista extends javax.swing.JFrame {
         jLabelSolucitudes = new javax.swing.JLabel();
         jLabelListaTickets = new javax.swing.JLabel();
         jPanelContenido = new javax.swing.JPanel();
-        inicioAdminVista = new vistas.InicioAdminVista();
+        inicioAdminVista = new vistas.InicioAdminVista(usuarioActual.getNombre());
         registroVista = new vistas.RegistroVista();
         registroVista.setVisible(false);
-        listaUsuariosVista = new vistas.ListaUsuariosVista();
+        listaUsuariosVista = new vistas.ListaUsuariosVista(usuarioActual);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(800, 600));
@@ -178,7 +182,7 @@ public class AdminVista extends javax.swing.JFrame {
         jLabelInicio.setText("Inicio");
         jLabelInicio.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 2, 5));
         jLabelInicio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabelInicio.setForeground(Color.BLUE);
+        jLabelInicio.setForeground(colorAzul);
         jLabelInicio.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabelInicioMouseClicked(evt);
