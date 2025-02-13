@@ -13,7 +13,9 @@ import Clases.Usuario;
 import controladores.ListaUsuariosControlador;
 import java.awt.CardLayout;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -29,17 +31,17 @@ public class ListaUsuariosVista extends javax.swing.JPanel {
     private ListaUsuariosControlador listaUsuariosControlador;
     private ListaUsuarios listaUsuarios;
     private ListaUsuarios filtrados;
-    private Usuario usuarioActual; // Usuario logeado que excluimos de la lista
+    private final Usuario usuarioIngresado; // Usuario logeado que excluimos de la lista
 
     /**
      * Creates new form ListaUsuariosVista
      */
-    public ListaUsuariosVista() {
+    public ListaUsuariosVista(Usuario usuarioActual) {
         initComponents();
         this.listaUsuariosControlador = new ListaUsuariosControlador();
         this.listaUsuarios = new ListaUsuarios();
         this.filtrados = new ListaUsuarios();
-        this.usuarioActual = new Administrador("Pepe", "543423456", 101, "1234", "Activo");
+        this.usuarioIngresado = usuarioActual;
         cargarUsuarios();
     }
 
@@ -81,13 +83,13 @@ public class ListaUsuariosVista extends javax.swing.JPanel {
                 return;
             }
 
-            if (usuarioActual == null) {
+            if (usuarioIngresado == null) {
                 System.err.println("Error: usuarioActual es null. No se pueden obtener los usuarios.");
                 return;
             }
 
             // Obtener la lista desde el controlador
-            List<Usuario> usuarios = listaUsuariosControlador.obtenerTodosLosUsuarios(usuarioActual);
+            List<Usuario> usuarios = listaUsuariosControlador.obtenerTodosLosUsuarios(usuarioIngresado);
             if (usuarios == null) {
                 System.err.println("Error: La lista de usuarios obtenida es null.");
                 return;
@@ -204,6 +206,8 @@ public class ListaUsuariosVista extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaUsuarios = new javax.swing.JTable();
 
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         jPanelOpcionesTexto.setLayout(new java.awt.CardLayout());
 
         jTextFieldNombre.setMargin(new java.awt.Insets(0, 0, 1, 0));
@@ -273,6 +277,8 @@ public class ListaUsuariosVista extends javax.swing.JPanel {
                 .addGap(15, 15, 15))
         );
 
+        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
         tablaUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -293,6 +299,7 @@ public class ListaUsuariosVista extends javax.swing.JPanel {
             }
         });
         tablaUsuarios.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tablaUsuarios.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 
@@ -307,20 +314,7 @@ public class ListaUsuariosVista extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(tablaUsuarios);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane2)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE))
-        );
+        add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 655, 413));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextFieldNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombreActionPerformed
@@ -337,6 +331,7 @@ public class ListaUsuariosVista extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBoxFiltroItemStateChanged
 
     private void jTextFieldNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNombreKeyTyped
+        // Se utiliza invokeLater para que ejecute el metodo despues de apretar el boton
         SwingUtilities.invokeLater(() -> buscarPorNombre());
     }//GEN-LAST:event_jTextFieldNombreKeyTyped
 
@@ -349,8 +344,18 @@ public class ListaUsuariosVista extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextFieldLegajoKeyTyped
 
     private void tablaUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuariosMouseClicked
-        Usuario usuario = filtrados.buscarPorIndice(tablaUsuarios.getSelectedRow());
-        System.out.println(usuario);
+        int filaSeleccionada = tablaUsuarios.getSelectedRow();
+
+        if (filaSeleccionada != -1) { // Verifica que haya una fila seleccionada
+
+            Usuario usuario = filtrados.buscarPorIndice(filaSeleccionada);
+
+            ModificarUsuarioVista dialog = new ModificarUsuarioVista((JFrame) SwingUtilities.getWindowAncestor(this), usuario, this);
+            dialog.setSize(800, 500);
+            dialog.setLocationRelativeTo(this); // Centrar el diálogo
+            dialog.setVisible(true);
+
+        }
     }//GEN-LAST:event_tablaUsuariosMouseClicked
 
 

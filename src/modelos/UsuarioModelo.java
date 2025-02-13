@@ -23,9 +23,21 @@ import org.mindrot.jbcrypt.BCrypt;
 /**
  *
  * @author TuKK
+ *
+ * Clase UsuarioModelo que gestiona las operaciones relacionadas con los
+ * usuarios en la base de datos.
+ *
+ * Proporciona métodos para crear, validar, obtener, actualizar y reiniciar
+ * contraseñas de usuarios.
  */
 public class UsuarioModelo {
 
+    /**
+     * Crea un nuevo usuario en la base de datos.
+     *
+     * @param usuario Objeto Usuario con los datos del usuario a crear.
+     * @return Mensaje indicando el resultado de la operación.
+     */
     public Mensaje crearUsuario(Usuario usuario) {
         String query = "CALL crearUsuario(?, ?, ?, ?)";
         try (Connection conn = dbConnection.conectar();
@@ -46,6 +58,14 @@ public class UsuarioModelo {
         }
     }
 
+    /**
+     * Valida las credenciales de un usuario.
+     *
+     * @param dni DNI del usuario.
+     * @param contrasena Contraseña del usuario.
+     * @return AuthResponse con el usuario autenticado y el mensaje
+     * correspondiente.
+     */
     public AuthResponse validarUsuario(String dni, String contrasena) {
         String sql = "SELECT u.*, t.fallas, t.marcas "
                 + "FROM usuarios u "
@@ -98,11 +118,19 @@ public class UsuarioModelo {
         }
     }
 
+    /**
+     * Obtiene una lista de todos los usuarios en la base de datos, excluyendo
+     * un usuario específico si se proporciona.
+     *
+     * @param usuarioNoDeseado Usuario a excluir de la lista.
+     * @return Lista de usuarios obtenidos.
+     */
     public List<Usuario> obtenerTodosLosUsuarios(Usuario usuarioNoDeseado) {
         List<Usuario> usuarios = new ArrayList<>();
         String sql = "SELECT u.*, t.fallas, t.marcas "
                 + "FROM usuarios u "
-                + "LEFT JOIN tecnicos t ON u.usuario_id = t.usuario_id";
+                + "LEFT JOIN tecnicos t ON u.usuario_id = t.usuario_id "
+                + "WHERE u.tipo = 'tecnico' OR u.tipo = 'trabajador'";
 
         try (Connection conn = dbConnection.conectar();
                 PreparedStatement stmt = conn.prepareStatement(sql);
@@ -113,15 +141,6 @@ public class UsuarioModelo {
                 Usuario usuario = null;
 
                 switch (tipo.toLowerCase()) {
-                    case "administrador":
-                        usuario = new Administrador(
-                                rs.getString("nombre"),
-                                rs.getString("dni"),
-                                rs.getInt("legajo"),
-                                rs.getString("contrasena"),
-                                rs.getString("estado")
-                        );
-                        break;
                     case "tecnico":
                         usuario = new Tecnico(
                                 rs.getString("nombre"),
@@ -154,6 +173,51 @@ public class UsuarioModelo {
         }
 
         return usuarios;
+    }
+
+    /**
+     * Reinicia la contraseña de un usuario estableciendo su DNI como nueva
+     * contraseña.
+     *
+     * @param usuario Usuario cuya contraseña será restablecida.
+     * @return Mensaje indicando el resultado de la operación.
+     */
+    public Mensaje reiniciarContrasenia(Usuario usuario) {
+        String query = "CALL reiniciarContrasenia(?, ?)";
+        try (Connection conn = dbConnection.conectar();
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, usuario.getDNI());
+            String hashedPassword = BCrypt.hashpw(usuario.getDNI(), BCrypt.gensalt());
+            stmt.setString(2, hashedPassword);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0 ? Mensaje.EXITO : Mensaje.ERROR;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Mensaje.ERROR;
+        }
+    }
+
+    /**
+     * Cambia el estado de un usuario en la base de datos.
+     *
+     * @param usuario Usuario cuyo estado se modificará.
+     * @param estadoNuevo Nuevo estado a asignar al usuario.
+     * @return Mensaje indicando el resultado de la operación.
+     */
+    public Mensaje cambiarEstado(Usuario usuario, String estadoNuevo) {
+        String query = "UPDATE usuarios "
+                + "SET estado = ? "
+                + "WHERE dni = ?";
+        try (Connection conn = dbConnection.conectar();
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, estadoNuevo);
+            stmt.setString(2, usuario.getDNI());
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0 ? Mensaje.EXITO : Mensaje.ERROR;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Mensaje.ERROR;
+        }
     }
 
 }
