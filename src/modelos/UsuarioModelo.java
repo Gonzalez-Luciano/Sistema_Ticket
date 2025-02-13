@@ -232,6 +232,9 @@ public class UsuarioModelo {
         } catch (SQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
             return Mensaje.ERROR_DNI_REPETIDO;
+        }catch (SQLException e) {
+            e.printStackTrace();
+            return Mensaje.ERROR;
         }
     }
             
