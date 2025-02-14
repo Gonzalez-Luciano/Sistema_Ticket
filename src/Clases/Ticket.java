@@ -6,7 +6,7 @@ package Clases;
  * @author ramir
  */
 public class Ticket {
-    
+
     private int ticket_id;
     private String titulo;
     private String descripcion;
@@ -15,14 +15,25 @@ public class Ticket {
     private Tecnico tecnico;
     private Tecnico tecnicoAnterior;
 
+    public Ticket(int ticket_id, String titulo, String descripcion, String estado,
+            Trabajador informador, Tecnico tecnico, Tecnico tecnicoAnterior) {
+        this.ticket_id = ticket_id;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.estado = estado;
+        this.informador = informador;
+        this.tecnico = tecnico;
+        this.tecnicoAnterior = tecnicoAnterior;
+    }
+
     public Ticket(int ticket_id, String titulo, String descripcion, String estado) {
         this.ticket_id = ticket_id;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.estado = estado;
     }
-    
-    public Ticket(String titulo, String descripcion, Trabajador informador){
+
+    public Ticket(String titulo, String descripcion, Trabajador informador) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.informador = informador;
@@ -75,7 +86,7 @@ public class Ticket {
     public void setTecnico(Tecnico tecnico) {
         this.tecnico = tecnico;
     }
-    
+
     public Tecnico getTecnicoAnterior() {
         return tecnicoAnterior;
     }
@@ -83,7 +94,5 @@ public class Ticket {
     public void setTecnicoAnterior(Tecnico tecnico) {
         this.tecnicoAnterior = tecnicoAnterior;
     }
-    
-     
-    
+
 }
