@@ -27,21 +27,30 @@ public class RegistroControlador {
 
     public void registrarUsuario() {
         try {
-            String nombre = vista.getNombre();
-            String dni = vista.getDNI();
-            String tipo = vista.getTipo();
+            String nombre = vista.getNombre().trim();
+            String dni = vista.getDNI().trim();
+            String tipo = vista.getTipo().trim();
 
             // Seccion de validaciones INCOMPETAS!!!
             if (nombre.isEmpty() || tipo.isEmpty() || dni.isEmpty()) {
                 throw new UsuarioException("Por favor, completa todos los campos.");
             }
+
+            // Revisar si es un numero entero
+            Integer.parseInt(dni);
+
+            if (dni.length() < 7 || dni.length() > 8) {
+                throw new UsuarioException("Por favor, ingrese un dni valido");
+            }
             ///--------------------------------------------------------------------------
 
             Usuario usuario = crearUsuario(nombre, dni, tipo);
             Mensaje mensaje = modelo.crearUsuario(usuario);
+            
             vista.setNombre("");
             vista.setDNI("");
             vista.setTipo(0);
+            
             switch (mensaje) {
                 case EXITO:
                     vista.mostrarMensaje("Usuario registrado con éxito.\nSe estableció el D.N.I como contraseña inicial.", "Usuario registrado", JOptionPane.PLAIN_MESSAGE);
@@ -52,9 +61,11 @@ public class RegistroControlador {
                     throw new UsuarioException("Error al registrar el usuario.");
 
             }
-           
+
         } catch (UsuarioException e) {
             vista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
+        } catch (NumberFormatException e) {
+            vista.mostrarMensaje("Por favor, ingrese un dni valido", "⚠ Error", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
             vista.mostrarMensaje("❌ Se produjo un error inesperado, Comuníquese con el administrador: \n" + e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace(); // Para depuración en consola
