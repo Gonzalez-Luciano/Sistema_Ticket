@@ -15,6 +15,16 @@ public class Ticket {
     private Tecnico tecnico;
     private Tecnico tecnicoAnterior;
 
+    public Ticket(int ticket_id, String titulo, String descripcion, String estado, Trabajador trabajador, Tecnico tecnico, Tecnico tecnicoAnterior) {
+        this.ticket_id = ticket_id;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.estado = estado;
+        this.informador = trabajador;
+        this.tecnico = tecnico;
+        this.tecnicoAnterior = tecnicoAnterior;
+    }
+    
     public Ticket(int ticket_id, String titulo, String descripcion, String estado) {
         this.ticket_id = ticket_id;
         this.titulo = titulo;

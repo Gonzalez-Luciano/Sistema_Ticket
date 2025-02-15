@@ -124,9 +124,9 @@ public class TicketModelo {
                             rs.getString("titulo"),
                             rs.getString("descripcion"),
                             rs.getString("estado"),
-                            Trabajador.obtenerTrabajador(rs.getInt("trabajador_id")),
-                            Tecnico.obtenerTecnico(rs.getInt("tecnico_id")),
-                            Tecnico.obtenerTecnico(rs.getInt("tecnico_anterior_id")));
+                            (Trabajador) Trabajador.obtenerTrabajador(rs.getInt("trabajador_id")).getUsuario(),
+                            (Tecnico) Tecnico.obtenerTecnico(rs.getInt("tecnico_id")).getUsuario(),
+                            (Tecnico) Tecnico.obtenerTecnico(rs.getInt("tecnico_anterior_id")).getUsuario());
                             
                             tickets.add(ticket);
                         }
