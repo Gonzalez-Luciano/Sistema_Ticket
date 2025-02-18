@@ -298,8 +298,6 @@ public class AdminVista extends javax.swing.JFrame {
         getContentPane().add(jPanelNavegador, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 120, 500));
 
         jPanelContenido.setLayout(new java.awt.CardLayout());
-
-        inicioAdminVista.setName("inicioAdminVista"); // NOI18N
         jPanelContenido.add(inicioAdminVista, "inicioAdminVista");
 
         registroVista.setName("registroVista"); // NOI18N

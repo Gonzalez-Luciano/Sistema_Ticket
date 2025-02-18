@@ -10,10 +10,16 @@ package vistas;
  * @author TuKK
  */
 public class InicioAdminVista extends javax.swing.JPanel {
-    private final String nombreUsuario;
+    private String nombreUsuario;
     /**
      * Creates new form InicioAdminVista
      */
+    
+    public InicioAdminVista() {
+        this("Usuario"); // Valor por defecto para evitar null
+    }
+
+    
     public InicioAdminVista(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
         initComponents();

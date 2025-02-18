@@ -31,11 +31,15 @@ public class ListaUsuariosVista extends javax.swing.JPanel {
     private ListaUsuariosControlador listaUsuariosControlador;
     private ListaUsuarios listaUsuarios;
     private ListaUsuarios filtrados;
-    private final Usuario usuarioIngresado; // Usuario logeado que excluimos de la lista
+    private Usuario usuarioIngresado; // Usuario logeado que excluimos de la lista
 
     /**
      * Creates new form ListaUsuariosVista
      */
+    public ListaUsuariosVista() {
+        this(null);
+    }
+
     public ListaUsuariosVista(Usuario usuarioActual) {
         initComponents();
         this.listaUsuariosControlador = new ListaUsuariosControlador();
