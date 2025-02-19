@@ -13,6 +13,7 @@ import Clases.Usuario;
 import excepciones.UsuarioException;
 import javax.swing.JOptionPane;
 import modelos.UsuarioModelo;
+import vistas.AdminVista;
 import vistas.LoginVista;
 
 /**
@@ -55,7 +56,8 @@ public class LoginControlador {
                 case EXITO:
                     vista.setRespuesta("Conectando...");
                     if (usuario instanceof Administrador) {
-                        //new AdminVista(usuario);
+                        new AdminVista(usuario);
+                        vista.dispose();
                     } else if (usuario instanceof Tecnico) {
                         //new TecnicoVista(usuario);
                     } else if (usuario instanceof Trabajador) {
