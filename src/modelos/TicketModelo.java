@@ -41,7 +41,7 @@ public class TicketModelo {
             
             stmt.setString(1, ticket.getTitulo());
             stmt.setString(2, ticket.getDescripcion());
-            stmt.setString(3,ticket.getInformador().getDNI());
+            stmt.setInt(3,ticket.getInformador().getLegajo());
             stmt.registerOutParameter(4, Types.INTEGER);
             int rowsAffected = stmt.executeUpdate();
             if( rowsAffected > 0) {
@@ -80,15 +80,15 @@ public class TicketModelo {
                 stmt.setInt(1,ticket.getTicket_id());
                 stmt.setString(2,estado);
                 if(tecnico != null) {
-                    stmt.setString(3,tecnico.getDNI());
+                    stmt.setInt(3,tecnico.getLegajo());
                 }
                 else{
-                    stmt.setString(3,null);
+                    stmt.setNull(3, java.sql.Types.INTEGER);
                 }
                 if(tecnicoAnterior != null){
-                    stmt.setString(4,tecnicoAnterior.getDNI());
+                    stmt.setInt(4,tecnicoAnterior.getLegajo());
                 }else{
-                    stmt.setString(4, null);
+                    stmt.setNull(4, java.sql.Types.INTEGER);
                 }
                 int rowsAffected = stmt.executeUpdate();
                 return rowsAffected > 0 ? Mensaje.EXITO : Mensaje.ERROR;
@@ -109,7 +109,7 @@ public class TicketModelo {
     
     public List<Ticket> obtenerTickets(String estado){
         List<Ticket> tickets = new ArrayList<>();
-        //Usuario solicitante = Sesion.getUsuarioActual();
+        //Usuario solicitante = Sesion.getUsuario();
         Usuario solicitante  = null;
         try (Connection conn = dbConnection.conectar();
             PreparedStatement stmt = prepararConsulta(conn,estado, solicitante)){        
@@ -143,6 +143,7 @@ public class TicketModelo {
     private PreparedStatement prepararConsulta(Connection conn, String estado, Usuario solicitante) throws SQLException{
         String query;
         PreparedStatement stmt = null;
+        int aux = solicitante.getLegajo() -99;
         
         if("administrador".equals(solicitante.getTipo())){
                 switch (estado){
@@ -169,7 +170,7 @@ public class TicketModelo {
                     if("Atendido".equals(estado)){
                         query = "SELECT * FROM tickets WHERE tecnico_id = ? AND estado <> 'Finalizado' ORDER BY ticket_id DESC;";
                         stmt = conn.prepareStatement(query);
-                        //stmt.setInt(1,Sesion.getId());
+                        stmt.setInt(1,aux);
                         stmt.setString(1,estado);   
                     }
             }
@@ -178,15 +179,16 @@ public class TicketModelo {
                 switch (estado){
                     case "Todos": query = "SELECT * FROM tickets WHERE trabajador_id = ? AND estado <> 'Finalizado' ORDER BY ticket_id DESC;";
                                   stmt = conn.prepareStatement(query);
-                                  //stmt.setInt(1,Sesion.getId());
+                                  
+                                  stmt.setInt(1,aux);
                                   stmt.setString(1,estado);
                                   return stmt;
                     case "No atendido":
                     case "Atendido" :
                     case "Resuelto" :
                     case "Reabierto" : query = "SELECT * FROM tickets WHERE trabajador_id = ? AND estado = ? ORDER BY ticket_id DESC;";
-                                       stmt = conn.prepareStatement(query);
-                                     //stmt.setInt(1,Sesion.getId());
+                                       stmt = conn.prepareStatement(query);;
+                                       stmt.setInt(1,aux);
                                        stmt.setString(2,estado);
                 }
             }

@@ -35,10 +35,6 @@ public class TicketControlador {
         super();
     }
     
-    /**
-    *
-    **/
-    
     public void crearTicket(){
         try{
             //usuario = (Trabajador) Sesion.getUsuarioActual();
@@ -71,13 +67,8 @@ public class TicketControlador {
     /**
     * Permite setear los atributos de TicketVistaTrabajador
     * 
-    * @param ticketId
-    * @param titulo
-    * @param descripcion 
-    * @param estado   
-    * 
-    * Es entregado desde la lista de TicketModelo.obtenerTickets()
-    * 
+    * @param ticket 
+    * Es entregado desde la lista de TicketModelo.obtenerTickets() 
     **/
     public void verTicket(Ticket ticket){
         
@@ -143,6 +134,12 @@ public class TicketControlador {
         }
     }
     
+    /**
+     * Actualiza el estad del ticket de 'No atendido' o 'Reabierto' a 'Atendido'
+     * 
+     * @param ticket El ticket que va a tomar el técnico
+     * @param tecnico El usuario del técnico que lo toma
+    **/
     public void ticketTomado(Ticket ticket, Tecnico tecnico){
         Mensaje mensaje = modelo.actualizarEstadoTicket(ticket, "Atendido", tecnico, ticket.getTecnico());
         try{
