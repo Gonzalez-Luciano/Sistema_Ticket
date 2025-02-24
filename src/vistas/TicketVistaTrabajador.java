@@ -277,7 +277,22 @@ public class TicketVistaTrabajador extends javax.swing.JFrame {
     }
 
     public void setTicketId(int ticket_id) {
-        ticketId.setText(""+ticket_id);
+        if(ticket_id<10){
+            ticketId.setText("0000"+ticket_id);
+        }else{
+            if(ticket_id<100){
+                ticketId.setText("000"+ticket_id);
+            }else{
+                if(ticket_id<1000){
+                    ticketId.setText("00"+ticket_id);
+                }else{if (ticket_id<10000) {
+                        ticketId.setText("0"+ticket_id);
+                    }else{
+                        ticketId.setText(""+ticket_id);
+                    }
+                }
+            }
+        }
     }
 
     public String getTitulo() {

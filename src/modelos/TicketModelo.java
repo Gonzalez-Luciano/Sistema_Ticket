@@ -104,13 +104,13 @@ public class TicketModelo {
      * Genera una lista con los tickets segun quien lo solicita
      * 
      * @param estado        El estado del ticket que se espera obtener
+     * @param solicitante   El usuario que está logueado
      * @return  Devuelve una lista de tipo Ticket
      **/
     
-    public List<Ticket> obtenerTickets(String estado){
+    public List<Ticket> obtenerTickets(String estado, Usuario solicitante){
         List<Ticket> tickets = new ArrayList<>();
-        //Usuario solicitante = Sesion.getUsuario();
-        Usuario solicitante  = null;
+        
         try (Connection conn = dbConnection.conectar();
             PreparedStatement stmt = prepararConsulta(conn,estado, solicitante)){        
             
@@ -132,8 +132,12 @@ public class TicketModelo {
                         }
                     }
                 }
+            }else{
+                throw new Exception("Null Statement");
             }
         }catch( SQLException e){
+            e.printStackTrace();
+        }catch (Exception e){
             e.printStackTrace();
         }
         
@@ -164,25 +168,24 @@ public class TicketModelo {
         }else{ 
             if("tecnico".equals(solicitante.getTipo())){
                 if("No atendido".equals(estado) || "Reabierto".equals(estado)){
-                    query = "SELECT * FROM tickets WHERE estado IN ('No atendido','Reabierto') ORDER BY ticket_id DESC;";
+                    query = "SELECT * FROM tickets WHERE estado = ? ORDER BY ticket_id DESC;";
+                    stmt.setString(1,estado);
                     stmt = conn.prepareStatement(query);
-                }else 
-                    if("Atendido".equals(estado)){
-                        query = "SELECT * FROM tickets WHERE tecnico_id = ? AND estado <> 'Finalizado' ORDER BY ticket_id DESC;";
-                        stmt = conn.prepareStatement(query);
-                        stmt.setInt(1,aux);
-                        stmt.setString(1,estado);   
+                }else{
+                    query = "SELECT * FROM tickets WHERE tecnico_id = ? AND estado = ? ORDER BY ticket_id DESC;";
+                    stmt = conn.prepareStatement(query);
+                    stmt.setInt(1,aux);
+                    stmt.setString(2,estado);   
                     }
             }
             //En este punto, es un trabajador quien pide la consulta
             else{
                 switch (estado){
                     case "Todos": query = "SELECT * FROM tickets WHERE trabajador_id = ? AND estado <> 'Finalizado' ORDER BY ticket_id DESC;";
-                                  stmt = conn.prepareStatement(query);
-                                  
+                                  stmt = conn.prepareStatement(query);                                  
                                   stmt.setInt(1,aux);
-                                  stmt.setString(1,estado);
-                                  return stmt;
+                                  break;
+                                  
                     case "No atendido":
                     case "Atendido" :
                     case "Resuelto" :
@@ -190,6 +193,12 @@ public class TicketModelo {
                                        stmt = conn.prepareStatement(query);;
                                        stmt.setInt(1,aux);
                                        stmt.setString(2,estado);
+                                       break;
+                                       
+                    default : query = "SELECT * FROM tickets WHERE trabajador_id = ? AND estado <> 'Finalizado' ORDER BY ticket_id DESC;";
+                              stmt = conn.prepareStatement(query);                                  
+                              stmt.setInt(1,aux);
+                              break;
                 }
             }
         }

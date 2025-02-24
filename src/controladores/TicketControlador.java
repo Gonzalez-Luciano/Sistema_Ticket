@@ -11,16 +11,18 @@ package controladores;
 
 /*
 import Clases .Administrador;
-import Clases.Usuario;
 */
+import Clases.Usuario;
 import Clases.Tecnico;
 import excepciones.TicketException; 
 import Clases.Mensaje;
 import Clases.Ticket;
 import Clases.Trabajador;
+import java.util.List;
 import javax.swing.JOptionPane;
 import modelos.TicketModelo;
 import vistas.GenerarTicket;
+import vistas.PanelTickets;
 import vistas.TicketVistaTrabajador;
 
 
@@ -29,6 +31,7 @@ public class TicketControlador {
     private GenerarTicket nuevoTicket;
     private TicketVistaTrabajador ticketTrabajador;
     private Trabajador usuario;
+    private PanelTickets panel;
     //private TecnicoControlador tecnicoControlador;
     
     public TicketControlador(){
@@ -71,6 +74,19 @@ public class TicketControlador {
     * Es entregado desde la lista de TicketModelo.obtenerTickets() 
     **/
     public void verTicket(Ticket ticket){
+        
+        //String tipo = Sesion.getUsuario().getTipo();
+       /* String tipo = "";
+        if(tipo.equals("administador")){
+            //TicketVistaAdministrador ticketVista = new TicketVistaAdministrador(ticket);
+        }else{
+            if(tipo.equals("tecnico")){
+                //TicketVistaTecnico ticketVista = new TicketVistaTecnico(ticket);
+            }
+            else{
+                TicketVistaTrabajador ticketVista = new TicketVistaTrabajador(ticket);
+            }
+        }*/
         
         ticketTrabajador = new TicketVistaTrabajador(ticket);
         ticketTrabajador.setTicket();
@@ -135,7 +151,7 @@ public class TicketControlador {
     }
     
     /**
-     * Actualiza el estad del ticket de 'No atendido' o 'Reabierto' a 'Atendido'
+     * Actualiza el estado del ticket de 'No atendido' o 'Reabierto' a 'Atendido'
      * 
      * @param ticket El ticket que va a tomar el técnico
      * @param tecnico El usuario del técnico que lo toma
@@ -160,5 +176,16 @@ public class TicketControlador {
             //ticketTecnico.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
             ticketTrabajador.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+    
+    
+    public void buscarTickets(String filtro, Usuario usuario){
+        List<Ticket> lista = modelo.obtenerTickets(filtro,usuario);
+        if(lista.isEmpty()){
+            panel.mostrarMensaje("No se encontró ningún ticket", "⚠ Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            panel.setTickets(lista);
+        }
+
     }
 }
