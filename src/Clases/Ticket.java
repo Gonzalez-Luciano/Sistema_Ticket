@@ -91,9 +91,9 @@ public class Ticket {
     }
 
     public void setTecnicoAnterior(Tecnico tecnico) {
-        this.tecnicoAnterior = tecnico;
+        this.tecnicoAnterior = tecnicoAnterior;
     }
     
-    
+     
     
 }

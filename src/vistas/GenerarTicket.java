@@ -5,9 +5,6 @@
  */
 package vistas;
 
-import controladores.TicketControlador;
-import javax.swing.JOptionPane;
-
 /**
  *
  * @author USUARIO
@@ -17,10 +14,7 @@ public class GenerarTicket extends javax.swing.JFrame {
     /**
      * Creates new form GenerarTicket
      */
-    private TicketControlador controlador;
-    
     public GenerarTicket() {
-        controlador = new TicketControlador();
         initComponents();
     }
 
@@ -36,10 +30,10 @@ public class GenerarTicket extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        titulo = new javax.swing.JTextField();
+        jTextField1 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane = new javax.swing.JScrollPane();
-        descripcion = new javax.swing.JTextArea();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -58,17 +52,17 @@ public class GenerarTicket extends javax.swing.JFrame {
             }
         });
 
-        titulo.addActionListener(new java.awt.event.ActionListener() {
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tituloActionPerformed(evt);
+                jTextField1ActionPerformed(evt);
             }
         });
 
         jLabel1.setText("Título");
 
-        descripcion.setColumns(20);
-        descripcion.setRows(5);
-        jScrollPane.setViewportView(descripcion);
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
 
         jLabel3.setText("Descripción");
 
@@ -86,10 +80,10 @@ public class GenerarTicket extends javax.swing.JFrame {
                         .addGap(100, 100, 100)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel3)
-                                .addComponent(jScrollPane)))))
+                                .addComponent(jScrollPane1)))))
                 .addContainerGap(100, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -100,12 +94,12 @@ public class GenerarTicket extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(42, 42, 42))
         );
@@ -130,37 +124,14 @@ public class GenerarTicket extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tituloActionPerformed
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_tituloActionPerformed
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        controlador.crearTicket();
+        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    
-    public String getTitulo(){
-        return titulo.getText();
-    }
-    
-    public void setTitulo(String title){
-        titulo.setText(title);
-    }
-    
-    public String getDescripcion(){
-        return descripcion.getText();
-    }
-    
-    public void setDescripcion(String description){
-        descripcion.setText(description);
-    }
-    
-    public void mostrarMensaje(String mensaje, String titulo, int tipoMensaje){
-        JOptionPane.showMessageDialog(null, mensaje, titulo, tipoMensaje);
-    }
-    
-    
-    
     /**
      * @param args the command line arguments
      */
@@ -197,13 +168,13 @@ public class GenerarTicket extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea descripcion;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane;
-    private javax.swing.JTextField titulo;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
