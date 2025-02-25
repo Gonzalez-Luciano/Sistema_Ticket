@@ -92,7 +92,7 @@ DELIMITER $$
 
 DROP PROCEDURE IF EXISTS crearTicket $$
 
-CREATE PROCEDURE crearUsuario(
+CREATE PROCEDURE crearTicket(
     IN p_titulo VARCHAR(255),
     IN p_descripcion TEXT,
     IN p_informadorId INT,
@@ -129,8 +129,8 @@ BEGIN
     DECLARE tecnicoId INT;
     DECLARE tecnicoAntId INT;
 
-    SET tecnicoId = p_tecnicoId - 99; --Si es NULL tecnicoId va a guardar NULL
-    SET tecnicoAntId = p_tecnicoAntId - 99; --Lo mismo, si p_tecnicoAntId es NULL va a guardar NULL
+    SET tecnicoId = p_tecnicoId - 99; /*Si es NULL tecnicoId va a guardar NULL*/
+    SET tecnicoAntId = p_tecnicoAntId - 99; /*Lo mismo, si p_tecnicoAntId es NULL va a guardar NULL*/
 
     UPDATE tickets SET tecnico_id = tecnicoId WHERE ticket_id = p_ticketId;
     UPDATE tickets SET tecnico_anterior_id = tecnicoAntId WHERE ticket_id = p_ticketId;
