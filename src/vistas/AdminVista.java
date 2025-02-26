@@ -78,7 +78,7 @@ public class AdminVista extends javax.swing.JFrame {
         JLabel[] labels = {
             jLabelInicio, jLabelPerfil, jLabelModificarPerfil, jLabelCerrarSesion,
             jLabelUsuario, jLabelCrearUsuario, jLabelListaUsuarios, jLabelTicket,
-            jLabelListaTickets, jLabelSolucitudes
+            jLabelListaTickets
         };
 
         for (JLabel label : labels) {
@@ -102,13 +102,12 @@ public class AdminVista extends javax.swing.JFrame {
         jLabelListaUsuarios.setForeground(Color.BLACK);
         jLabelTicket.setForeground(Color.BLACK);
         jLabelListaTickets.setForeground(Color.BLACK);
-        jLabelSolucitudes.setForeground(Color.BLACK);
 
         // Resaltar el label seleccionado
         labelSeleccionado.setForeground(colorAzul);
 
         // Si la selección está en las opciones de Tickets, cambiar color de Tickets
-        if (labelSeleccionado == jLabelSolucitudes || labelSeleccionado == jLabelListaTickets) {
+        if (labelSeleccionado == jLabelListaTickets) {
             jLabelTicket.setForeground(colorAzul);
         }
 
@@ -207,7 +206,6 @@ public class AdminVista extends javax.swing.JFrame {
         jLabelTicket = new javax.swing.JLabel();
         jPanelTicketOpciones = new javax.swing.JPanel();
         jPanelTicketOpciones.setVisible(false);
-        jLabelSolucitudes = new javax.swing.JLabel();
         jLabelListaTickets = new javax.swing.JLabel();
         jPanelContenido = new javax.swing.JPanel();
         inicioAdminVista = new vistas.InicioAdminVista(usuarioActual.getNombre());
@@ -215,6 +213,8 @@ public class AdminVista extends javax.swing.JFrame {
         registroVista.setVisible(false);
         listaUsuariosVista = new vistas.ListaUsuariosVista(usuarioActual);
         cambioContraseniaVista = new CambioContraseniaVista(usuarioActual.getDNI(),usuarioActual.getContrasena(),this);
+        panelTickets = new PanelTickets(usuarioActual);
+        ;
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(800, 600));
@@ -318,16 +318,6 @@ public class AdminVista extends javax.swing.JFrame {
         jPanelTicketOpciones.setBackground(new java.awt.Color(220, 220, 220));
         jPanelTicketOpciones.setLayout(new javax.swing.BoxLayout(jPanelTicketOpciones, javax.swing.BoxLayout.Y_AXIS));
 
-        jLabelSolucitudes.setText("Solicitudes");
-        jLabelSolucitudes.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 15, 1, 1));
-        jLabelSolucitudes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabelSolucitudes.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabelSolucitudesMouseClicked(evt);
-            }
-        });
-        jPanelTicketOpciones.add(jLabelSolucitudes);
-
         jLabelListaTickets.setText("Lista de Tickets");
         jLabelListaTickets.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 15, 1, 1));
         jLabelListaTickets.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -349,6 +339,7 @@ public class AdminVista extends javax.swing.JFrame {
         jPanelContenido.add(registroVista, "registroVista");
         jPanelContenido.add(listaUsuariosVista, "listaUsuariosVista");
         jPanelContenido.add(cambioContraseniaVista, "cambioContraseniaVista");
+        jPanelContenido.add(panelTickets, "panelTickets");
 
         getContentPane().add(jPanelContenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 0, 680, 500));
 
@@ -381,18 +372,11 @@ public class AdminVista extends javax.swing.JFrame {
         cambiarVista("", jLabelTicket);
     }//GEN-LAST:event_jLabelTicketMouseClicked
 
-    private void jLabelSolucitudesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelSolucitudesMouseClicked
-        if (contraseniaIgualDni) {
-            return;
-        }
-        cambiarVista("", jLabelSolucitudes);
-    }//GEN-LAST:event_jLabelSolucitudesMouseClicked
-
     private void jLabelListaTicketsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelListaTicketsMouseClicked
         if (contraseniaIgualDni) {
             return;
         }
-        cambiarVista("", jLabelListaTickets);
+        cambiarVista("panelTickets", jLabelListaTickets);
     }//GEN-LAST:event_jLabelListaTicketsMouseClicked
 
     private void jLabelUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelUsuarioMouseClicked
@@ -491,7 +475,6 @@ public class AdminVista extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelListaUsuarios;
     private javax.swing.JLabel jLabelModificarPerfil;
     private javax.swing.JLabel jLabelPerfil;
-    private javax.swing.JLabel jLabelSolucitudes;
     private javax.swing.JLabel jLabelTicket;
     private javax.swing.JLabel jLabelUsuario;
     private javax.swing.JPanel jPanelContenido;
@@ -500,6 +483,7 @@ public class AdminVista extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelTicketOpciones;
     private javax.swing.JPanel jPanelUsuarioOpciones;
     private vistas.ListaUsuariosVista listaUsuariosVista;
+    private vistas.PanelTickets panelTickets;
     private vistas.RegistroVista registroVista;
     // End of variables declaration//GEN-END:variables
 }

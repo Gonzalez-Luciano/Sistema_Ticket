@@ -49,6 +49,7 @@ public class TicketVistaTrabajador extends javax.swing.JDialog {
         this.panel = panel;
         controlador = new TicketControlador();
         this.ticket = ticket; 
+        setTicket();
     }
 
     /**
