@@ -110,6 +110,10 @@ public class UsuarioModelo {
                 default:
                     return new AuthResponse(null, Mensaje.USUARIO_NO_ENCONTRADO);
             }
+            
+            if(usuario.getEstado().equals("bloqueado")){
+                return new AuthResponse(null, Mensaje.BLOQUEADO);
+            }
 
             return new AuthResponse(usuario, Mensaje.EXITO);
 

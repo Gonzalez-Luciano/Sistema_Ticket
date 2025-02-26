@@ -72,6 +72,8 @@ public class LoginControlador {
                     throw new UsuarioException("Los datos ingresados son incorrectos.");
                 case ERROR_CONEXION:
                     throw new UsuarioException("Hubo un error a la hora de conectarse, por favor intentelo nuevamente.");
+                case BLOQUEADO:
+                    throw new UsuarioException("Tu usuario ha sido bloqueado. Por favor, contacta al administrador para más información.");
                 default:
                     throw new UsuarioException("Error al intentarse conectar a la cuenta.");
             }
