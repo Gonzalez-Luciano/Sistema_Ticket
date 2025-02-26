@@ -7,13 +7,18 @@ package vistas;
 
 /**
  *
- * @author USUARIO
+ * @author ramir
  */
-public class GenerarTicket extends javax.swing.JFrame {
+public class GenerarTicket extends javax.swing.JPanel {
 
     /**
      * Creates new form GenerarTicket
      */
+
+
+     private TicketControlador controlador;
+    
+
     public GenerarTicket() {
         initComponents();
     }
@@ -35,9 +40,6 @@ public class GenerarTicket extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(500, 400));
 
         jPanel1.setPreferredSize(new java.awt.Dimension(600, 400));
 
@@ -104,8 +106,8 @@ public class GenerarTicket extends javax.swing.JFrame {
                 .addGap(42, 42, 42))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -120,8 +122,6 @@ public class GenerarTicket extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -165,6 +165,30 @@ public class GenerarTicket extends javax.swing.JFrame {
                 new GenerarTicket().setVisible(true);
             }
         });
+
+    private void tituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tituloActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tituloActionPerformed
+
+     public String getTitulo(){
+        return titulo.getText();
+    }
+    
+    public void setTitulo(String title){
+        titulo.setText(title);
+    }
+    
+    public String getDescripcion(){
+        return descripcion.getText();
+    }
+    
+    public void setDescripcion(String description){
+        descripcion.setText(description);
+    }
+    
+    public void mostrarMensaje(String mensaje, String titulo, int tipoMensaje){
+        JOptionPane.showMessageDialog(null, mensaje, titulo, tipoMensaje);
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
