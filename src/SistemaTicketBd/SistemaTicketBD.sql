@@ -156,16 +156,16 @@ BEGIN
     SELECT COUNT(*) INTO v_usuario_existe FROM Usuarios WHERE dni = p_dni;
 
     IF v_usuario_existe = 1 THEN
-        -- Actualizar la contraseña
+        -- Actualizar la contraseña
         UPDATE usuarios 
         SET contrasena =  p_contrasena 
         WHERE dni = p_dni;
     ELSE
-        -- Si el usuario no existe, lanzar un error de restricción de integridad simulando un DNI no encontrado
+        -- Si el usuario no existe, lanzar un error de restricción de integridad simulando un DNI no encontrado
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Usuario no encontrado';
     END IF;
-END $$
+END $$
 
-DELIMITER ;
+DELIMITER ;
 

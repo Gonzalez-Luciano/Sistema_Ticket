@@ -8,6 +8,7 @@ package vistas;
 import Clases.Mensaje;
 import controladores.UsuarioControlador;
 import javax.swing.JOptionPane;
+import interfaces.InterCambioContrasenia;
 
 /**
  *
@@ -16,7 +17,7 @@ import javax.swing.JOptionPane;
 public class CambioContraseniaVista extends javax.swing.JPanel {
 
     UsuarioControlador controlador = new UsuarioControlador();
-    AdminVista adminVista;
+    InterCambioContrasenia vista;
     private String dni;
     private String contrasenaActual;
 
@@ -24,10 +25,10 @@ public class CambioContraseniaVista extends javax.swing.JPanel {
         this(null, null, null);
     }
 
-    public CambioContraseniaVista(String dni, String contraseniaActual, AdminVista adminVista) {
+    public CambioContraseniaVista(String dni, String contraseniaActual, InterCambioContrasenia vista) {
         this.dni = dni;
         this.contrasenaActual = contraseniaActual;
-        this.adminVista = adminVista;
+        this.vista = vista;
         initComponents();
     }
 
@@ -166,7 +167,7 @@ public class CambioContraseniaVista extends javax.swing.JPanel {
         Mensaje respuesta = controlador.cambiarContrasenia(dni, actualValueStr, newValueStr, confirmValueStr);
 
         if (respuesta.equals(Mensaje.EXITO)) {
-            adminVista.forzarCambioContrasenia(false);
+            vista.forzarCambioContrasenia(false);
             JOptionPane.showMessageDialog(this, "Su contraseña se modificó con éxito", "Cambio exitoso", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, "Hubo un error al modificar su contraseña", "Ha ocurrido un error", JOptionPane.ERROR_MESSAGE);
