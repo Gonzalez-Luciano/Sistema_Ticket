@@ -35,7 +35,7 @@ public class TicketControlador {
     //private TecnicoControlador tecnicoControlador;
     
     public TicketControlador(){
-        super();
+        this.modelo = new TicketModelo();
     }
     
     public void crearTicket(){
@@ -73,7 +73,7 @@ public class TicketControlador {
     * @param ticket 
     * Es entregado desde la lista de TicketModelo.obtenerTickets() 
     **/
-    public void verTicket(Ticket ticket){
+    /*public void verTicket(Ticket ticket){
         
         //String tipo = Sesion.getUsuario().getTipo();
        /* String tipo = "";
@@ -86,13 +86,13 @@ public class TicketControlador {
             else{
                 TicketVistaTrabajador ticketVista = new TicketVistaTrabajador(ticket);
             }
-        }*/
+        }
         
         ticketTrabajador = new TicketVistaTrabajador(ticket);
         ticketTrabajador.setTicket();
         ticketTrabajador.setVisible(true);
         //actualizarPanelTickets();
-    }
+    }*/
     
     public void reabrirTicket(Ticket ticket){
         /*if("administrador".equals(Sesion.getUsuario().getTipo())){
@@ -115,8 +115,6 @@ public class TicketControlador {
             }
             ticket.setEstado("Reabierto");
             ticket.setTecnico(null);
-            ticketTrabajador.dispose();
-            verTicket(ticket);
             
         }catch(TicketException e){
             ticketTrabajador.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
@@ -179,13 +177,10 @@ public class TicketControlador {
     }
     
     
-    public void buscarTickets(String filtro, Usuario usuario){
-        List<Ticket> lista = modelo.obtenerTickets(filtro,usuario);
-        if(lista.isEmpty()){
-            panel.mostrarMensaje("No se encontró ningún ticket", "⚠ Error", JOptionPane.ERROR_MESSAGE);
-        }else{
-            panel.setTickets(lista);
-        }
-
+    public List<Ticket> buscarTickets(Usuario usuario){
+        List<Ticket> lista = modelo.obtenerTickets(usuario);       
+        
+        return lista;
+     
     }
 }

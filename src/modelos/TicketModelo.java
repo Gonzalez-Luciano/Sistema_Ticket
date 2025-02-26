@@ -103,16 +103,15 @@ public class TicketModelo {
     /**
      * Genera una lista con los tickets segun quien lo solicita
      * 
-     * @param estado        El estado del ticket que se espera obtener
      * @param solicitante   El usuario que está logueado
      * @return  Devuelve una lista de tipo Ticket
      **/
     
-    public List<Ticket> obtenerTickets(String estado, Usuario solicitante){
+    public List<Ticket> obtenerTickets(Usuario solicitante){
         List<Ticket> tickets = new ArrayList<>();
         
         try (Connection conn = dbConnection.conectar();
-            PreparedStatement stmt = prepararConsulta(conn,estado, solicitante)){        
+            PreparedStatement stmt = prepararConsulta(conn, solicitante)){        
             
             if(stmt != null){
                 boolean tieneResultado = stmt.execute();
@@ -144,63 +143,29 @@ public class TicketModelo {
         return tickets;
     }
     
-    private PreparedStatement prepararConsulta(Connection conn, String estado, Usuario solicitante) throws SQLException{
+    private PreparedStatement prepararConsulta(Connection conn, Usuario solicitante) throws SQLException{
         String query;
         PreparedStatement stmt = null;
         int aux = solicitante.getLegajo() -99;
         
         if("administrador".equals(solicitante.getTipo())){
-                switch (estado){
-                    case "Todos": query = "SELECT * FROM tickets ORDER BY ticket_id DESC;";
-                                  break;
-                    case "No atendido":
-                    case "Atendido" :
-                    case "Resuelto" :
-                    case "Finalizado" :
-                    case "Reabierto" : query = "SELECT * FROM tickets WHERE estado = ? ORDER BY ticket_id DESC;";
-                                       stmt = conn.prepareStatement(query);
-                                       stmt.setString(1,estado);
-                                       return stmt;
-                    default : query = "SELECT * FROM tickets ORDER BY ticket_id DESC;";
-                              break;                   
-                }
-                stmt = conn.prepareStatement(query);
+            query = "SELECT * FROM tickets ORDER BY ticket_id DESC;";
+            stmt = conn.prepareStatement(query);
         }else{ 
             if("tecnico".equals(solicitante.getTipo())){
-                if("No atendido".equals(estado) || "Reabierto".equals(estado)){
-                    query = "SELECT * FROM tickets WHERE estado = ? ORDER BY ticket_id DESC;";
-                    stmt.setString(1,estado);
-                    stmt = conn.prepareStatement(query);
-                }else{
-                    query = "SELECT * FROM tickets WHERE tecnico_id = ? AND estado = ? ORDER BY ticket_id DESC;";
-                    stmt = conn.prepareStatement(query);
-                    stmt.setInt(1,aux);
-                    stmt.setString(2,estado);   
-                    }
+                query = "(SELECT * FROM tickets WHERE estado IN ('Reabierto','No atendido')) \n" +
+                        "UNION (SELECT * FROM tickets WHERE estado = 'Atendido' AND tecnico_id = ?); ";
+                stmt.setInt(1,aux);
+                stmt = conn.prepareStatement(query);
+               
             }
             //En este punto, es un trabajador quien pide la consulta
             else{
-                switch (estado){
-                    case "Todos": query = "SELECT * FROM tickets WHERE trabajador_id = ? AND estado <> 'Finalizado' ORDER BY ticket_id DESC;";
-                                  stmt = conn.prepareStatement(query);                                  
-                                  stmt.setInt(1,aux);
-                                  break;
-                                  
-                    case "No atendido":
-                    case "Atendido" :
-                    case "Resuelto" :
-                    case "Reabierto" : query = "SELECT * FROM tickets WHERE trabajador_id = ? AND estado = ? ORDER BY ticket_id DESC;";
-                                       stmt = conn.prepareStatement(query);;
-                                       stmt.setInt(1,aux);
-                                       stmt.setString(2,estado);
-                                       break;
-                                       
-                    default : query = "SELECT * FROM tickets WHERE trabajador_id = ? AND estado <> 'Finalizado' ORDER BY ticket_id DESC;";
-                              stmt = conn.prepareStatement(query);                                  
-                              stmt.setInt(1,aux);
-                              break;
+                query = "SELECT * FROM tickets WHERE trabajador_id = ? AND estado <> 'Finalizado' ORDER BY ticket_id DESC;";
+                stmt = conn.prepareStatement(query);                                  
+                stmt.setInt(1,aux);
+                    
                 }
-            }
         }
         return stmt;
     }
