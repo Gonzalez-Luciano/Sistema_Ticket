@@ -12,6 +12,7 @@ package Clases;
 public enum Mensaje {
     EXITO,
     ERROR_DNI_REPETIDO,
+    BLOQUEADO,
     ERROR,
     ERROR_CONEXION,
     USUARIO_NO_ENCONTRADO,
