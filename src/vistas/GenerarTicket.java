@@ -18,9 +18,10 @@ public class GenerarTicket extends javax.swing.JPanel {
     /**
      * Creates new form GenerarTicket
      */
-    public GenerarTicket() {
+    public GenerarTicket(TicketControlador controladorPadre) {
         initComponents();
-       controlador = new TicketControlador(this);
+       controlador = controladorPadre;
+       controlador.setNuevoTicket(this);
     }
 
     /**

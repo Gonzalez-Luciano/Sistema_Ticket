@@ -5,16 +5,14 @@
  */
 package vistas;
 
-import Clases.Administrador;
+import Clases.Trabajador;
 import Clases.Usuario;
+import controladores.TicketControlador;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -26,32 +24,26 @@ import interfaces.InterCambioContrasenia;
  *
  * @author TuKK
  */
-public class AdminVista extends javax.swing.JFrame implements InterCambioContrasenia {
+public class TrabajadorVista extends javax.swing.JFrame implements InterCambioContrasenia{
 
     private boolean dropdownTicketVisible = false;
-    private boolean dropdownUsuarioVisible = false;
     private boolean dropdownPerfilVisible = false;
+    private TicketControlador controlador;
     private final Usuario usuarioActual;
     private final Color colorAzul = new Color(75, 55, 255);
     private boolean contraseniaIgualDni;
 
     /**
-     * Creates new form AdminVista
+     * Creates new form TrabajadorVista
      */
-    public AdminVista() {
-        this.usuarioActual = new Administrador("Nicolas González", "543423456", 101, "1234", "activo"); // Usuario Demo
+    public TrabajadorVista() {
+        usuarioActual =  new Trabajador("Nicolas González", "543423456", 101, "1234", "activo"); // Usuario Demo
         initComponents();
-        setTitle("Sistema de Tickets");
-        setSize(800, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        setResizable(false);
-        setVisible(true);
-
     }
 
-    public AdminVista(Usuario usuario) {
+    public TrabajadorVista(Usuario usuario) {
         this.usuarioActual = usuario;
+        this.controlador = new TicketControlador(usuario);
         initComponents();
         setTitle("Sistema de Tickets");
         setSize(800, 500);
@@ -79,8 +71,8 @@ public class AdminVista extends javax.swing.JFrame implements InterCambioContras
     private void setHabilitarLabels(boolean habilitar) {
         JLabel[] labels = {
             jLabelInicio, jLabelPerfil, jLabelModificarPerfil, jLabelCerrarSesion,
-            jLabelUsuario, jLabelCrearUsuario, jLabelListaUsuarios, jLabelTicket,
-            jLabelListaTickets
+            jLabelMisTickets, jLabelCrearTicket,
+            jLabelVerMisTickets
         };
 
         for (JLabel label : labels) {
@@ -99,23 +91,16 @@ public class AdminVista extends javax.swing.JFrame implements InterCambioContras
         jLabelPerfil.setForeground(Color.BLACK);
         jLabelModificarPerfil.setForeground(Color.BLACK);
         jLabelCerrarSesion.setForeground(Color.BLACK);
-        jLabelUsuario.setForeground(Color.BLACK);
-        jLabelCrearUsuario.setForeground(Color.BLACK);
-        jLabelListaUsuarios.setForeground(Color.BLACK);
-        jLabelTicket.setForeground(Color.BLACK);
-        jLabelListaTickets.setForeground(Color.BLACK);
+        jLabelMisTickets.setForeground(Color.BLACK);
+        jLabelCrearTicket.setForeground(Color.BLACK);
+        jLabelVerMisTickets.setForeground(Color.BLACK);
 
         // Resaltar el label seleccionado
         labelSeleccionado.setForeground(colorAzul);
 
         // Si la selección está en las opciones de Tickets, cambiar color de Tickets
-        if (labelSeleccionado == jLabelListaTickets) {
-            jLabelTicket.setForeground(colorAzul);
-        }
-
-        // Si la selección está en las opciones de Usuarios, cambiar color de Usuarios
-        if (labelSeleccionado == jLabelCrearUsuario || labelSeleccionado == jLabelListaUsuarios) {
-            jLabelUsuario.setForeground(colorAzul);
+        if (labelSeleccionado == jLabelCrearTicket || labelSeleccionado == jLabelVerMisTickets) {
+            jLabelMisTickets.setForeground(colorAzul);
         }
 
         // Si la selección está en las opciones de Perfil, cambiar color de Perfil
@@ -127,9 +112,6 @@ public class AdminVista extends javax.swing.JFrame implements InterCambioContras
     private void abrirMenu(JPanel panelSeleccionado) {
         if (panelSeleccionado == jPanelTicketOpciones) {
             dropdownTicketVisible = true;
-        }
-        if (panelSeleccionado == jPanelUsuarioOpciones) {
-            dropdownUsuarioVisible = true;
         }
 
         if (panelSeleccionado == jPanelPerfilOpciones) {
@@ -160,9 +142,7 @@ public class AdminVista extends javax.swing.JFrame implements InterCambioContras
         if (panelSeleccionado == jPanelTicketOpciones) {
             dropdownTicketVisible = false;
         }
-        if (panelSeleccionado == jPanelUsuarioOpciones) {
-            dropdownUsuarioVisible = false;
-        }
+
         if (panelSeleccionado == jPanelPerfilOpciones) {
             dropdownPerfilVisible = false;
         }
@@ -200,27 +180,21 @@ public class AdminVista extends javax.swing.JFrame implements InterCambioContras
         jPanelPerfilOpciones.setVisible(false);
         jLabelModificarPerfil = new javax.swing.JLabel();
         jLabelCerrarSesion = new javax.swing.JLabel();
-        jLabelUsuario = new javax.swing.JLabel();
-        jPanelUsuarioOpciones = new javax.swing.JPanel();
-        jPanelUsuarioOpciones.setVisible(false);
-        jLabelCrearUsuario = new javax.swing.JLabel();
-        jLabelListaUsuarios = new javax.swing.JLabel();
-        jLabelTicket = new javax.swing.JLabel();
+        jLabelMisTickets = new javax.swing.JLabel();
         jPanelTicketOpciones = new javax.swing.JPanel();
         jPanelTicketOpciones.setVisible(false);
-        jLabelListaTickets = new javax.swing.JLabel();
+        jLabelCrearTicket = new javax.swing.JLabel();
+        jLabelVerMisTickets = new javax.swing.JLabel();
         jPanelContenido = new javax.swing.JPanel();
         inicioAdminVista = new vistas.InicioAdminVista(usuarioActual.getNombre());
-        registroVista = new vistas.RegistroVista();
-        registroVista.setVisible(false);
-        listaUsuariosVista = new vistas.ListaUsuariosVista(usuarioActual);
         cambioContraseniaVista = new CambioContraseniaVista(usuarioActual.getDNI(),usuarioActual.getContrasena(),this);
         panelTickets = new PanelTickets(usuarioActual);
         ;
+        generarTicket = new GenerarTicket(controlador);
+        ;
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 600));
-        setResizable(false);
+        setPreferredSize(new java.awt.Dimension(800, 500));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanelNavegador.setBackground(new java.awt.Color(220, 220, 220));
@@ -272,63 +246,38 @@ public class AdminVista extends javax.swing.JFrame implements InterCambioContras
 
         jPanelNavegador.add(jPanelPerfilOpciones);
 
-        jLabelUsuario.setText("Usuarios");
-        jLabelUsuario.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 2, 5));
-        jLabelUsuario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabelUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabelMisTickets.setText("Mis Tickets");
+        jLabelMisTickets.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 2, 5));
+        jLabelMisTickets.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabelMisTickets.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabelUsuarioMouseClicked(evt);
+                jLabelMisTicketsMouseClicked(evt);
             }
         });
-        jPanelNavegador.add(jLabelUsuario);
-
-        jPanelUsuarioOpciones.setBackground(new java.awt.Color(220, 220, 220));
-        jPanelUsuarioOpciones.setLayout(new javax.swing.BoxLayout(jPanelUsuarioOpciones, javax.swing.BoxLayout.Y_AXIS));
-
-        jLabelCrearUsuario.setText("Crear usuario");
-        jLabelCrearUsuario.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 15, 1, 1));
-        jLabelCrearUsuario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabelCrearUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabelCrearUsuarioMouseClicked(evt);
-            }
-        });
-        jPanelUsuarioOpciones.add(jLabelCrearUsuario);
-
-        jLabelListaUsuarios.setText("Lista de Usuarios");
-        jLabelListaUsuarios.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 15, 1, 1));
-        jLabelListaUsuarios.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabelListaUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabelListaUsuariosMouseClicked(evt);
-            }
-        });
-        jPanelUsuarioOpciones.add(jLabelListaUsuarios);
-
-        jPanelNavegador.add(jPanelUsuarioOpciones);
-
-        jLabelTicket.setText("Tickets");
-        jLabelTicket.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 2, 5));
-        jLabelTicket.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabelTicket.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabelTicketMouseClicked(evt);
-            }
-        });
-        jPanelNavegador.add(jLabelTicket);
+        jPanelNavegador.add(jLabelMisTickets);
 
         jPanelTicketOpciones.setBackground(new java.awt.Color(220, 220, 220));
         jPanelTicketOpciones.setLayout(new javax.swing.BoxLayout(jPanelTicketOpciones, javax.swing.BoxLayout.Y_AXIS));
 
-        jLabelListaTickets.setText("Lista de Tickets");
-        jLabelListaTickets.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 15, 1, 1));
-        jLabelListaTickets.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabelListaTickets.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabelCrearTicket.setText("Crear Ticket");
+        jLabelCrearTicket.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 15, 1, 1));
+        jLabelCrearTicket.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabelCrearTicket.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabelListaTicketsMouseClicked(evt);
+                jLabelCrearTicketMouseClicked(evt);
             }
         });
-        jPanelTicketOpciones.add(jLabelListaTickets);
+        jPanelTicketOpciones.add(jLabelCrearTicket);
+
+        jLabelVerMisTickets.setText("Mis Tickets");
+        jLabelVerMisTickets.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 15, 1, 1));
+        jLabelVerMisTickets.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabelVerMisTickets.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelVerMisTicketsMouseClicked(evt);
+            }
+        });
+        jPanelTicketOpciones.add(jLabelVerMisTickets);
 
         jPanelNavegador.add(jPanelTicketOpciones);
 
@@ -336,24 +285,14 @@ public class AdminVista extends javax.swing.JFrame implements InterCambioContras
 
         jPanelContenido.setLayout(new java.awt.CardLayout());
         jPanelContenido.add(inicioAdminVista, "inicioAdminVista");
-
-        registroVista.setName("registroVista"); // NOI18N
-        jPanelContenido.add(registroVista, "registroVista");
-        jPanelContenido.add(listaUsuariosVista, "listaUsuariosVista");
         jPanelContenido.add(cambioContraseniaVista, "cambioContraseniaVista");
         jPanelContenido.add(panelTickets, "panelTickets");
+        jPanelContenido.add(generarTicket, "generarTicket");
 
         getContentPane().add(jPanelContenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 0, 680, 500));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jLabelCrearUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCrearUsuarioMouseClicked
-        if (contraseniaIgualDni) {
-            return;
-        }
-        cambiarVista("registroVista", jLabelCrearUsuario);
-    }//GEN-LAST:event_jLabelCrearUsuarioMouseClicked
 
     private void jLabelInicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelInicioMouseClicked
         if (contraseniaIgualDni) {
@@ -361,45 +300,6 @@ public class AdminVista extends javax.swing.JFrame implements InterCambioContras
         }
         cambiarVista("inicioAdminVista", jLabelInicio);
     }//GEN-LAST:event_jLabelInicioMouseClicked
-
-    private void jLabelTicketMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelTicketMouseClicked
-        if (contraseniaIgualDni) {
-            return;
-        }
-        if (dropdownTicketVisible) {
-            cerrarMenu(jPanelTicketOpciones);
-        } else {
-            abrirMenu(jPanelTicketOpciones);
-        }
-        cambiarVista("", jLabelTicket);
-    }//GEN-LAST:event_jLabelTicketMouseClicked
-
-    private void jLabelListaTicketsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelListaTicketsMouseClicked
-        if (contraseniaIgualDni) {
-            return;
-        }
-        cambiarVista("panelTickets", jLabelListaTickets);
-    }//GEN-LAST:event_jLabelListaTicketsMouseClicked
-
-    private void jLabelUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelUsuarioMouseClicked
-        if (contraseniaIgualDni) {
-            return;
-        }
-        if (dropdownUsuarioVisible) {
-            cerrarMenu(jPanelUsuarioOpciones);
-        } else {
-            abrirMenu(jPanelUsuarioOpciones);
-        }
-        cambiarVista("", jLabelUsuario);
-    }//GEN-LAST:event_jLabelUsuarioMouseClicked
-
-    private void jLabelListaUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelListaUsuariosMouseClicked
-        if (contraseniaIgualDni) {
-            return;
-        }
-        cambiarVista("listaUsuariosVista", jLabelListaUsuarios);
-        listaUsuariosVista.cargarUsuarios();
-    }//GEN-LAST:event_jLabelListaUsuariosMouseClicked
 
     private void jLabelPerfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelPerfilMouseClicked
         if (contraseniaIgualDni) {
@@ -413,6 +313,13 @@ public class AdminVista extends javax.swing.JFrame implements InterCambioContras
         cambiarVista("", jLabelPerfil);
     }//GEN-LAST:event_jLabelPerfilMouseClicked
 
+    private void jLabelModificarPerfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelModificarPerfilMouseClicked
+        if (contraseniaIgualDni) {
+            return;
+        }
+        cambiarVista("cambioContraseniaVista", jLabelModificarPerfil);
+    }//GEN-LAST:event_jLabelModificarPerfilMouseClicked
+
     private void jLabelCerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCerrarSesionMouseClicked
         if (contraseniaIgualDni) {
             return;
@@ -425,12 +332,33 @@ public class AdminVista extends javax.swing.JFrame implements InterCambioContras
         }
     }//GEN-LAST:event_jLabelCerrarSesionMouseClicked
 
-    private void jLabelModificarPerfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelModificarPerfilMouseClicked
+    private void jLabelMisTicketsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelMisTicketsMouseClicked
         if (contraseniaIgualDni) {
             return;
         }
-        cambiarVista("cambioContraseniaVista", jLabelModificarPerfil);
-    }//GEN-LAST:event_jLabelModificarPerfilMouseClicked
+        if (dropdownTicketVisible) {
+            cerrarMenu(jPanelTicketOpciones);
+        } else {
+            abrirMenu(jPanelTicketOpciones);
+        }
+        cambiarVista("", jLabelMisTickets);
+    }//GEN-LAST:event_jLabelMisTicketsMouseClicked
+
+    private void jLabelCrearTicketMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCrearTicketMouseClicked
+        if (contraseniaIgualDni) {
+            return;
+        }
+        cambiarVista("generarTicket", jLabelCrearTicket);
+    }//GEN-LAST:event_jLabelCrearTicketMouseClicked
+
+    private void jLabelVerMisTicketsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelVerMisTicketsMouseClicked
+         if (contraseniaIgualDni) {
+            return;
+        }
+         
+        panelTickets.cargarTickets();
+        cambiarVista("panelTickets", jLabelVerMisTickets);
+    }//GEN-LAST:event_jLabelVerMisTicketsMouseClicked
 
     /**
      * @param args the command line arguments
@@ -449,43 +377,39 @@ public class AdminVista extends javax.swing.JFrame implements InterCambioContras
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdminVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TrabajadorVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdminVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TrabajadorVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdminVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TrabajadorVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdminVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TrabajadorVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdminVista().setVisible(true);
+                new TrabajadorVista().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private vistas.CambioContraseniaVista cambioContraseniaVista;
+    private vistas.GenerarTicket generarTicket;
     private vistas.InicioAdminVista inicioAdminVista;
     private javax.swing.JLabel jLabelCerrarSesion;
-    private javax.swing.JLabel jLabelCrearUsuario;
+    private javax.swing.JLabel jLabelCrearTicket;
     private javax.swing.JLabel jLabelInicio;
-    private javax.swing.JLabel jLabelListaTickets;
-    private javax.swing.JLabel jLabelListaUsuarios;
+    private javax.swing.JLabel jLabelMisTickets;
     private javax.swing.JLabel jLabelModificarPerfil;
     private javax.swing.JLabel jLabelPerfil;
-    private javax.swing.JLabel jLabelTicket;
-    private javax.swing.JLabel jLabelUsuario;
+    private javax.swing.JLabel jLabelVerMisTickets;
     private javax.swing.JPanel jPanelContenido;
     private javax.swing.JPanel jPanelNavegador;
     private javax.swing.JPanel jPanelPerfilOpciones;
     private javax.swing.JPanel jPanelTicketOpciones;
-    private javax.swing.JPanel jPanelUsuarioOpciones;
-    private vistas.ListaUsuariosVista listaUsuariosVista;
     private vistas.PanelTickets panelTickets;
-    private vistas.RegistroVista registroVista;
     // End of variables declaration//GEN-END:variables
 }

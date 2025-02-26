@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import modelos.UsuarioModelo;
 import vistas.AdminVista;
 import vistas.LoginVista;
+import vistas.TrabajadorVista;
 
 /**
  *
@@ -61,7 +62,8 @@ public class LoginControlador {
                     } else if (usuario instanceof Tecnico) {
                         //new TecnicoVista(usuario);
                     } else if (usuario instanceof Trabajador) {
-                        //new TrabajadorVista(usuario);
+                        new TrabajadorVista(usuario);
+                        vista.dispose();
                     }
                     
                     break;

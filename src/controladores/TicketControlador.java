@@ -49,9 +49,18 @@ public class TicketControlador {
         ticketTrabajador = vista;
     }
 
+    public void setNuevoTicket(GenerarTicket nuevoTicket) {
+        this.nuevoTicket = nuevoTicket;
+    }
+
     
     public void crearTicket(){
         try{
+            
+            if(nuevoTicket.getTitulo().isEmpty() || nuevoTicket.getDescripcion().isEmpty()){
+                throw new TicketException("Completa todos los campos para crear un ticket");
+            }
+            
             Ticket ticket = new Ticket(nuevoTicket.getTitulo(),nuevoTicket.getDescripcion(),(Trabajador)usuario);
             int[] respuesta = modelo.crearTicket(ticket);
   
