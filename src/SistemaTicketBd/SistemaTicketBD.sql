@@ -88,6 +88,7 @@ DELIMITER ;
 
 
 
+
 DELIMITER $$
 
 DROP PROCEDURE IF EXISTS crearTicket $$
@@ -138,3 +139,33 @@ BEGIN
 END $$
 
 DELIMITER ;
+
+
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS reiniciarContrasenia $$
+
+CREATE PROCEDURE reiniciarContrasenia(
+    IN p_dni VARCHAR(20), 
+    IN  p_contrasena VARCHAR(255)
+)
+BEGIN
+    DECLARE v_usuario_existe INT;
+
+    -- Verificar si el usuario existe
+    SELECT COUNT(*) INTO v_usuario_existe FROM Usuarios WHERE dni = p_dni;
+
+    IF v_usuario_existe = 1 THEN
+        -- Actualizar la contraseña
+        UPDATE usuarios 
+        SET contrasena =  p_contrasena 
+        WHERE dni = p_dni;
+    ELSE
+        -- Si el usuario no existe, lanzar un error de restricción de integridad simulando un DNI no encontrado
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Usuario no encontrado';
+    END IF;
+END $$
+
+DELIMITER ;
+
