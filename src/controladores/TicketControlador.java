@@ -33,7 +33,7 @@ public class TicketControlador {
     
     
     public TicketControlador(){
-        modelo = new TicketModelo();
+        this.modelo = new TicketModelo();
     }
     
     public TicketControlador(Usuario usuario){

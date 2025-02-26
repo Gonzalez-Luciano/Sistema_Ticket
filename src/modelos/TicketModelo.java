@@ -104,8 +104,7 @@ public class TicketModelo {
     /**
      * Genera una lista con los tickets segun quien lo solicita
      * 
-     * @param estado        El estado del ticket que se espera obtener
-     * @param solicitante   El usuario que solicita la lista 
+     * @param solicitante   El usuario que está logueado
      * @return  Devuelve una lista de tipo Ticket
      **/
     

@@ -87,6 +87,8 @@ END $$
 DELIMITER ;
 
 
+
+
 DELIMITER $$
 
 DROP PROCEDURE IF EXISTS crearTicket $$
@@ -166,5 +168,4 @@ BEGIN
 END $$
 
 DELIMITER ;
-
 
