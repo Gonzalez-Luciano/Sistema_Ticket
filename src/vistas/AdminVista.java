@@ -9,8 +9,12 @@ import Clases.Administrador;
 import Clases.Usuario;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -28,6 +32,7 @@ public class AdminVista extends javax.swing.JFrame {
     private boolean dropdownPerfilVisible = false;
     private final Usuario usuarioActual;
     private final Color colorAzul = new Color(75, 55, 255);
+    private boolean contraseniaIgualDni;
 
     /**
      * Creates new form AdminVista
@@ -42,6 +47,45 @@ public class AdminVista extends javax.swing.JFrame {
         setResizable(false);
         setVisible(true);
 
+    }
+
+    public AdminVista(Usuario usuario) {
+        this.usuarioActual = usuario;
+        initComponents();
+        setTitle("Sistema de Tickets");
+        setSize(800, 500);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setVisible(true);
+        forzarCambioContrasenia(usuarioActual.contraseniaIgualDni());
+    }
+
+    public void forzarCambioContrasenia(boolean contraseniaIgualDni) {
+
+        if (contraseniaIgualDni) {
+            jLabelPerfilMouseClicked(null);
+            jLabelModificarPerfilMouseClicked(null);
+            this.contraseniaIgualDni = contraseniaIgualDni;
+            setHabilitarLabels(false);
+        } else {
+            this.contraseniaIgualDni = contraseniaIgualDni;
+            setHabilitarLabels(true);
+        }
+    }
+
+    private void setHabilitarLabels(boolean habilitar) {
+        JLabel[] labels = {
+            jLabelInicio, jLabelPerfil, jLabelModificarPerfil, jLabelCerrarSesion,
+            jLabelUsuario, jLabelCrearUsuario, jLabelListaUsuarios, jLabelTicket,
+            jLabelListaTickets, jLabelSolucitudes
+        };
+
+        for (JLabel label : labels) {
+            label.setEnabled(habilitar);
+            label.setCursor(habilitar ? Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)
+                    : Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        }
     }
 
     private void cambiarVista(String vista, JLabel labelSeleccionado) {
@@ -170,6 +214,7 @@ public class AdminVista extends javax.swing.JFrame {
         registroVista = new vistas.RegistroVista();
         registroVista.setVisible(false);
         listaUsuariosVista = new vistas.ListaUsuariosVista(usuarioActual);
+        cambioContraseniaVista = new CambioContraseniaVista(usuarioActual.getDNI(),usuarioActual.getContrasena(),this);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(800, 600));
@@ -303,6 +348,7 @@ public class AdminVista extends javax.swing.JFrame {
         registroVista.setName("registroVista"); // NOI18N
         jPanelContenido.add(registroVista, "registroVista");
         jPanelContenido.add(listaUsuariosVista, "listaUsuariosVista");
+        jPanelContenido.add(cambioContraseniaVista, "cambioContraseniaVista");
 
         getContentPane().add(jPanelContenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 0, 680, 500));
 
@@ -310,14 +356,23 @@ public class AdminVista extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabelCrearUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCrearUsuarioMouseClicked
+        if (contraseniaIgualDni) {
+            return;
+        }
         cambiarVista("registroVista", jLabelCrearUsuario);
     }//GEN-LAST:event_jLabelCrearUsuarioMouseClicked
 
     private void jLabelInicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelInicioMouseClicked
+        if (contraseniaIgualDni) {
+            return;
+        }
         cambiarVista("inicioAdminVista", jLabelInicio);
     }//GEN-LAST:event_jLabelInicioMouseClicked
 
     private void jLabelTicketMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelTicketMouseClicked
+        if (contraseniaIgualDni) {
+            return;
+        }
         if (dropdownTicketVisible) {
             cerrarMenu(jPanelTicketOpciones);
         } else {
@@ -327,14 +382,23 @@ public class AdminVista extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabelTicketMouseClicked
 
     private void jLabelSolucitudesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelSolucitudesMouseClicked
+        if (contraseniaIgualDni) {
+            return;
+        }
         cambiarVista("", jLabelSolucitudes);
     }//GEN-LAST:event_jLabelSolucitudesMouseClicked
 
     private void jLabelListaTicketsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelListaTicketsMouseClicked
+        if (contraseniaIgualDni) {
+            return;
+        }
         cambiarVista("", jLabelListaTickets);
     }//GEN-LAST:event_jLabelListaTicketsMouseClicked
 
     private void jLabelUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelUsuarioMouseClicked
+        if (contraseniaIgualDni) {
+            return;
+        }
         if (dropdownUsuarioVisible) {
             cerrarMenu(jPanelUsuarioOpciones);
         } else {
@@ -344,11 +408,17 @@ public class AdminVista extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabelUsuarioMouseClicked
 
     private void jLabelListaUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelListaUsuariosMouseClicked
+        if (contraseniaIgualDni) {
+            return;
+        }
         cambiarVista("listaUsuariosVista", jLabelListaUsuarios);
         listaUsuariosVista.cargarUsuarios();
     }//GEN-LAST:event_jLabelListaUsuariosMouseClicked
 
     private void jLabelPerfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelPerfilMouseClicked
+        if (contraseniaIgualDni) {
+            return;
+        }
         if (dropdownPerfilVisible) {
             cerrarMenu(jPanelPerfilOpciones);
         } else {
@@ -358,15 +428,22 @@ public class AdminVista extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabelPerfilMouseClicked
 
     private void jLabelCerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCerrarSesionMouseClicked
+        if (contraseniaIgualDni) {
+            return;
+        }
         cambiarVista("", jLabelCerrarSesion);
         int resultado = JOptionPane.showConfirmDialog(this, "¿Estas seguro de querer salir?", "Salir", JOptionPane.OK_CANCEL_OPTION);
         if (resultado == 0) {
-            //Abrir login y cerrar AdminVista
+            new LoginVista();
+            this.dispose();
         }
     }//GEN-LAST:event_jLabelCerrarSesionMouseClicked
 
     private void jLabelModificarPerfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelModificarPerfilMouseClicked
-        cambiarVista("", jLabelModificarPerfil);
+        if (contraseniaIgualDni) {
+            return;
+        }
+        cambiarVista("cambioContraseniaVista", jLabelModificarPerfil);
     }//GEN-LAST:event_jLabelModificarPerfilMouseClicked
 
     /**
@@ -405,6 +482,7 @@ public class AdminVista extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private vistas.CambioContraseniaVista cambioContraseniaVista;
     private vistas.InicioAdminVista inicioAdminVista;
     private javax.swing.JLabel jLabelCerrarSesion;
     private javax.swing.JLabel jLabelCrearUsuario;

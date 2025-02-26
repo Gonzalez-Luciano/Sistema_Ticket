@@ -34,6 +34,10 @@ public abstract class Usuario {
         this.estado = estado;
     }
 
+    public boolean contraseniaIgualDni(){
+        return this.contrasena.equals(this.dni);
+    }
+    
     public String getNombre() {
         return nombre;
     }
@@ -81,7 +85,7 @@ public abstract class Usuario {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

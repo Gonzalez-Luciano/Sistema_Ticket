@@ -300,6 +300,16 @@
             </Constraint>
           </Constraints>
         </Component>
+        <Component class="vistas.CambioContraseniaVista" name="cambioContraseniaVista">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new CambioContraseniaVista(usuarioActual.getDNI(),usuarioActual.getContrasena(),this);"/>
+          </AuxValues>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
+              <CardConstraints cardName="cambioContraseniaVista"/>
+            </Constraint>
+          </Constraints>
+        </Component>
       </SubComponents>
     </Container>
   </SubComponents>
