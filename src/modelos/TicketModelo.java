@@ -34,7 +34,7 @@ public class TicketModelo {
     * [0] : El index del mensaje
     * [1] : El número de ticket / 0 si no se afectó ninguna fila / -1 SQLException
     **/
-    public int[] crearTicket(Trabajador trabajador, Ticket ticket){
+    public int[] crearTicket(Ticket ticket){
         String query = "CALL crearTicket(?,?,?,?);";
         int[] resultado = new int[2];
         try (   Connection conn = dbConnection.conectar();
@@ -42,7 +42,7 @@ public class TicketModelo {
             
             stmt.setString(1, ticket.getTitulo());
             stmt.setString(2, ticket.getDescripcion());
-            stmt.setString(3,trabajador.getDNI());
+            stmt.setInt(3,ticket.getInformador().getLegajo());
             stmt.registerOutParameter(4, Types.INTEGER);
             int rowsAffected = stmt.executeUpdate();
             if( rowsAffected > 0) {

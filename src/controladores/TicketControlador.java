@@ -11,28 +11,50 @@ package controladores;
 
 
 
-import Clases.Trabajador;
+
 import Clases.Tecnico;
 import Clases.Ticket;
 import Clases.Mensaje;
+import Clases.Trabajador;
 import javax.swing.JOptionPane;
+import Clases.Usuario;
+import excepciones.TicketException;
+import java.util.List;
+import modelos.TicketModelo;
+import vistas.GenerarTicket;
+import vistas.TicketVistaTrabajador;
 
 public class TicketControlador {
-    /*private TicketModelo ticket;
-    private NuevoTicketVista vista;
+    private TicketModelo modelo;
+    private Usuario usuario;
+    private GenerarTicket nuevoTicket;
+    private TicketVistaTrabajador ticketTrabajador;
+    
+    
     
     public TicketControlador(){
-        
-    }*/
+        modelo = new TicketModelo();
+    }
+    
+    public TicketControlador(Usuario usuario){
+        this();
+        this.usuario = usuario;  
+    }
+    
+    public TicketControlador(GenerarTicket vista){
+        nuevoTicket = vista;
+    }
+    
+    public TicketControlador(TicketVistaTrabajador vista){
+        ticketTrabajador = vista;
+    }
 
     
     public void crearTicket(){
         try{
-            //usuario = (Trabajador) Sesion.getUsuarioActual();
-            usuario  = new Trabajador("","","");
-            Ticket ticket = new Ticket(nuevoTicket.getTitulo(),nuevoTicket.getDescripcion(),usuario);
-            int[] respuesta = new int[2];
-            respuesta = modelo.crearTicket(ticket);
+            Ticket ticket = new Ticket(nuevoTicket.getTitulo(),nuevoTicket.getDescripcion(),(Trabajador)usuario);
+            int[] respuesta = modelo.crearTicket(ticket);
+  
             nuevoTicket.setTitulo("");
             nuevoTicket.setDescripcion("");
             
@@ -89,6 +111,7 @@ public class TicketControlador {
             tecnicoControlador.agregarFalla(ticket.getTecnico());
         }*/
         //tecnicoControlador.evaluarSancion(ticket);
+
         Mensaje mensaje = modelo.actualizarEstadoTicket(ticket, "Reabierto", null, ticket.getTecnico());
         try{
             switch(mensaje){
