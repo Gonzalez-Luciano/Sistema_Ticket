@@ -85,3 +85,86 @@ BEGIN
 END $$
 
 DELIMITER ;
+
+
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS crearTicket $$
+
+CREATE PROCEDURE crearTicket(
+    IN p_titulo VARCHAR(255),
+    IN p_descripcion TEXT,
+    IN p_informadorId INT,
+    OUT po_ticketId INT)
+
+BEGIN
+    DECLARE informador_id INT;
+    
+    SET informador_id = p_informadorId - 99;
+    INSERT INTO tickets (titulo, descripcion, trabajador_id) VALUES(
+        p_titulo,
+        p_descripcion,
+        informador_id );
+
+    SET po_ticketId = LAST_INSERT_ID();
+    
+END $$
+
+DELIMITER ;
+
+
+
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS actualizarEstadoTicket $$
+
+CREATE PROCEDURE actualizarEstadoTicket(
+    IN p_ticketId INT,
+    IN p_estado ENUM('No atendido', 'Atendido', 'Resuelto', 'Finalizado', 'Reabierto'),
+    IN p_tecnicoId INT,
+    IN p_tecnicoAntId INT
+)
+BEGIN
+    DECLARE tecnicoId INT;
+    DECLARE tecnicoAntId INT;
+
+    SET tecnicoId = p_tecnicoId - 99; /*Si es NULL tecnicoId va a guardar NULL*/
+    SET tecnicoAntId = p_tecnicoAntId - 99; /*Lo mismo, si p_tecnicoAntId es NULL va a guardar NULL*/
+
+    UPDATE tickets SET tecnico_id = tecnicoId WHERE ticket_id = p_ticketId;
+    UPDATE tickets SET tecnico_anterior_id = tecnicoAntId WHERE ticket_id = p_ticketId;
+    
+END $$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS reiniciarContrasenia $$
+
+CREATE PROCEDURE reiniciarContrasenia(
+    IN p_dni VARCHAR(20), 
+    IN  p_contrasena VARCHAR(255)
+)
+BEGIN
+    DECLARE v_usuario_existe INT;
+
+    -- Verificar si el usuario existe
+    SELECT COUNT(*) INTO v_usuario_existe FROM Usuarios WHERE dni = p_dni;
+
+    IF v_usuario_existe = 1 THEN
+        -- Actualizar la contraseña
+        UPDATE usuarios 
+        SET contrasena =  p_contrasena 
+        WHERE dni = p_dni;
+    ELSE
+        -- Si el usuario no existe, lanzar un error de restricción de integridad simulando un DNI no encontrado
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Usuario no encontrado';
+    END IF;
+END $$
+
+DELIMITER ;
+
+
