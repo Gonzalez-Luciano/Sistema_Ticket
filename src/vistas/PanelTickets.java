@@ -13,6 +13,7 @@ package vistas;
 import Clases.ListaTickets;
 import Clases.Usuario;
 import Clases.Ticket;
+import Clases.TicketVista;
 import controladores.TicketControlador;
 import java.util.List;
 import javax.swing.JFrame;
@@ -248,8 +249,17 @@ public class PanelTickets extends javax.swing.JPanel {
         if (filaSeleccionada != -1) { // Verifica que haya una fila seleccionada
 
             Ticket ticket = listaFiltrada.buscarPorIndice(filaSeleccionada);
-
-            TicketVistaTrabajador dialog = new TicketVistaTrabajador((JFrame) SwingUtilities.getWindowAncestor(this), usuario, this, ticket);
+            TicketVista dialog;
+            if(usuario.getTipo().equals("administrador")){
+                //dialog = new TicketVistaAdmin((JFrame) SwingUtilities.getWindowAncestor(this), usuario, this, ticket);
+                dialog = new TicketVistaTecnico((JFrame) SwingUtilities.getWindowAncestor(this), usuario, this, ticket);
+            }else{
+                if(usuario.getTipo().equals("tecnico")){
+                    dialog = new TicketVistaTecnico((JFrame) SwingUtilities.getWindowAncestor(this), usuario, this, ticket);
+                }else{
+                    dialog = new TicketVistaTrabajador((JFrame) SwingUtilities.getWindowAncestor(this), usuario, this, ticket);
+                }
+            }
             dialog.setSize(800, 500);
             dialog.setLocationRelativeTo(this); // Centrar el diálogo
             dialog.setVisible(true);
@@ -260,6 +270,10 @@ public class PanelTickets extends javax.swing.JPanel {
     }//GEN-LAST:event_tablaTicketsMouseClicked
 
 
+    public TicketControlador getControlador(){
+        return controlador;
+    }
+    
     public String getFiltro() {
         /*String[] opciones = {"No Atendido","Atendido","Reabierto","Resuelto","Todos","Finalizado"};
         int index = filtro.getSelectedIndex();*/
@@ -369,4 +383,6 @@ public class PanelTickets extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaTickets;
     // End of variables declaration//GEN-END:variables
+
+    
 }

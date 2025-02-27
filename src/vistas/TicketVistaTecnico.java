@@ -7,8 +7,8 @@ package vistas;
 
 
 import Clases.Ticket;
+import Clases.TicketVista;
 import Clases.Usuario;
-import controladores.TicketControlador;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JFrame; 
@@ -18,38 +18,33 @@ import javax.swing.JOptionPane;
  *
  * @author ramir
  */
-public class TicketVistaTecnico extends javax.swing.JDialog {
+public class TicketVistaTecnico extends TicketVista {
 
     /**
      * Creates new form TicketVistaTecnico
      */
-    public TicketVistaTecnico() {
-        initComponents();
-    }
     
     private Ticket ticket;
-    private TicketControlador controlador;
     private PanelTickets panel;
     private PanelMisTickets panelM;
     private Color colorFondo = new Color(240,240,240);
     
     
     public TicketVistaTecnico(JFrame jFrame, Usuario usuario, PanelTickets panel, Ticket ticket){
-        super(jFrame, "Ticket "+ticket.getTicket_id(), true);
+        super(jFrame, "Ticket "+ticket.getTicket_id(),panel.getControlador());
         setSize(600,400);
         initComponents();
         this.panel = panel;
-        controlador = new TicketControlador();
+        
         this.ticket = ticket; 
         setTicket();
     }
     
     public TicketVistaTecnico(JFrame jFrame, Usuario usuario, PanelMisTickets panelM, Ticket ticket){
-        super(jFrame, "Ticket "+ticket.getTicket_id(), true);
+        super(jFrame, "Ticket "+ticket.getTicket_id(), panelM.getControlador());
         setSize(600,400);
         initComponents();
         this.panelM = panelM;
-        controlador = new TicketControlador();
         this.ticket = ticket; 
         setTicket();
     }
@@ -79,7 +74,7 @@ public class TicketVistaTecnico extends javax.swing.JDialog {
         nombreTecnicoTitulo = new javax.swing.JLabel();
         nombreTecnico = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         jPanel1.setPreferredSize(new java.awt.Dimension(600, 400));
 
@@ -255,7 +250,7 @@ public class TicketVistaTecnico extends javax.swing.JDialog {
     }//GEN-LAST:event_BtnResolverActionPerformed
 
     private void BtnTomarTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnTomarTicketActionPerformed
-        //controlador.reabrirTicket(ticket);
+        controlador.Prueba();
     }//GEN-LAST:event_BtnTomarTicketActionPerformed
 
     public JButton getBtnTomarTicket() {

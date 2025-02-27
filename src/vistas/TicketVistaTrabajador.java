@@ -8,7 +8,9 @@ package vistas;
 import controladores.TicketControlador;
 import javax.swing.JOptionPane;
 import Clases.Ticket;
+import Clases.TicketVista;
 import Clases.Usuario;
+
 import java.awt.Color;
 import javax.swing.JFrame;
 
@@ -17,7 +19,7 @@ import javax.swing.JFrame;
  *
  * @author ramir
  */
-public class TicketVistaTrabajador extends javax.swing.JDialog {
+public class TicketVistaTrabajador extends TicketVista {
 
 
     /**
@@ -37,7 +39,6 @@ public class TicketVistaTrabajador extends javax.swing.JDialog {
     /**
      * Creates new form TicketVistaTrabajador
      */
-    private TicketControlador controlador;
     private Ticket ticket;
     private PanelTickets panel;
     private Color colorFondo = new Color(240,240,240);
@@ -45,11 +46,10 @@ public class TicketVistaTrabajador extends javax.swing.JDialog {
     
     
     public TicketVistaTrabajador(JFrame jFrame, Usuario usuario, PanelTickets panel, Ticket ticket) {
-        super(jFrame, "Ticket "+ticket.getTicket_id(), true);
+        super(jFrame, "Ticket "+ticket.getTicket_id(),panel.getControlador());
         setSize(600,400);
         initComponents();
         this.panel = panel;
-        controlador = new TicketControlador();
         this.ticket = ticket; 
         setTicket();
     }

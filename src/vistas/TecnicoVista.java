@@ -35,10 +35,11 @@ public class TecnicoVista extends JFrame implements interfaces.InterCambioContra
     
     /**
      * Creates new form TecnicoVista
+     * @param usuario usuario que inició sesión
      */
     
     public TecnicoVista(Usuario usuario){
-        usuarioActual = usuario;
+        this.usuarioActual = usuario;
         initComponents();
         setTitle("Sistema de Tickets");
         setSize(800, 500);
@@ -46,6 +47,7 @@ public class TecnicoVista extends JFrame implements interfaces.InterCambioContra
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
+        forzarCambioContrasenia(usuarioActual.contraseniaIgualDni());
     }
      public TecnicoVista() {
          //usuarioActual =  new Tecnico("Ramiro","40634178", 101, "123", "activo", 0, 0);
@@ -180,10 +182,12 @@ public class TecnicoVista extends JFrame implements interfaces.InterCambioContra
         jLabelInicio = new javax.swing.JLabel();
         jLabelPerfil = new javax.swing.JLabel();
         jPanelPerfilOpciones = new javax.swing.JPanel();
+        jPanelPerfilOpciones.setVisible(false);
         jLabelModificarPerfil = new javax.swing.JLabel();
         jLabelCerrarSesion = new javax.swing.JLabel();
         jLabelTickets = new javax.swing.JLabel();
         jPanelTicketOpciones = new javax.swing.JPanel();
+        jPanelTicketOpciones.setVisible(false);
         jLabelTicketsAsignados = new javax.swing.JLabel();
         jLabelBuscarTickets = new javax.swing.JLabel();
         jPanelContenido = new javax.swing.JPanel();
@@ -194,7 +198,6 @@ public class TecnicoVista extends JFrame implements interfaces.InterCambioContra
         panelMisTickets = new PanelMisTickets(usuarioActual);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 500));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanelNavegador.setBackground(new java.awt.Color(220, 220, 220));

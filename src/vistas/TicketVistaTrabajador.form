@@ -121,7 +121,7 @@
                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jScrollPane" min="-2" pref="241" max="-2" attributes="0"/>
-                  <EmptySpace pref="28" max="32767" attributes="0"/>
+                  <EmptySpace pref="25" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="BtnResuelto" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                       <Component id="BtnReabrir" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
@@ -263,7 +263,6 @@
             <Property name="text" type="java.lang.String" value="No Resuelto"/>
             <Property name="focusPainted" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
-            <Property name="opaque" type="boolean" value="true"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnReabrirActionPerformed"/>

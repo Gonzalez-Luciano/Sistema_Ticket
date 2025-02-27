@@ -10,8 +10,10 @@ import Clases.Ticket;
 import Clases.Usuario;
 import controladores.TicketControlador;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -219,17 +221,20 @@ public class PanelMisTickets extends javax.swing.JPanel {
 
             Ticket ticket = listaAtendidos.buscarPorIndice(filaSeleccionada);
 
-/*            TicketVistaTrabajador dialog = new TicketVistaTrabajador((JFrame) SwingUtilities.getWindowAncestor(this), usuario, this, ticket);
+            TicketVistaTecnico dialog = new TicketVistaTecnico((JFrame) SwingUtilities.getWindowAncestor(this), usuario, this, ticket);
             dialog.setSize(800, 500);
             dialog.setLocationRelativeTo(this); // Centrar el diálogo
             dialog.setVisible(true);
-*/
+            
         }else{
             System.out.println(filaSeleccionada);
         }
     }//GEN-LAST:event_tablaTicketsMouseClicked
 
   
+    public TicketControlador getControlador(){
+        return controlador;
+    }
     
     
 

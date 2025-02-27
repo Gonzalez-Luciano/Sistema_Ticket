@@ -15,6 +15,7 @@ package controladores;
 import Clases.Tecnico;
 import Clases.Ticket;
 import Clases.Mensaje;
+import Clases.TicketVista;
 import Clases.Trabajador;
 import javax.swing.JOptionPane;
 import Clases.Usuario;
@@ -28,7 +29,7 @@ public class TicketControlador {
     private TicketModelo modelo;
     private Usuario usuario;
     private GenerarTicket nuevoTicket;
-    private TicketVistaTrabajador ticketTrabajador;
+    private TicketVista ticketVista;
     
     
     
@@ -44,15 +45,15 @@ public class TicketControlador {
     public TicketControlador(GenerarTicket vista){
         nuevoTicket = vista;
     }
-    
-    public TicketControlador(TicketVistaTrabajador vista){
-        ticketTrabajador = vista;
-    }
+   
 
     public void setNuevoTicket(GenerarTicket nuevoTicket) {
         this.nuevoTicket = nuevoTicket;
     }
 
+    public void setVistaTicket(TicketVista vista){
+        this.ticketVista = vista;
+    }
     
     public void crearTicket(){
         try{
@@ -86,33 +87,6 @@ public class TicketControlador {
     }
 
     
-    /**
-    * Permite setear los atributos de TicketVistaTrabajador
-    * 
-    * @param ticket 
-    * Es entregado desde la lista de TicketModelo.obtenerTickets() 
-    **/
-    /*public void verTicket(Ticket ticket){
-        
-        //String tipo = Sesion.getUsuario().getTipo();
-       /* String tipo = "";
-        if(tipo.equals("administador")){
-            //TicketVistaAdministrador ticketVista = new TicketVistaAdministrador(ticket);
-        }else{
-            if(tipo.equals("tecnico")){
-                //TicketVistaTecnico ticketVista = new TicketVistaTecnico(ticket);
-            }
-            else{
-                TicketVistaTrabajador ticketVista = new TicketVistaTrabajador(ticket);
-            }
-        }
-        
-        ticketTrabajador = new TicketVistaTrabajador(ticket);
-        ticketTrabajador.setTicket();
-        ticketTrabajador.setVisible(true);
-        //actualizarPanelTickets();
-    }*/
-    
     public void reabrirTicket(Ticket ticket){
         /*if("administrador".equals(Sesion.getUsuario().getTipo())){
             tecnicoControlador.agregarMarca(ticket.getTecnico());
@@ -125,7 +99,7 @@ public class TicketControlador {
         try{
             switch(mensaje){
                 case EXITO: String msg = "Ticket reabierto con éxito!";
-                            ticketTrabajador.mostrarMensaje(msg, "Ticket actualizado", JOptionPane.INFORMATION_MESSAGE);
+                            ticketVista.mostrarMensaje(msg, "Ticket actualizado", JOptionPane.INFORMATION_MESSAGE);
                             break;
                             
                 case ERROR_CONEXION: throw new Exception("Ups! Ha ocurrido un error. Contactese con Sistemas");
@@ -137,9 +111,9 @@ public class TicketControlador {
             ticket.setTecnico(null);
             
         }catch(TicketException e){
-            ticketTrabajador.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
+            ticketVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
         }catch(Exception e){
-            ticketTrabajador.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
+            ticketVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
         }
         
     }
@@ -150,7 +124,7 @@ public class TicketControlador {
         try{
             switch(mensaje){
                 case EXITO: String msg = "Ticket cerrado!";
-                            ticketTrabajador.mostrarMensaje(msg, "Ticket actualizado", JOptionPane.INFORMATION_MESSAGE);
+                            ticketVista.mostrarMensaje(msg, "Ticket actualizado", JOptionPane.INFORMATION_MESSAGE);
                             break;
                             
                 case ERROR_CONEXION: throw new Exception("Ups! Ha ocurrido un error. Contactese con Sistemas");
@@ -159,12 +133,12 @@ public class TicketControlador {
                
             }
             //actualizarPanelTickets();
-            ticketTrabajador.dispose();
+            ticketVista.dispose();
             
         }catch(TicketException e){
-            ticketTrabajador.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
+            ticketVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
         }catch(Exception e){
-            ticketTrabajador.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
+            ticketVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -180,7 +154,7 @@ public class TicketControlador {
             switch(mensaje){
                 case EXITO: String msg = "Ticket atendido por usted!";
                             //ticketTecnico.mostrarMensaje(msg, "Ticket actualizado", JOptionPane.INFORMATION_MESSAGE);
-                            ticketTrabajador.mostrarMensaje(msg, "Ticket actualizado", JOptionPane.INFORMATION_MESSAGE);
+                            ticketVista.mostrarMensaje(msg, "Ticket actualizado", JOptionPane.INFORMATION_MESSAGE);
                             break;
                             
                 case ERROR_CONEXION: throw new Exception("Ups! Ha ocurrido un error. Contactese con Sistemas");
@@ -189,10 +163,10 @@ public class TicketControlador {
             }
         }catch(TicketException e){
             //ticketTecnico.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
-            ticketTrabajador.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
+            ticketVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
         }catch(Exception e){
             //ticketTecnico.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
-            ticketTrabajador.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
+            ticketVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -204,4 +178,8 @@ public class TicketControlador {
      
     }
 
+    public void Prueba(){
+        ticketVista.mostrarMensaje("prueba", "prueba", JOptionPane.ERROR_MESSAGE);
+    }
+    
 }
