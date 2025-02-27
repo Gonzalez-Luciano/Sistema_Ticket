@@ -149,10 +149,9 @@ public class TicketModelo {
             stmt = conn.prepareStatement(query);
         }else{ 
             if("tecnico".equals(solicitante.getTipo())){
-                query = "(SELECT * FROM tickets WHERE estado IN ('Reabierto','No atendido')) " +
-                        "UNION (SELECT * FROM tickets WHERE estado = 'Atendido' AND tecnico_id = ?); ";
-                stmt.setInt(1,aux);
+                query = "(SELECT * FROM tickets WHERE estado IN ('Reabierto','No atendido')) UNION (SELECT * FROM tickets WHERE estado = 'Atendido' AND tecnico_id = ?);";
                 stmt = conn.prepareStatement(query);
+                stmt.setInt(1,aux);
                
             }
             //En este punto, es un trabajador quien pide la consulta
