@@ -86,9 +86,9 @@
               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
               <Component id="jButtonConectarse" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jButtonSalir" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jLabelRespuesta" alignment="0" max="32767" attributes="0"/>
+                  <Component id="jButtonSalir" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
           </Group>
@@ -121,8 +121,14 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldNombreDNIActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="((AbstractDocument) jTextFieldNombreDNI.getDocument()).setDocumentFilter(new FiltroAlfanumerico(100)); //Ingreso el filtro Alfanumerico"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JPasswordField" name="jPasswordField">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="((AbstractDocument) jPasswordField.getDocument()).setDocumentFilter(new FiltroAlfanumerico(60)); //Inicio el filtro Alfanumerico para la contrase&#xf1;a"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelLogo">
       <Properties>

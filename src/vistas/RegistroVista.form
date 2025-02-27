@@ -123,6 +123,9 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldNombreActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="((AbstractDocument) jTextFieldNombre.getDocument()).setDocumentFilter(new FiltroAlfanumerico(100)); // Inicio el filtro Alfanumerico"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
