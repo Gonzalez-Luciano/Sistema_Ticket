@@ -81,7 +81,7 @@ public class PanelMisTickets extends javax.swing.JPanel {
                 if (tkt != null) {
                     modelo.addRow(new Object[]{
                         tkt.getTicket_id(),
-                        tkt.getTecnico(),
+                        tkt.getTecnico().getNombre(),
                         tkt.getInformador().getNombre()
                     });
                 }
@@ -102,7 +102,7 @@ public class PanelMisTickets extends javax.swing.JPanel {
             if (tkt != null) {
                 modelo.addRow(new Object[]{
                     tkt.getTicket_id(),
-                    tkt.getTecnico(),
+                    tkt.getTecnico().getNombre(),
                     tkt.getInformador().getNombre()
                 });
             }

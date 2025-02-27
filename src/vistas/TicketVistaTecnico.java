@@ -241,7 +241,11 @@ public class TicketVistaTecnico extends TicketVista {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BtnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCerrarActionPerformed
-        panel.reiniciarLista();
+        if(panel != null){
+            panel.reiniciarLista();
+        }else {
+            panelM.reiniciarLista();
+        }
         this.dispose();
     }//GEN-LAST:event_BtnCerrarActionPerformed
 
