@@ -136,6 +136,22 @@ public class PanelTickets extends javax.swing.JPanel {
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
                 {null, null, null, null}
             },
             new String [] {
@@ -264,10 +280,10 @@ public class PanelTickets extends javax.swing.JPanel {
                 }
                 filtro.setSelectedIndex(4);
             }else{
-                for(int i=0;i<3;i++){
-                    filtro.addItem(opciones[i]);
-                }
-                filtro.setSelectedIndex(0);
+                filtro.addItem(opciones[0]);
+                filtro.addItem(opciones[2]);
+                filtro.addItem(opciones[4]);
+                filtro.setSelectedIndex(2);
             }  
         }
     }
@@ -300,6 +316,7 @@ public class PanelTickets extends javax.swing.JPanel {
             DefaultTableModel modelo = (DefaultTableModel) tablaTickets.getModel();
             modelo.setRowCount(0); // Limpiar la tabla
 
+            
             for (Ticket tkt : listaCompleta.obtenerTodos()) {
                 if (tkt != null) {
                     modelo.addRow(new Object[]{
@@ -320,7 +337,7 @@ public class PanelTickets extends javax.swing.JPanel {
     public void reiniciarLista() {
         DefaultTableModel modelo = (DefaultTableModel) tablaTickets.getModel();
         modelo.setRowCount(0); // Limpiar la tabla
-
+        
         for (Ticket tkt : listaCompleta.obtenerTodos()) {
                 if (tkt != null) {
                     modelo.addRow(new Object[]{
