@@ -5,10 +5,12 @@
  */
 package vistas;
 
+import Clases.FiltroAlfanumerico;
 import Clases.Mensaje;
 import controladores.UsuarioControlador;
 import javax.swing.JOptionPane;
 import interfaces.InterCambioContrasenia;
+import javax.swing.text.AbstractDocument;
 
 /**
  *
@@ -65,6 +67,7 @@ public class CambioContraseniaVista extends javax.swing.JPanel {
 
         newLbl.setText("Nueva contraseña:");
 
+        ((AbstractDocument) newValue.getDocument()).setDocumentFilter(new FiltroAlfanumerico(60)); // Inicio el filtro Alfanumerico
         newValue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newValueActionPerformed(evt);
@@ -72,6 +75,8 @@ public class CambioContraseniaVista extends javax.swing.JPanel {
         });
 
         confirmLbl.setText("Confirmar contraseña:");
+
+        ((AbstractDocument) confirmValue.getDocument()).setDocumentFilter(new FiltroAlfanumerico(60)); // Inicio el filtro Alfanumerico
 
         modifyBtn.setText("Modificar contraseña");
         modifyBtn.addActionListener(new java.awt.event.ActionListener() {

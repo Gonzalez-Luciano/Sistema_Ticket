@@ -118,6 +118,9 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newValueActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="((AbstractDocument) newValue.getDocument()).setDocumentFilter(new FiltroAlfanumerico(60)); // Inicio el filtro Alfanumerico"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="confirmLbl">
           <Properties>
@@ -125,6 +128,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JPasswordField" name="confirmValue">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="((AbstractDocument) confirmValue.getDocument()).setDocumentFilter(new FiltroAlfanumerico(60)); // Inicio el filtro Alfanumerico"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="modifyBtn">
           <Properties>

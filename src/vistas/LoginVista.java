@@ -5,10 +5,12 @@
  */
 package vistas;
 
+import Clases.FiltroAlfanumerico;
 import controladores.LoginControlador;
 import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.text.AbstractDocument;
 
 /**
  *
@@ -90,11 +92,14 @@ public class LoginVista extends javax.swing.JFrame {
             }
         });
 
+        ((AbstractDocument) jTextFieldNombreDNI.getDocument()).setDocumentFilter(new FiltroAlfanumerico(100)); //Ingreso el filtro Alfanumerico
         jTextFieldNombreDNI.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldNombreDNIActionPerformed(evt);
             }
         });
+
+        ((AbstractDocument) jPasswordField.getDocument()).setDocumentFilter(new FiltroAlfanumerico(60)); //Inicio el filtro Alfanumerico para la contraseña
 
         jLabelLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Logo.png"))); // NOI18N
 
@@ -186,9 +191,9 @@ public class LoginVista extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addComponent(jButtonConectarse)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonSalir)
-                    .addComponent(jLabelRespuesta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelRespuesta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonSalir))
                 .addGap(11, 11, 11))
         );
 

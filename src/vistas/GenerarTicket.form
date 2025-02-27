@@ -102,6 +102,9 @@
           <Dimension value="[512, 23]"/>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="((AbstractDocument) titulo.getDocument()).setDocumentFilter(new FiltroAlfanumerico(255)); // Inicio el filtro Alfanumerico"/>
+      </AuxValues>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
 
@@ -118,6 +121,9 @@
             </Property>
             <Property name="rows" type="int" value="5"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="((AbstractDocument) descripcion.getDocument()).setDocumentFilter(new FiltroAlfanumerico(255)); // Inicio el filtro Alfanumerico"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

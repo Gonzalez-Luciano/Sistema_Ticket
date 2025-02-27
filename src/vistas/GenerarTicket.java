@@ -5,8 +5,10 @@
  */
 package vistas;
 
+import Clases.FiltroAlfanumerico;
 import controladores.TicketControlador;
 import javax.swing.JOptionPane;
+import javax.swing.text.AbstractDocument;
 
 /**
  *
@@ -55,11 +57,13 @@ public class GenerarTicket extends javax.swing.JPanel {
         titulo.setBackground(new java.awt.Color(245, 245, 245));
         titulo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         titulo.setPreferredSize(new java.awt.Dimension(512, 23));
+        ((AbstractDocument) titulo.getDocument()).setDocumentFilter(new FiltroAlfanumerico(255)); // Inicio el filtro Alfanumerico
 
         descripcion.setBackground(new java.awt.Color(245, 245, 245));
         descripcion.setColumns(20);
         descripcion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         descripcion.setRows(5);
+        ((AbstractDocument) descripcion.getDocument()).setDocumentFilter(new FiltroAlfanumerico(255)); // Inicio el filtro Alfanumerico
         jScrollPane1.setViewportView(descripcion);
 
         btnCrearTicket.setText("Crear");

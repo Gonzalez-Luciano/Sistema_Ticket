@@ -5,6 +5,7 @@
  */
 package vistas;
 
+import Clases.FiltroAlfanumerico;
 import Clases.FiltroNumerico;
 import controladores.RegistroControlador;
 import java.awt.event.ActionListener;
@@ -100,6 +101,7 @@ public class RegistroVista extends javax.swing.JPanel {
 
         jLabel3.setText("Nombre");
 
+        ((AbstractDocument) jTextFieldNombre.getDocument()).setDocumentFilter(new FiltroAlfanumerico(100)); // Inicio el filtro Alfanumerico
         jTextFieldNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldNombreActionPerformed(evt);
