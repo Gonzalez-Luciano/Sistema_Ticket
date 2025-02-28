@@ -269,6 +269,9 @@ public class PanelTickets extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tablaTicketsMouseClicked
 
+    public Usuario getUsuario(){
+        return usuario;
+    }
 
     public TicketControlador getControlador(){
         return controlador;
@@ -302,7 +305,10 @@ public class PanelTickets extends javax.swing.JPanel {
         }
     }
     
-    
+    public List<Ticket> listaFiltrada(){
+
+        return listaCompleta.filtrarPorEstado("Atendido");
+    }
     
     public void cargarTickets() {
         try {

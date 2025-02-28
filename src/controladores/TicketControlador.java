@@ -19,22 +19,25 @@ import Clases.TicketVista;
 import Clases.Trabajador;
 import javax.swing.JOptionPane;
 import Clases.Usuario;
+import excepciones.TecnicoException;
 import excepciones.TicketException;
 import java.util.List;
 import modelos.TicketModelo;
 import vistas.GenerarTicket;
-import vistas.TicketVistaTrabajador;
+
 
 public class TicketControlador {
     private TicketModelo modelo;
     private Usuario usuario;
     private GenerarTicket nuevoTicket;
     private TicketVista ticketVista;
+    private TecnicoControlador tecnicoControlador;
     
     
     
     public TicketControlador(){
         this.modelo = new TicketModelo();
+        this.tecnicoControlador = new TecnicoControlador();
     }
     
     public TicketControlador(Usuario usuario){
@@ -88,12 +91,12 @@ public class TicketControlador {
 
     
     public void reabrirTicket(Ticket ticket){
-        /*if("administrador".equals(Sesion.getUsuario().getTipo())){
+        /*if("administrador".equals(usuario.getTipo())){
             tecnicoControlador.agregarMarca(ticket.getTecnico());
         }else{
             tecnicoControlador.agregarFalla(ticket.getTecnico());
         }*/
-        //tecnicoControlador.evaluarSancion(ticket);
+        
 
         Mensaje mensaje = modelo.actualizarEstadoTicket(ticket, "Reabierto", null, ticket.getTecnico());
         try{
@@ -119,7 +122,7 @@ public class TicketControlador {
     }
     
     public void cerrarTicket(Ticket ticket){
-        //tecnicoControlador.evaluarMerito(ticket);
+        tecnicoControlador.evaluarMerito(ticket.getTecnico(), ticket);
         Mensaje mensaje = modelo.actualizarEstadoTicket(ticket, "Finalizado", ticket.getTecnico(), ticket.getTecnicoAnterior());
         try{
             switch(mensaje){
@@ -132,7 +135,6 @@ public class TicketControlador {
                 case ERROR: throw new TicketException("No se ha podido actualizar el ticket");
                
             }
-            //actualizarPanelTickets();
             ticketVista.dispose();
             
         }catch(TicketException e){
@@ -146,14 +148,20 @@ public class TicketControlador {
      * Actualiza el estado del ticket de 'No atendido' o 'Reabierto' a 'Atendido'
      * 
      * @param ticket El ticket que va a tomar el técnico
-     * @param tecnico El usuario del técnico que lo toma
+     * @param lista Lista de tickets filtrada
+     * @param usuario
     **/
-    public void ticketTomado(Ticket ticket, Tecnico tecnico){
-        Mensaje mensaje = modelo.actualizarEstadoTicket(ticket, "Atendido", tecnico, ticket.getTecnico());
+    public void ticketTomado(Ticket ticket, List lista, Usuario usuario){
+        Tecnico tecnico = (Tecnico)usuario;
         try{
+            if(!tecnicoControlador.tomarTicket(lista)){ //Evalúa si puede tomar el ticket x cantidad
+                throw new TecnicoException("Superó la cantidad límite permitida de tickets tomados");
+            }
+            Mensaje mensaje = modelo.actualizarEstadoTicket(ticket, "Atendido", tecnico, ticket.getTecnico());
+            
             switch(mensaje){
                 case EXITO: String msg = "Ticket atendido por usted!";
-                            //ticketTecnico.mostrarMensaje(msg, "Ticket actualizado", JOptionPane.INFORMATION_MESSAGE);
+                            
                             ticketVista.mostrarMensaje(msg, "Ticket actualizado", JOptionPane.INFORMATION_MESSAGE);
                             break;
                             
@@ -161,11 +169,14 @@ public class TicketControlador {
                                      
                 case ERROR: throw new TicketException("No se ha podido actualizar el ticket");
             }
+            
         }catch(TicketException e){
-            //ticketTecnico.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
+            
+            ticketVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
+        }catch(TecnicoException e){
             ticketVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
         }catch(Exception e){
-            //ticketTecnico.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
+            
             ticketVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -181,5 +192,7 @@ public class TicketControlador {
     public void Prueba(){
         ticketVista.mostrarMensaje("prueba", "prueba", JOptionPane.ERROR_MESSAGE);
     }
+    
+    
     
 }

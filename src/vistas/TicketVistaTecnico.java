@@ -254,7 +254,10 @@ public class TicketVistaTecnico extends TicketVista {
     }//GEN-LAST:event_BtnResolverActionPerformed
 
     private void BtnTomarTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnTomarTicketActionPerformed
-        controlador.Prueba();
+        controlador.ticketTomado(ticket, panel.listaFiltrada(), panel.getUsuario());
+        panel.cargarTickets();
+        panel.reiniciarLista();
+        this.dispose();
     }//GEN-LAST:event_BtnTomarTicketActionPerformed
 
     public JButton getBtnTomarTicket() {

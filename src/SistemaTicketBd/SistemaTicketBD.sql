@@ -115,28 +115,40 @@ END $$
 DELIMITER ;
 
 
-
 DELIMITER $$
 
 DROP PROCEDURE IF EXISTS actualizarEstadoTicket $$
 
 CREATE PROCEDURE actualizarEstadoTicket(
     IN p_ticketId INT,
-    IN p_estado ENUM('No atendido', 'Atendido', 'Resuelto', 'Finalizado', 'Reabierto'),
+    IN p_estado VARCHAR(20),
     IN p_tecnicoId INT,
     IN p_tecnicoAntId INT
 )
 BEGIN
-    DECLARE tecnicoId INT;
-    DECLARE tecnicoAntId INT;
+    DECLARE estadoValido ENUM('No atendido', 'Atendido', 'Resuelto', 'Finalizado', 'Reabierto');
 
-    SET tecnicoId = p_tecnicoId - 99; /*Si es NULL tecnicoId va a guardar NULL*/
-    SET tecnicoAntId = p_tecnicoAntId - 99; /*Lo mismo, si p_tecnicoAntId es NULL va a guardar NULL*/
+    -- Validar que el estado ingresado sea válido
+    SET estadoValido = (
+        CASE 
+            WHEN p_estado IN ('No atendido', 'Atendido', 'Resuelto', 'Finalizado', 'Reabierto') 
+            THEN p_estado 
+            ELSE NULL 
+        END
+    );
 
-    UPDATE tickets SET tecnico_id = tecnicoId WHERE ticket_id = p_ticketId;
-    UPDATE tickets SET tecnico_anterior_id = tecnicoAntId WHERE ticket_id = p_ticketId;
-    
-END $$
+    IF estadoValido IS NULL THEN
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = 'Error: Estado inválido';
+    END IF;
+
+    -- Un solo UPDATE con manejo de NULLs
+    UPDATE tickets 
+    SET estado = estadoValido, 
+        tecnico_id = COALESCE(p_tecnicoId, NULL), 
+        tecnico_anterior_id = COALESCE(p_tecnicoAntId, NULL)
+    WHERE ticket_id = p_ticketId;
+END$$
 
 DELIMITER ;
 
