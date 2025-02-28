@@ -104,12 +104,13 @@ public class AdminVista extends javax.swing.JFrame implements InterCambioContras
         jLabelListaUsuarios.setForeground(Color.BLACK);
         jLabelTicket.setForeground(Color.BLACK);
         jLabelListaTickets.setForeground(Color.BLACK);
+        jLabelSolicitudes.setForeground(Color.BLACK);
 
         // Resaltar el label seleccionado
         labelSeleccionado.setForeground(colorAzul);
 
         // Si la selección está en las opciones de Tickets, cambiar color de Tickets
-        if (labelSeleccionado == jLabelListaTickets) {
+        if (labelSeleccionado == jLabelListaTickets || labelSeleccionado == jLabelSolicitudes) {
             jLabelTicket.setForeground(colorAzul);
         }
 
@@ -209,6 +210,7 @@ public class AdminVista extends javax.swing.JFrame implements InterCambioContras
         jPanelTicketOpciones = new javax.swing.JPanel();
         jPanelTicketOpciones.setVisible(false);
         jLabelListaTickets = new javax.swing.JLabel();
+        jLabelSolicitudes = new javax.swing.JLabel();
         jPanelContenido = new javax.swing.JPanel();
         inicioAdminVista = new vistas.InicioAdminVista(usuarioActual.getNombre());
         registroVista = new vistas.RegistroVista();
@@ -217,6 +219,7 @@ public class AdminVista extends javax.swing.JFrame implements InterCambioContras
         cambioContraseniaVista = new CambioContraseniaVista(usuarioActual.getDNI(),usuarioActual.getContrasena(),this);
         panelTickets = new PanelTickets(usuarioActual);
         ;
+        listaSolicitudesVista = new vistas.ListaSolicitudesVista();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(800, 600));
@@ -330,6 +333,16 @@ public class AdminVista extends javax.swing.JFrame implements InterCambioContras
         });
         jPanelTicketOpciones.add(jLabelListaTickets);
 
+        jLabelSolicitudes.setText("Solicitudes");
+        jLabelSolicitudes.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 15, 1, 1));
+        jLabelSolicitudes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabelSolicitudes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelSolicitudesMouseClicked(evt);
+            }
+        });
+        jPanelTicketOpciones.add(jLabelSolicitudes);
+
         jPanelNavegador.add(jPanelTicketOpciones);
 
         getContentPane().add(jPanelNavegador, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 120, 500));
@@ -342,6 +355,7 @@ public class AdminVista extends javax.swing.JFrame implements InterCambioContras
         jPanelContenido.add(listaUsuariosVista, "listaUsuariosVista");
         jPanelContenido.add(cambioContraseniaVista, "cambioContraseniaVista");
         jPanelContenido.add(panelTickets, "panelTickets");
+        jPanelContenido.add(listaSolicitudesVista, "listaSolicitudesVista");
 
         getContentPane().add(jPanelContenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 0, 680, 500));
 
@@ -432,6 +446,13 @@ public class AdminVista extends javax.swing.JFrame implements InterCambioContras
         cambiarVista("cambioContraseniaVista", jLabelModificarPerfil);
     }//GEN-LAST:event_jLabelModificarPerfilMouseClicked
 
+    private void jLabelSolicitudesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelSolicitudesMouseClicked
+       if(contraseniaIgualDni){
+       return;
+       }
+       cambiarVista("listaSolicitudesVista", jLabelSolicitudes);
+    }//GEN-LAST:event_jLabelSolicitudesMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -477,6 +498,7 @@ public class AdminVista extends javax.swing.JFrame implements InterCambioContras
     private javax.swing.JLabel jLabelListaUsuarios;
     private javax.swing.JLabel jLabelModificarPerfil;
     private javax.swing.JLabel jLabelPerfil;
+    private javax.swing.JLabel jLabelSolicitudes;
     private javax.swing.JLabel jLabelTicket;
     private javax.swing.JLabel jLabelUsuario;
     private javax.swing.JPanel jPanelContenido;
@@ -484,6 +506,7 @@ public class AdminVista extends javax.swing.JFrame implements InterCambioContras
     private javax.swing.JPanel jPanelPerfilOpciones;
     private javax.swing.JPanel jPanelTicketOpciones;
     private javax.swing.JPanel jPanelUsuarioOpciones;
+    private vistas.ListaSolicitudesVista listaSolicitudesVista;
     private vistas.ListaUsuariosVista listaUsuariosVista;
     private vistas.PanelTickets panelTickets;
     private vistas.RegistroVista registroVista;
