@@ -194,7 +194,6 @@ public class TrabajadorVista extends javax.swing.JFrame implements InterCambioCo
         ;
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 500));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanelNavegador.setBackground(new java.awt.Color(220, 220, 220));
@@ -288,6 +287,7 @@ public class TrabajadorVista extends javax.swing.JFrame implements InterCambioCo
         jPanelContenido.add(cambioContraseniaVista, "cambioContraseniaVista");
         jPanelContenido.add(panelTickets, "panelTickets");
         jPanelContenido.add(generarTicket, "generarTicket");
+        generarTicket.getAccessibleContext().setAccessibleName("");
 
         getContentPane().add(jPanelContenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 0, 680, 500));
 

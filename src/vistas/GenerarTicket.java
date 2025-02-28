@@ -17,13 +17,19 @@ import javax.swing.text.AbstractDocument;
 public class GenerarTicket extends javax.swing.JPanel {
 
     private TicketControlador controlador;
+
     /**
      * Creates new form GenerarTicket
      */
+
+    public GenerarTicket() {
+        return;
+    }
+
     public GenerarTicket(TicketControlador controladorPadre) {
         initComponents();
-       controlador = controladorPadre;
-       controlador.setNuevoTicket(this);
+        controlador = controladorPadre;
+        controlador.setNuevoTicket(this);
     }
 
     /**
@@ -99,7 +105,7 @@ public class GenerarTicket extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addComponent(jLabel1)
-                .addGap(36, 36, 36)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -109,7 +115,7 @@ public class GenerarTicket extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnCrearTicket)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -117,8 +123,6 @@ public class GenerarTicket extends javax.swing.JPanel {
         controlador.crearTicket();
     }//GEN-LAST:event_btnCrearTicketActionPerformed
 
-    
-    
     public String getDescripcion() {
         return descripcion.getText();
     }
@@ -138,8 +142,8 @@ public class GenerarTicket extends javax.swing.JPanel {
     public void mostrarMensaje(String mensaje, String titulo, int tipoMensaje) {
         JOptionPane.showMessageDialog(this, mensaje, titulo, tipoMensaje);
     }
-    
-    
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCrearTicket;
     private javax.swing.JTextArea descripcion;
