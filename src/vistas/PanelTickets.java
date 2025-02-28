@@ -9,13 +9,13 @@ package vistas;
  *
  * @author ramir
  */
-
 import Clases.ListaTickets;
 import Clases.Usuario;
 import Clases.Ticket;
 import Clases.TicketVista;
 import controladores.TicketControlador;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -34,11 +34,10 @@ public class PanelTickets extends javax.swing.JPanel {
     public PanelTickets() {
         return;  // Llama al otro constructor con un usuario por defecto
     }
-    
-   
-    
+
     /**
      * Creates new form PanelTickets
+     *
      * @param usuario Se la vista
      */
     public PanelTickets(Usuario usuario) {
@@ -49,10 +48,9 @@ public class PanelTickets extends javax.swing.JPanel {
         initComponents();
         cargarTickets();
         setFiltro(usuario.getTipo());
-        
+
     }
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -124,7 +122,11 @@ public class PanelTickets extends javax.swing.JPanel {
             }
         });
 
-        filtro.setEditor(null);
+        filtro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                filtroMouseReleased(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setText("Estado:");
@@ -231,32 +233,32 @@ public class PanelTickets extends javax.swing.JPanel {
         listaFiltrada.agregarTickets(listaCompleta.filtrarPorEstado(getFiltro()));
         modelo.setRowCount(0); // Limpiar la tabla
 
-            for (Ticket tkt : listaFiltrada.obtenerTodos()) {
-                if (tkt != null) {
-                    modelo.addRow(new Object[]{
-                        tkt.getTicket_id(),
-                        tkt.getInformador().getNombre(),
-                        tkt.getTecnico()!= null ? tkt.getTecnico().getNombre(): "Sin Asignar",
-                        tkt.getEstado()
-                    });
-                }
+        for (Ticket tkt : listaFiltrada.obtenerTodos()) {
+            if (tkt != null) {
+                modelo.addRow(new Object[]{
+                    tkt.getTicket_id(),
+                    tkt.getInformador().getNombre(),
+                    tkt.getTecnico() != null ? tkt.getTecnico().getNombre() : "Sin Asignar",
+                    tkt.getEstado()
+                });
             }
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void tablaTicketsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaTicketsMouseClicked
         int filaSeleccionada = tablaTickets.getSelectedRow();
-        
+
         if (filaSeleccionada != -1) { // Verifica que haya una fila seleccionada
 
             Ticket ticket = listaFiltrada.buscarPorIndice(filaSeleccionada);
             TicketVista dialog;
-            if(usuario.getTipo().equals("administrador")){
+            if (usuario.getTipo().equals("administrador")) {
                 //dialog = new TicketVistaAdmin((JFrame) SwingUtilities.getWindowAncestor(this), usuario, this, ticket);
                 dialog = new TicketVistaTecnico((JFrame) SwingUtilities.getWindowAncestor(this), usuario, this, ticket);
-            }else{
-                if(usuario.getTipo().equals("tecnico")){
+            } else {
+                if (usuario.getTipo().equals("tecnico")) {
                     dialog = new TicketVistaTecnico((JFrame) SwingUtilities.getWindowAncestor(this), usuario, this, ticket);
-                }else{
+                } else {
                     dialog = new TicketVistaTrabajador((JFrame) SwingUtilities.getWindowAncestor(this), usuario, this, ticket);
                 }
             }
@@ -264,16 +266,24 @@ public class PanelTickets extends javax.swing.JPanel {
             dialog.setLocationRelativeTo(this); // Centrar el diálogo
             dialog.setVisible(true);
 
-        }else{
+        } else {
             System.out.println(filaSeleccionada);
         }
     }//GEN-LAST:event_tablaTicketsMouseClicked
 
+    private void filtroMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_filtroMouseReleased
+        Object selected = filtro.getSelectedItem();
+        if (selected != null) {
+            System.out.println("Clic en opción: " + selected.toString());
+        } else {
+            System.out.println("null");
+        }
+    }//GEN-LAST:event_filtroMouseReleased
 
-    public TicketControlador getControlador(){
+    public TicketControlador getControlador() {
         return controlador;
     }
-    
+
     public String getFiltro() {
         /*String[] opciones = {"No Atendido","Atendido","Reabierto","Resuelto","Todos","Finalizado"};
         int index = filtro.getSelectedIndex();*/
@@ -281,29 +291,29 @@ public class PanelTickets extends javax.swing.JPanel {
     }
 
     public void setFiltro(String tipo) {
-        String[] opciones = {"No Atendido","Atendido","Reabierto","Resuelto","Todos","Finalizado"};
-        if(tipo.equals("administrador")){
-            for(String op : opciones){
-                filtro.addItem(op);
-            }
+        String[] opciones = {"No Atendido", "Atendido", "Reabierto", "Resuelto", "Todos", "Finalizado"};
+        DefaultComboBoxModel<String> modelo;
+
+        if (tipo.equals("administrador")) {
+            filtro.setModel(new DefaultComboBoxModel<>(opciones));
             filtro.setSelectedIndex(4);
-        }else{
-            if(tipo.equals("trabajador")){
-                for(int i=0;i<5;i++){
-                    filtro.addItem(opciones[i]);
-                }
-                filtro.setSelectedIndex(4);
-            }else{
-                filtro.addItem(opciones[0]);
-                filtro.addItem(opciones[2]);
-                filtro.addItem(opciones[4]);
-                filtro.setSelectedIndex(2);
-            }  
+        } else if (tipo.equals("trabajador")) {
+            modelo = new DefaultComboBoxModel<>();
+            for (int i = 0; i < 5; i++) {
+                modelo.addElement(opciones[i]);
+            }
+            filtro.setModel(modelo);
+            filtro.setSelectedIndex(4);
+        } else {
+            modelo = new DefaultComboBoxModel<>();
+            modelo.addElement(opciones[0]);
+            modelo.addElement(opciones[2]);
+            modelo.addElement(opciones[4]);
+            filtro.setModel(modelo);
+            filtro.setSelectedIndex(2);
         }
     }
-    
-    
-    
+
     public void cargarTickets() {
         try {
             if (controlador == null) {
@@ -313,7 +323,7 @@ public class PanelTickets extends javax.swing.JPanel {
 
             // Obtener la lista desde el controlador
             List<Ticket> tickets = controlador.buscarTickets(usuario);
-            
+
             if (tickets == null) {
                 System.err.println("Error: La lista de usuarios obtenida es null.");
                 return;
@@ -326,17 +336,16 @@ public class PanelTickets extends javax.swing.JPanel {
             // Almacenar usuarios en las listas
             listaCompleta.agregarTickets(tickets);
             listaFiltrada.agregarTickets(tickets);
-            
+
             DefaultTableModel modelo = (DefaultTableModel) tablaTickets.getModel();
             modelo.setRowCount(0); // Limpiar la tabla
 
-            
             for (Ticket tkt : listaCompleta.obtenerTodos()) {
                 if (tkt != null) {
                     modelo.addRow(new Object[]{
                         tkt.getTicket_id(),
                         tkt.getInformador().getNombre(),
-                        tkt.getTecnico()!= null ? tkt.getTecnico().getNombre(): "Sin Asignar",
+                        tkt.getTecnico() != null ? tkt.getTecnico().getNombre() : "Sin Asignar",
                         tkt.getEstado()
                     });
                 }
@@ -347,27 +356,27 @@ public class PanelTickets extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-    
+
     public void reiniciarLista() {
         DefaultTableModel modelo = (DefaultTableModel) tablaTickets.getModel();
         modelo.setRowCount(0); // Limpiar la tabla
-        
+
         for (Ticket tkt : listaCompleta.obtenerTodos()) {
-                if (tkt != null) {
-                    modelo.addRow(new Object[]{
-                        tkt.getTicket_id(),
-                        tkt.getInformador().getNombre(),
-                        tkt.getTecnico()!= null ? tkt.getTecnico().getNombre(): "Sin Asignar",
-                        tkt.getEstado()
-                    });
-                }
+            if (tkt != null) {
+                modelo.addRow(new Object[]{
+                    tkt.getTicket_id(),
+                    tkt.getInformador().getNombre(),
+                    tkt.getTecnico() != null ? tkt.getTecnico().getNombre() : "Sin Asignar",
+                    tkt.getEstado()
+                });
             }
+        }
     }
-    
-    public void mostrarMensaje(String mensaje, String titulo, int tipoMensaje){
+
+    public void mostrarMensaje(String mensaje, String titulo, int tipoMensaje) {
         JOptionPane.showMessageDialog(null, mensaje, titulo, tipoMensaje);
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
@@ -384,5 +393,4 @@ public class PanelTickets extends javax.swing.JPanel {
     private javax.swing.JTable tablaTickets;
     // End of variables declaration//GEN-END:variables
 
-    
 }
