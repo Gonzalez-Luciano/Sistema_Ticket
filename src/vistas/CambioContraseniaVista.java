@@ -22,6 +22,7 @@ public class CambioContraseniaVista extends javax.swing.JPanel {
     InterCambioContrasenia vista;
     private String dni;
     private String contrasenaActual;
+    private boolean contraseniaIgualDni;
 
     public CambioContraseniaVista() {
         this(null, null, null);
@@ -31,6 +32,7 @@ public class CambioContraseniaVista extends javax.swing.JPanel {
         this.dni = dni;
         this.contrasenaActual = contraseniaActual;
         this.vista = vista;
+        this.contraseniaIgualDni = contraseniaActual.equals(dni);
         initComponents();
     }
 
@@ -57,8 +59,10 @@ public class CambioContraseniaVista extends javax.swing.JPanel {
 
         actualLbl.setText("Contraseña actual:");
 
-        actualValue.setEditable(false);
-        actualValue.setText(contrasenaActual);
+        if(contraseniaIgualDni) {
+		    actualValue.setEditable(false);
+		    actualValue.setText(contrasenaActual);
+		}
         actualValue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 actualValueActionPerformed(evt);
@@ -173,6 +177,20 @@ public class CambioContraseniaVista extends javax.swing.JPanel {
 
         if (respuesta.equals(Mensaje.EXITO)) {
             vista.forzarCambioContrasenia(false);
+            actualValue.setEditable(true);
+            //Reinicio temporal del filtro numerico
+            ((AbstractDocument) actualValue.getDocument()).setDocumentFilter(null);
+            actualValue.setText("");
+            ((AbstractDocument) actualValue.getDocument()).setDocumentFilter(new FiltroAlfanumerico(60));
+            
+            ((AbstractDocument) newValue.getDocument()).setDocumentFilter(null);
+            newValue.setText("");
+            ((AbstractDocument) newValue.getDocument()).setDocumentFilter(new FiltroAlfanumerico(60));
+            
+            ((AbstractDocument) confirmValue.getDocument()).setDocumentFilter(null);
+            confirmValue.setText("");
+            ((AbstractDocument) confirmValue.getDocument()).setDocumentFilter(new FiltroAlfanumerico(60));
+
             JOptionPane.showMessageDialog(this, "Su contraseña se modificó con éxito", "Cambio exitoso", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, "Hubo un error al modificar su contraseña", "Ha ocurrido un error", JOptionPane.ERROR_MESSAGE);

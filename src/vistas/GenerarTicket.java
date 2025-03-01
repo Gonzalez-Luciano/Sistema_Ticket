@@ -121,6 +121,15 @@ public class GenerarTicket extends javax.swing.JPanel {
 
     private void btnCrearTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearTicketActionPerformed
         controlador.crearTicket();
+        
+        //se reinician los campos
+        ((AbstractDocument) titulo.getDocument()).setDocumentFilter(null);
+        titulo.setText("");
+        ((AbstractDocument) titulo.getDocument()).setDocumentFilter(new FiltroAlfanumerico(255));
+
+        ((AbstractDocument) descripcion.getDocument()).setDocumentFilter(null);
+        descripcion.setText("");
+        ((AbstractDocument) descripcion.getDocument()).setDocumentFilter(new FiltroAlfanumerico(255));
     }//GEN-LAST:event_btnCrearTicketActionPerformed
 
     public String getDescripcion() {
