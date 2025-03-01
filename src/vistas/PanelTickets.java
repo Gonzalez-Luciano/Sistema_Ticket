@@ -253,8 +253,7 @@ public class PanelTickets extends javax.swing.JPanel {
             Ticket ticket = listaFiltrada.buscarPorIndice(filaSeleccionada);
             TicketDatosVista dialog;
             if (usuario.getTipo().equals("administrador")) {
-                //dialog = new TicketVistaAdmin((JFrame) SwingUtilities.getWindowAncestor(this), usuario, this, ticket);
-                dialog = new TicketVistaTecnico((JFrame) SwingUtilities.getWindowAncestor(this), usuario, this, ticket);
+                dialog = new TicketVistaAdmin((JFrame) SwingUtilities.getWindowAncestor(this), usuario, this, ticket);
             } else {
                 if (usuario.getTipo().equals("tecnico")) {
                     dialog = new TicketVistaTecnico((JFrame) SwingUtilities.getWindowAncestor(this), usuario, this, ticket);
