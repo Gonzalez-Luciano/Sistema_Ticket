@@ -15,7 +15,7 @@ package controladores;
 import Clases.Tecnico;
 import Clases.Ticket;
 import Clases.Mensaje;
-import Clases.TicketVista;
+import Clases.TicketDatosVista;
 import Clases.Trabajador;
 import javax.swing.JOptionPane;
 import Clases.Usuario;
@@ -30,7 +30,7 @@ public class TicketControlador {
     private TicketModelo modelo;
     private Usuario usuario;
     private GenerarTicket nuevoTicket;
-    private TicketVista ticketVista;
+    private TicketDatosVista ticketDatosVista;
     private TecnicoControlador tecnicoControlador;
     
     
@@ -54,8 +54,8 @@ public class TicketControlador {
         this.nuevoTicket = nuevoTicket;
     }
 
-    public void setVistaTicket(TicketVista vista){
-        this.ticketVista = vista;
+    public void setVistaTicket(TicketDatosVista vista){
+        this.ticketDatosVista = vista;
     }
     
     public void crearTicket(){
@@ -91,18 +91,18 @@ public class TicketControlador {
 
     
     public void reabrirTicket(Ticket ticket){
-        /*if("administrador".equals(usuario.getTipo())){
+        if("administrador".equals(usuario.getTipo())){
             tecnicoControlador.agregarMarca(ticket.getTecnico());
         }else{
             tecnicoControlador.agregarFalla(ticket.getTecnico());
-        }*/
+        }
         
 
         Mensaje mensaje = modelo.actualizarEstadoTicket(ticket, "Reabierto", null, ticket.getTecnico());
         try{
             switch(mensaje){
                 case EXITO: String msg = "Ticket reabierto con éxito!";
-                            ticketVista.mostrarMensaje(msg, "Ticket actualizado", JOptionPane.INFORMATION_MESSAGE);
+                            ticketDatosVista.mostrarMensaje(msg, "Ticket actualizado", JOptionPane.INFORMATION_MESSAGE);
                             break;
                             
                 case ERROR_CONEXION: throw new Exception("Ups! Ha ocurrido un error. Contactese con Sistemas");
@@ -114,9 +114,9 @@ public class TicketControlador {
             ticket.setTecnico(null);
             
         }catch(TicketException e){
-            ticketVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
+            ticketDatosVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
         }catch(Exception e){
-            ticketVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
+            ticketDatosVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
         }
         
     }
@@ -127,7 +127,7 @@ public class TicketControlador {
         try{
             switch(mensaje){
                 case EXITO: String msg = "Ticket cerrado!";
-                            ticketVista.mostrarMensaje(msg, "Ticket actualizado", JOptionPane.INFORMATION_MESSAGE);
+                            ticketDatosVista.mostrarMensaje(msg, "Ticket actualizado", JOptionPane.INFORMATION_MESSAGE);
                             break;
                             
                 case ERROR_CONEXION: throw new Exception("Ups! Ha ocurrido un error. Contactese con Sistemas");
@@ -135,12 +135,12 @@ public class TicketControlador {
                 case ERROR: throw new TicketException("No se ha podido actualizar el ticket");
                
             }
-            ticketVista.dispose();
+            ticketDatosVista.dispose();
             
         }catch(TicketException e){
-            ticketVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
+            ticketDatosVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
         }catch(Exception e){
-            ticketVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
+            ticketDatosVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -162,7 +162,7 @@ public class TicketControlador {
             switch(mensaje){
                 case EXITO: String msg = "Ticket atendido por usted!";
                             
-                            ticketVista.mostrarMensaje(msg, "Ticket actualizado", JOptionPane.INFORMATION_MESSAGE);
+                            ticketDatosVista.mostrarMensaje(msg, "Ticket actualizado", JOptionPane.INFORMATION_MESSAGE);
                             break;
                             
                 case ERROR_CONEXION: throw new Exception("Ups! Ha ocurrido un error. Contactese con Sistemas");
@@ -172,12 +172,12 @@ public class TicketControlador {
             
         }catch(TicketException e){
             
-            ticketVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
+            ticketDatosVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
         }catch(TecnicoException e){
-            ticketVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
+            ticketDatosVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
         }catch(Exception e){
             
-            ticketVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
+            ticketDatosVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -190,7 +190,7 @@ public class TicketControlador {
     }
 
     public void Prueba(){
-        ticketVista.mostrarMensaje("prueba", "prueba", JOptionPane.ERROR_MESSAGE);
+        ticketDatosVista.mostrarMensaje("prueba", "prueba", JOptionPane.ERROR_MESSAGE);
     }
     
     

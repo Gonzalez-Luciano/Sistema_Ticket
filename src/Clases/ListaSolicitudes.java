@@ -23,10 +23,6 @@ public class ListaSolicitudes {
     public void agregarSolicitud(Solicitud solicitud) {
         solicitudes.add(solicitud);
     }
-
-    public void eliminarSolicitud(Solicitud solicitud) {
-        solicitudes.remove(solicitud);
-    }
     
     public void removerSolicitudes() {
         solicitudes.clear();
@@ -37,16 +33,7 @@ public class ListaSolicitudes {
             this.agregarSolicitud(solicitud);
         }
     }
-
-    public Solicitud buscarPorTicketId(int ticketId) {
-        for (Solicitud solicitud : solicitudes) {
-            if (solicitud.getTicket().getTicket_id() == ticketId) {
-                return solicitud;
-            }
-        }
-        return null;
-    }
-
+    
     public List<Solicitud> obtenerSolicitudesPorEstado(String estado) {
         List<Solicitud> resultado = new ArrayList<>();
         for (Solicitud solicitud : solicitudes) {
@@ -55,6 +42,10 @@ public class ListaSolicitudes {
             }
         }
         return resultado;
+    }
+    
+    public Solicitud buscarPorIndice(int Indice) {
+        return solicitudes.get(Indice);
     }
 
     public List<Solicitud> obtenerTodasLasSolicitudes() {

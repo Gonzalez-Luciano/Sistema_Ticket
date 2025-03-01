@@ -25,7 +25,7 @@ public class CambioContraseniaVista extends javax.swing.JPanel {
     private boolean contraseniaIgualDni;
 
     public CambioContraseniaVista() {
-        this(null, null, null);
+        return;
     }
 
     public CambioContraseniaVista(String dni, String contraseniaActual, InterCambioContrasenia vista) {

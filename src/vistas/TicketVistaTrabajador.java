@@ -8,7 +8,7 @@ package vistas;
 import controladores.TicketControlador;
 import javax.swing.JOptionPane;
 import Clases.Ticket;
-import Clases.TicketVista;
+import Clases.TicketDatosVista;
 import Clases.Usuario;
 
 import java.awt.Color;
@@ -19,7 +19,7 @@ import javax.swing.JFrame;
  *
  * @author ramir
  */
-public class TicketVistaTrabajador extends TicketVista {
+public class TicketVistaTrabajador extends TicketDatosVista {
 
 
     /**
@@ -51,7 +51,7 @@ public class TicketVistaTrabajador extends TicketVista {
         initComponents();
         this.panel = panel;
         this.ticket = ticket; 
-        setTicket();
+        setFrame();
     }
 
     /**
@@ -268,26 +268,32 @@ public class TicketVistaTrabajador extends TicketVista {
         // TODO add your handling code here:
     }//GEN-LAST:event_tituloActionPerformed
 
+    @Override
     public Ticket getTicket() {
         return ticket;
     }
 
+    @Override
     public void setTicket(Ticket ticket) {
         this.ticket = ticket;
     }
     
+    @Override
     public String getDescripcion() {
         return descripcion.getText();
     }
     
+    @Override
     public void setDescripcion(String description) {
         descripcion.setText(description);
     }
 
+    @Override
     public String getEstado() {
         return estado.getText();
     }
 
+    @Override
     public void setEstado(String status) {
         estado.setText(status);
     }
@@ -296,7 +302,8 @@ public class TicketVistaTrabajador extends TicketVista {
         return ticketId.getText();
     }
 
-    public void setTicketId(int ticket_id) {
+    @Override
+    public void setId(int ticket_id) {
         if(ticket_id<10){
             ticketId.setText("0000"+ticket_id);
         }else{
@@ -315,29 +322,35 @@ public class TicketVistaTrabajador extends TicketVista {
         }
     }
 
+    @Override
     public String getTitulo() {
         return titulo.getText();
     }
 
+    @Override
     public void setTitulo(String title) {
         titulo.setText(title);
     }
 
+    @Override
     public void mostrarMensaje(String mensaje, String titulo, int tipoMensaje){
         JOptionPane.showMessageDialog(null, mensaje, titulo, tipoMensaje);
     }
     
+    @Override
     public String getTecnico(){
         return nombreTecnico.getText();
     }
     
+    @Override
     public void setTecnico(String tecnico){
         nombreTecnico.setText(tecnico);
     }
     
     
-    public void setTicket(){
-        setTicketId(ticket.getTicket_id());
+    @Override
+    public void setFrame(){
+        setId(ticket.getTicket_id());
         setEstado(ticket.getEstado());
         setTitulo(ticket.getTitulo());
         setDescripcion(ticket.getDescripcion());

@@ -7,9 +7,15 @@ package vistas;
 
 import Clases.ListaSolicitudes;
 import Clases.Solicitud;
+import Clases.Ticket;
+import Clases.TicketDatosVista;
+import Clases.Usuario;
 import controladores.ListaSolicitudesControlador;
+import controladores.TicketControlador;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -21,10 +27,18 @@ public class ListaSolicitudesVista extends javax.swing.JPanel {
 
     private ListaSolicitudesControlador listaSolicitudescontrolador;
     private ListaSolicitudes listaSolicitudes;
+    private TicketControlador controladorTicket;
+    private Usuario usuarioObtenido;
 
-    public ListaSolicitudesVista() {
+    public ListaSolicitudesVista(){
+        return;
+    }
+    
+    public ListaSolicitudesVista(Usuario usuario) {
+        this.usuarioObtenido = usuario;
         this.listaSolicitudescontrolador = new ListaSolicitudesControlador();
         this.listaSolicitudes = new ListaSolicitudes();
+        this.controladorTicket = new TicketControlador(usuarioObtenido);
         initComponents();
         cargarSolicitudes();
     }
@@ -79,6 +93,10 @@ public class ListaSolicitudesVista extends javax.swing.JPanel {
                     solicitud.getEstado()});
             }
         }
+    }
+
+    public TicketControlador getControlador() {
+        return controladorTicket;
     }
 
     /**
@@ -166,20 +184,21 @@ public class ListaSolicitudesVista extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tablaSolicitudesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaSolicitudesMouseClicked
-        /*int filaSeleccionada = tablaSolicitudes.getSelectedRow();
+        int filaSeleccionada = tablaSolicitudes.getSelectedRow();
 
         if (filaSeleccionada != -1) { // Verifica que haya una fila seleccionada
 
-            Ticket ticket = listaAtendidos.buscarPorIndice(filaSeleccionada);
-
-            TicketVistaTecnico dialog = new TicketVistaTecnico((JFrame) SwingUtilities.getWindowAncestor(this), usuario, this, ticket);
+            Solicitud solicitud = listaSolicitudes.buscarPorIndice(filaSeleccionada);
+            TicketDatosVista dialog;
+            
+            dialog = new SolicitudVista((JFrame) SwingUtilities.getWindowAncestor(this),solicitud.getIdSolicitudReapertura(), this, solicitud.getTicket());
             dialog.setSize(800, 500);
             dialog.setLocationRelativeTo(this); // Centrar el diálogo
             dialog.setVisible(true);
-
+            
         } else {
             System.out.println(filaSeleccionada);
-        }*/
+        }
     }//GEN-LAST:event_tablaSolicitudesMouseClicked
 
 

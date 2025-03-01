@@ -145,8 +145,8 @@ BEGIN
     -- Un solo UPDATE con manejo de NULLs
     UPDATE tickets 
     SET estado = estadoValido, 
-        tecnico_id = COALESCE(p_tecnicoId, NULL), 
-        tecnico_anterior_id = COALESCE(p_tecnicoAntId, NULL)
+        tecnico_id = p_tecnicoId, 
+        tecnico_anterior_id = p_tecnicoAntId
     WHERE ticket_id = p_ticketId;
 END$$
 

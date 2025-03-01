@@ -8,7 +8,7 @@ package controladores;
 
 import Clases.Tecnico;
 import Clases.Ticket;
-import Clases.TicketVista;
+import Clases.TicketDatosVista;
 import Clases.Usuario;
 import java.util.List;
 import modelos.TecnicoModelo;
@@ -22,7 +22,7 @@ public class TecnicoControlador {
 
     private TicketControlador tControlador;
     private TecnicoModelo modelo;
-    private TicketVista vista;
+    private TicketDatosVista vista;
     
     
     
@@ -31,7 +31,7 @@ public class TecnicoControlador {
     }
 
     
-    public TecnicoControlador(Usuario tecnico, TicketVista vista){
+    public TecnicoControlador(Usuario tecnico, TicketDatosVista vista){
         this();
         this.vista = vista;
     }
@@ -48,10 +48,10 @@ public class TecnicoControlador {
         Tecnico tecnico = (Tecnico) usuario;
         
         if(tecnico.getMarcas()!=0){
-            modelo.actualizarTecnico(usuario, 0, tecnico.getFallas());
-            agregarFalla(usuario);
+            modelo.actualizarTecnico(tecnico, 0, tecnico.getFallas());
+            agregarFalla(tecnico);
         }else{
-            modelo.actualizarTecnico(usuario, tecnico.getMarcas()+1, tecnico.getFallas());
+            modelo.actualizarTecnico(tecnico, tecnico.getMarcas()+1, tecnico.getFallas());
         }
     }
     
@@ -61,15 +61,13 @@ public class TecnicoControlador {
      * 
      * @param usuario Usuario de tipo técnico al que se le agregará una falla
      */
-    public void agregarFalla(Usuario usuario){
-     
-        Tecnico tecnico = (Tecnico)usuario;
+    public void agregarFalla(Tecnico tecnico){
       
-        if(tecnico.getFallas()<2){
-            modelo.actualizarTecnico(usuario, tecnico.getMarcas(), tecnico.getFallas()+1);
+        if(tecnico.getFallas()<3){
+            modelo.actualizarTecnico(tecnico, tecnico.getMarcas(), tecnico.getFallas()+1);
         }else{
-            modelo.actualizarTecnico(usuario, 0, 0);
-            modelo.bloquearTecnico(usuario);
+            modelo.actualizarTecnico(tecnico, 0, 0);
+            modelo.bloquearTecnico(tecnico);
         }
     }
     
@@ -89,7 +87,7 @@ public class TecnicoControlador {
         Tecnico tecnico = (Tecnico)usuario;
       
         if(tecnico.getFallas()!= 0){
-            modelo.actualizarTecnico(usuario, tecnico.getMarcas(), tecnico.getFallas()-1);
+            modelo.actualizarTecnico(tecnico, tecnico.getMarcas(), tecnico.getFallas()-1);
         }
     }
     
