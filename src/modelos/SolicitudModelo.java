@@ -5,6 +5,7 @@
  */
 package modelos;
 
+import Clases.Mensaje;
 import Clases.Solicitud;
 import Clases.Tecnico;
 import Clases.Ticket;
@@ -34,51 +35,51 @@ public class SolicitudModelo {
         }
     }
 
-    public boolean actualizarEstadoSolicitud(int idSolicitud, String nuevoEstado) {
+    public Mensaje actualizarEstadoSolicitud(int idSolicitud, String nuevoEstado) {
         String query = "UPDATE solicitudes_reapertura SET estado = ? WHERE id_solicitud_reapertura = ?";
         try (Connection conn = dbConnection.conectar(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, nuevoEstado);
             stmt.setInt(2, idSolicitud);
-            return stmt.executeUpdate() > 0; // Devuelve true si la actualización fue exitosa
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0 ? Mensaje.EXITO : Mensaje.ERROR;
+
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return Mensaje.ERROR;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Mensaje.ERROR;
         }
     }
 
     public List<Solicitud> obtenerTodasLasSolicitudes() {
         List<Solicitud> solicitudes = new ArrayList<>();
-        String query = "SELECT s.estado, "
-                + "tk.ticket_id, tk.titulo, tk.descripcion, tk.estado AS estado_ticket, "
-                + "u.*, tec.fallas, tec.marcas "
+        String query = "SELECT s.id_solicitud_reapertura ,s.estado, s.tecnico_id, "
+                + "tk.ticket_id, tk.titulo, tk.descripcion, tk.estado AS estado_ticket "
                 + "FROM solicitudes_reapertura s "
-                + "JOIN tickets tk ON s.ticket_id = tk.ticket_id "
-                + "JOIN usuarios u ON s.tecnico_id = u.usuario_id "
-                + "LEFT JOIN tecnicos tec ON s.tecnico_id = tec.usuario_id";
+                + "JOIN tickets tk ON s.ticket_id = tk.ticket_id";
 
         try (Connection conn = dbConnection.conectar();
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
+                // Crear el objeto Tecnico
+
+                Tecnico tecnico =  (Tecnico) Tecnico.obtenerTecnico(rs.getInt("tecnico_id")).getUsuario();
+
                 // Crear el objeto Ticket
                 Ticket ticket = new Ticket(
                         rs.getInt("ticket_id"),
                         rs.getString("titulo"),
                         rs.getString("descripcion"),
-                        rs.getString("estado_ticket")
+                        rs.getString("estado_ticket"),
+                        null,
+                        tecnico,
+                        null
                 );
-
-                // Crear el objeto Tecnico
-                int fallas = rs.getInt("fallas");
-                int marcas = rs.getInt("marcas");
-
-                Tecnico tecnico = new Tecnico(rs.getString("nombre"),
-                        rs.getString("dni"), rs.getInt("legajo"),
-                        rs.getString("contrasena"), rs.getString("estado"),
-                        fallas, marcas);
-
                 // Crear el objeto Solicitud con el ticket y el técnico
                 Solicitud solicitud = new Solicitud(
+                        rs.getInt("id_solicitud_reapertura"),
                         ticket,
                         tecnico,
                         rs.getString("estado")

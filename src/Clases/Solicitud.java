@@ -11,16 +11,24 @@ package Clases;
  */
 public class Solicitud {
 
+    private int id_solicitud_reapertura;
     private Ticket ticket;
     private Tecnico tecnico;
     private String estado; // Puede ser "pendiente", "aprobado" o "rechazado"
 
-    public Solicitud(Ticket ticket, Tecnico tecnico, String estado) {
+    public Solicitud(int id_solicitud_reapertura,Ticket ticket, Tecnico tecnico, String estado) {
+        this.id_solicitud_reapertura = id_solicitud_reapertura;
         this.ticket = ticket;
         this.tecnico = tecnico;
         this.estado = estado;
     }
 
+    public int getIdSolicitudReapertura() {
+        return this.id_solicitud_reapertura;
+    }
+
+    
+    
     public Ticket getTicket() {
         return ticket;
     }

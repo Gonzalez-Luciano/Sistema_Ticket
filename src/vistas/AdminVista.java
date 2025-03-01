@@ -219,7 +219,8 @@ public class AdminVista extends javax.swing.JFrame implements InterCambioContras
         cambioContraseniaVista = new CambioContraseniaVista(usuarioActual.getDNI(),usuarioActual.getContrasena(),this);
         panelTickets = new PanelTickets(usuarioActual);
         ;
-        listaSolicitudesVista = new vistas.ListaSolicitudesVista();
+        listaSolicitudesVista = new ListaSolicitudesVista(usuarioActual);
+        ;
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(800, 600));
@@ -393,6 +394,7 @@ public class AdminVista extends javax.swing.JFrame implements InterCambioContras
             return;
         }
         cambiarVista("panelTickets", jLabelListaTickets);
+        panelTickets.cargarTickets();
     }//GEN-LAST:event_jLabelListaTicketsMouseClicked
 
     private void jLabelUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelUsuarioMouseClicked
@@ -451,6 +453,7 @@ public class AdminVista extends javax.swing.JFrame implements InterCambioContras
        return;
        }
        cambiarVista("listaSolicitudesVista", jLabelSolicitudes);
+       listaSolicitudesVista.cargarSolicitudes();
     }//GEN-LAST:event_jLabelSolicitudesMouseClicked
 
     /**

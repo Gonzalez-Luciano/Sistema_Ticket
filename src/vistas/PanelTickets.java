@@ -12,7 +12,7 @@ package vistas;
 import Clases.ListaTickets;
 import Clases.Usuario;
 import Clases.Ticket;
-import Clases.TicketVista;
+import Clases.TicketDatosVista;
 import controladores.TicketControlador;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -251,7 +251,7 @@ public class PanelTickets extends javax.swing.JPanel {
         if (filaSeleccionada != -1) { // Verifica que haya una fila seleccionada
 
             Ticket ticket = listaFiltrada.buscarPorIndice(filaSeleccionada);
-            TicketVista dialog;
+            TicketDatosVista dialog;
             if (usuario.getTipo().equals("administrador")) {
                 //dialog = new TicketVistaAdmin((JFrame) SwingUtilities.getWindowAncestor(this), usuario, this, ticket);
                 dialog = new TicketVistaTecnico((JFrame) SwingUtilities.getWindowAncestor(this), usuario, this, ticket);
