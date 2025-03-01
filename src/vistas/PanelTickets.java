@@ -271,6 +271,10 @@ public class PanelTickets extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tablaTicketsMouseClicked
 
+    public Usuario getUsuario(){
+        return usuario;
+    }
+
     private void filtroMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_filtroMouseReleased
         Object selected = filtro.getSelectedItem();
         if (selected != null) {
@@ -313,6 +317,13 @@ public class PanelTickets extends javax.swing.JPanel {
             filtro.setSelectedIndex(2);
         }
     }
+
+    
+    public List<Ticket> listaFiltrada(){
+
+        return listaCompleta.filtrarPorEstado("Atendido");
+    }
+    
 
     public void cargarTickets() {
         try {

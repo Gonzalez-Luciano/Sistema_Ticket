@@ -90,7 +90,7 @@ public class Ticket {
         return tecnicoAnterior;
     }
 
-    public void setTecnicoAnterior(Tecnico tecnico) {
+    public void setTecnicoAnterior(Tecnico tecnicoAnterior) {
         this.tecnicoAnterior = tecnicoAnterior;
     }
     

@@ -28,7 +28,6 @@ public class TicketModelo {
     /**
     * Crea un ticket en la Base de Datos
     *     
-    * @param trabajador     Quien reporta el problema
     * @param ticket         El objeto que se rescata de la visual
     * @return   Devuelve un arreglo de enteros: 
     * [0] : El index del mensaje
@@ -81,15 +80,15 @@ public class TicketModelo {
                 stmt.setInt(1,ticket.getTicket_id());
                 stmt.setString(2,estado);
                 if(tecnico != null) {
-                    stmt.setString(3,tecnico.getDNI());
+                    stmt.setInt(3,tecnico.getLegajo());
                 }
                 else{
-                    stmt.setString(3,null);
+                    stmt.setNull(3, Types.INTEGER);
                 }
                 if(tecnicoAnterior != null){
-                    stmt.setString(4,tecnicoAnterior.getDNI());
+                    stmt.setInt(4,tecnicoAnterior.getLegajo());
                 }else{
-                    stmt.setString(4, null);
+                    stmt.setNull(4, Types.INTEGER);
                 }
                 int rowsAffected = stmt.executeUpdate();
                 return rowsAffected > 0 ? Mensaje.EXITO : Mensaje.ERROR;

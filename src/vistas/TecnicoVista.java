@@ -50,7 +50,6 @@ public class TecnicoVista extends JFrame implements interfaces.InterCambioContra
         forzarCambioContrasenia(usuarioActual.contraseniaIgualDni());
     }
      public TecnicoVista() {
-         //usuarioActual =  new Tecnico("Ramiro","40634178", 101, "123", "activo", 0, 0);
         initComponents();
     }
 
