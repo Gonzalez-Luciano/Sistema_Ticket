@@ -99,14 +99,11 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JPasswordField" name="actualValue">
-          <Properties>
-            <Property name="editable" type="boolean" value="false"/>
-          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="actualValueActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="actualValue.setText(contrasenaActual);&#xd;&#xa;"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="if(contraseniaIgualDni) {&#xd;    actualValue.setEditable(false);&#xd;    actualValue.setText(contrasenaActual);&#xd;}&#xd; "/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="newLbl">

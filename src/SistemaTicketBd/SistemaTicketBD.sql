@@ -150,20 +150,26 @@ CREATE PROCEDURE reiniciarContrasenia(
     IN  p_contrasena VARCHAR(255)
 )
 BEGIN
-    DECLARE v_usuario_existe INT;
-
+    DECLARE v_usuario_id INT DEFAULT NULL;
+    DECLARE v_tipo VARCHAR(15);
+	
     -- Verificar si el usuario existe
-    SELECT COUNT(*) INTO v_usuario_existe FROM Usuarios WHERE dni = p_dni;
+    SELECT usuario_id, tipo INTO v_usuario_id, v_tipo FROM Usuarios WHERE dni = p_dni LIMIT 1;
 
-    IF v_usuario_existe = 1 THEN
+    IF v_usuario_id IS NULL THEN
+        -- Si el usuario no existe, lanzar un error de restricción de integridad simulando un DNI no encontrado
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Usuario no encontrado';
+    ELSE
         -- Actualizar la contraseña
         UPDATE usuarios 
         SET contrasena =  p_contrasena 
         WHERE dni = p_dni;
-    ELSE
-        -- Si el usuario no existe, lanzar un error de restricción de integridad simulando un DNI no encontrado
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Usuario no encontrado';
+        IF v_tipo = 'tecnico' THEN
+			UPDATE tecnicos 
+            SET fallas = 0, marcas = 0
+            WHERE usuario_id = v_usuario_id;
+        END IF;
     END IF;
 END $$
 
