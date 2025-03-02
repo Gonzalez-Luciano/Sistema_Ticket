@@ -303,6 +303,12 @@ public class ModificarUsuarioVista extends JDialog {
             try {
                 controlador.cambiarEstado(usuarioSelecionado, "bloqueado");
                 cambiarBoton("jButtonDesbloquearUsuario");
+                // Si es Tecnico se reinician las fallas y marcas VISUALMENTE
+                if (usuarioSelecionado instanceof Tecnico) {
+                    jTextFieldMarcas.setText("0");
+                    jTextFieldFallas.setText("0");
+                }
+                
                 listaUsuariosVista.cargarUsuarios();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -318,6 +324,12 @@ public class ModificarUsuarioVista extends JDialog {
             try {
                 controlador.cambiarEstado(usuarioSelecionado, "activo");
                 cambiarBoton("jButtonBloquearUsuario");
+                // Si es Tecnico se reinician las fallas y marcas VISUALMENTE
+                if (usuarioSelecionado instanceof Tecnico) {
+                    jTextFieldMarcas.setText("0");
+                    jTextFieldFallas.setText("0");
+                }
+                
                 listaUsuariosVista.cargarUsuarios();
             } catch (Exception e) {
                 e.printStackTrace();
