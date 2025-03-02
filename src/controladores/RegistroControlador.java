@@ -44,13 +44,31 @@ public class RegistroControlador {
             }
             ///--------------------------------------------------------------------------
 
+            // Mensaje de confirmación con advertencia si es administrador
+            String mensajeConfirmacion = "¿Está seguro de registrar a este usuario como " + tipo + "?";
+            if (tipo.equalsIgnoreCase("administrador")) {
+                mensajeConfirmacion += "\n⚠ **Este usuario NO podrá ser bloqueado.**";
+            }
+
+            int opcion = JOptionPane.showConfirmDialog(
+                    null,
+                    mensajeConfirmacion,
+                    "Confirmar registro",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE
+            );
+
+            if (opcion != JOptionPane.YES_OPTION) {
+                return; // Se cancela el registro si elige "No"
+            }
+
             Usuario usuario = crearUsuario(nombre, dni, tipo);
             Mensaje mensaje = modelo.crearUsuario(usuario);
-            
+
             vista.setNombre("");
             vista.setDNI("");
             vista.setTipo(0);
-            
+
             switch (mensaje) {
                 case EXITO:
                     vista.mostrarMensaje("Usuario registrado con éxito.\nSe estableció el D.N.I como contraseña inicial.", "Usuario registrado", JOptionPane.PLAIN_MESSAGE);
