@@ -6,6 +6,7 @@
 package vistas;
 
 import Clases.FiltroAlfanumerico;
+import Clases.FiltroNumerico;
 import controladores.LoginControlador;
 import java.awt.Color;
 import javax.swing.JFrame;
@@ -33,12 +34,14 @@ public class LoginVista extends javax.swing.JFrame {
         setVisible(true);
     }
 
-    public String getNombreDNI() {
-        return jTextFieldNombreDNI.getText();
+    public String getDNI() {
+        return jTextFieldDNI.getText();
     }
 
-    public void setNombreDNI(String nombreDNI) {
-        jTextFieldNombreDNI.setText(nombreDNI);
+    public void setDNI(String dni) {
+        ((AbstractDocument) jTextFieldDNI.getDocument()).setDocumentFilter(null);
+        jTextFieldDNI.setText(dni);
+        ((AbstractDocument) jTextFieldDNI.getDocument()).setDocumentFilter(new FiltroNumerico());
     }
 
     public char[] getPass() {
@@ -66,10 +69,10 @@ public class LoginVista extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabelNombreDNI = new javax.swing.JLabel();
+        jLabelDNI = new javax.swing.JLabel();
         jLabelPass = new javax.swing.JLabel();
         jButtonConectarse = new javax.swing.JButton();
-        jTextFieldNombreDNI = new javax.swing.JTextField();
+        jTextFieldDNI = new javax.swing.JTextField();
         jPasswordField = new javax.swing.JPasswordField();
         jLabelLogo = new javax.swing.JLabel();
         jLabelEyeOpen = new javax.swing.JLabel();
@@ -80,7 +83,7 @@ public class LoginVista extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        jLabelNombreDNI.setText("Ingresar nombre o D.N.I");
+        jLabelDNI.setText("Ingresar D.N.I.");
 
         jLabelPass.setText("Ingresar contraseña");
 
@@ -92,10 +95,10 @@ public class LoginVista extends javax.swing.JFrame {
             }
         });
 
-        ((AbstractDocument) jTextFieldNombreDNI.getDocument()).setDocumentFilter(new FiltroAlfanumerico(100)); //Ingreso el filtro Alfanumerico
-        jTextFieldNombreDNI.addActionListener(new java.awt.event.ActionListener() {
+        ((AbstractDocument) jTextFieldDNI.getDocument()).setDocumentFilter(new FiltroNumerico()); //Ingreso el filtro Alfanumerico
+        jTextFieldDNI.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldNombreDNIActionPerformed(evt);
+                jTextFieldDNIActionPerformed(evt);
             }
         });
 
@@ -147,8 +150,8 @@ public class LoginVista extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabelNombreDNI)
-                                .addComponent(jTextFieldNombreDNI, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabelDNI)
+                                .addComponent(jTextFieldDNI, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                     .addComponent(jLabelLogo)
                                     .addGap(72, 72, 72))))
@@ -178,9 +181,9 @@ public class LoginVista extends javax.swing.JFrame {
                 .addContainerGap(37, Short.MAX_VALUE)
                 .addComponent(jLabelLogo)
                 .addGap(18, 18, 18)
-                .addComponent(jLabelNombreDNI)
+                .addComponent(jLabelDNI)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldNombreDNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldDNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabelPass)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -202,9 +205,9 @@ public class LoginVista extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextFieldNombreDNIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombreDNIActionPerformed
+    private void jTextFieldDNIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDNIActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldNombreDNIActionPerformed
+    }//GEN-LAST:event_jTextFieldDNIActionPerformed
 
     private void jButtonConectarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConectarseActionPerformed
         controlador.conectarUsuario();
@@ -283,13 +286,13 @@ public class LoginVista extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonConectarse;
     private javax.swing.JButton jButtonSalir;
+    private javax.swing.JLabel jLabelDNI;
     private javax.swing.JLabel jLabelEyeHide;
     private javax.swing.JLabel jLabelEyeOpen;
     private javax.swing.JLabel jLabelLogo;
-    private javax.swing.JLabel jLabelNombreDNI;
     private javax.swing.JLabel jLabelPass;
     private javax.swing.JLabel jLabelRespuesta;
     private javax.swing.JPasswordField jPasswordField;
-    private javax.swing.JTextField jTextFieldNombreDNI;
+    private javax.swing.JTextField jTextFieldDNI;
     // End of variables declaration//GEN-END:variables
 }

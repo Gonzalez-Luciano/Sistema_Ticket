@@ -34,24 +34,31 @@ public class LoginControlador {
 
     public void conectarUsuario() {
         try {
-            String nombreDNI = vista.getNombreDNI(); // Obtener el nombre o DNI
+            String dni = vista.getDNI(); // Obtener el nombre o DNI
             char[] passwordChars = vista.getPass();  // Obtener la contraseña en char[]
 
             // Convertir char[] a String
             String password = new String(passwordChars);
 
             // Validaciones de campos
-            if (nombreDNI.isEmpty() || password.isEmpty()) {
+            if (dni.isEmpty() || password.isEmpty()) {
                 throw new UsuarioException("Por favor, completa todos los campos");
             }
 
+            // Revisar si es un numero entero
+            Integer.parseInt(dni);
+
+            if (dni.length() < 7 || dni.length() > 8) {
+                throw new UsuarioException("Por favor, ingrese un dni valido");
+            }
+
             // Validar usuario con el modelo
-            AuthResponse respuesta = modelo.validarUsuario(nombreDNI, password);
+            AuthResponse respuesta = modelo.validarUsuario(dni, password);
             Usuario usuario = respuesta.getUsuario();
-            
+
             // Borrar el contenido del array de contraseña por seguridad y reiniciar inputs
             java.util.Arrays.fill(passwordChars, ' ');
-            vista.setNombreDNI("");
+            vista.setDNI("");
             vista.setPass("");
 
             switch (respuesta.getMensaje()) {
@@ -67,7 +74,7 @@ public class LoginControlador {
                         new TrabajadorVista(usuario);
                         vista.dispose();
                     }
-                    
+
                     break;
                 case USUARIO_NO_ENCONTRADO:
                 case ERROR_DATO_INCORRECTO:
@@ -82,6 +89,8 @@ public class LoginControlador {
 
         } catch (UsuarioException e) {
             vista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
+        } catch (NumberFormatException e) {
+            vista.mostrarMensaje("Por favor, ingrese un dni valido", "⚠ Error", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
             e.printStackTrace();
             vista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);

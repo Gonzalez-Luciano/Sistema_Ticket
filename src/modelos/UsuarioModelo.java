@@ -66,17 +66,16 @@ public class UsuarioModelo {
      * @return AuthResponse con el usuario autenticado y el mensaje
      * correspondiente.
      */
-      public AuthResponse validarUsuario(String nombreDNI, String contrasena) {
+      public AuthResponse validarUsuario(String dni, String contrasena) {
         String sql = "SELECT u.*, t.fallas, t.marcas "
                 + "FROM usuarios u "
                 + "LEFT JOIN tecnicos t ON u.usuario_id = t.usuario_id "
-                + "WHERE u.dni = ? or u.nombre = ?";
+                + "WHERE u.dni = ?";
 
         try (Connection conn = dbConnection.conectar();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, nombreDNI);
-            stmt.setString(2, nombreDNI);
+            stmt.setString(1, dni);
             ResultSet rs = stmt.executeQuery();
 
             //El usuario no se encontro
