@@ -22,12 +22,16 @@ public class UsuarioControlador {
     
     public Mensaje cambiarContrasenia(String dni, String valorActual, String nuevoValor, String confirmarValor) {
        
-        System.out.println(nuevoValor+" "+confirmarValor);
+        if((valorActual == null || valorActual.isEmpty()) ||
+                (nuevoValor == null || nuevoValor.isEmpty()) ||
+                (confirmarValor == null || confirmarValor.isEmpty())) {
+            return Mensaje.ERROR_DATO_INCORRECTO;
+        }
+        
         if(nuevoValor.compareTo(confirmarValor) != 0) {
             return Mensaje.ERROR_CONFIRMACION_INVALIDA;
         }
         
-        System.out.println(nuevoValor+" "+valorActual);
         if(valorActual.compareTo(nuevoValor) != 0) {
             return modelo.modificarContrasenia(dni, valorActual, nuevoValor);
         } else {

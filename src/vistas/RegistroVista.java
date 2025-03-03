@@ -8,7 +8,6 @@ package vistas;
 import Clases.FiltroAlfanumerico;
 import Clases.FiltroNumerico;
 import controladores.RegistroControlador;
-import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import javax.swing.text.AbstractDocument;
 
@@ -44,7 +43,10 @@ public class RegistroVista extends javax.swing.JPanel {
     }
 
     public void setNombre(String nombre) {
+        ((AbstractDocument) jTextFieldNombre.getDocument()).setDocumentFilter(null);
         jTextFieldNombre.setText(nombre);
+        ((AbstractDocument) jTextFieldNombre.getDocument()).setDocumentFilter(new FiltroAlfanumerico(100));
+        
     }
 
     public String getTipo() {
