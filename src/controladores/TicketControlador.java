@@ -110,8 +110,6 @@ public class TicketControlador {
                 case ERROR: throw new TicketException("No se ha podido actualizar el ticket");
                
             }
-            ticket.setEstado("Reabierto");
-            ticket.setTecnico(null);
             
         }catch(TicketException e){
             ticketDatosVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
@@ -135,7 +133,6 @@ public class TicketControlador {
                 case ERROR: throw new TicketException("No se ha podido actualizar el ticket");
                
             }
-            ticketDatosVista.dispose();
             
         }catch(TicketException e){
             ticketDatosVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
@@ -194,5 +191,25 @@ public class TicketControlador {
     }
     
     
+    public void resolverTicket(Ticket ticket){
+        Mensaje mensaje = modelo.actualizarEstadoTicket(ticket, "Resuelto", ticket.getTecnico(), ticket.getTecnicoAnterior());
+        try{
+            switch(mensaje){
+                case EXITO: String msg = "Ticket Resuelto!";
+                            ticketDatosVista.mostrarMensaje(msg, "Ticket actualizado", JOptionPane.INFORMATION_MESSAGE);
+                            break;
+                            
+                case ERROR_CONEXION: throw new Exception("Ups! Ha ocurrido un error. Contactese con Sistemas");
+                                     
+                case ERROR: throw new TicketException("No se ha podido actualizar el ticket");
+               
+            }
+   
+        }catch(TicketException e){
+            ticketDatosVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
+        }catch(Exception e){
+            ticketDatosVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     
 }

@@ -100,11 +100,6 @@ public class TicketVistaTrabajador extends TicketDatosVista {
         titulo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         titulo.setText("Esto es una muestra");
         titulo.setBorder(null);
-        titulo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tituloActionPerformed(evt);
-            }
-        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Título");
@@ -149,7 +144,6 @@ public class TicketVistaTrabajador extends TicketDatosVista {
         BtnReabrir.setText("No Resuelto");
         BtnReabrir.setFocusPainted(false);
         BtnReabrir.setFocusable(false);
-        BtnReabrir.setOpaque(true);
         BtnReabrir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnReabrirActionPerformed(evt);
@@ -227,7 +221,7 @@ public class TicketVistaTrabajador extends TicketDatosVista {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnResuelto, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnReabrir, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -252,21 +246,24 @@ public class TicketVistaTrabajador extends TicketDatosVista {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BtnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCerrarActionPerformed
+        panel.cargarTickets();
         panel.reiniciarLista();
         this.dispose();
     }//GEN-LAST:event_BtnCerrarActionPerformed
 
     private void BtnResueltoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnResueltoActionPerformed
         controlador.cerrarTicket(ticket);
+        panel.cargarTickets();
+        panel.reiniciarLista();
+        this.dispose();
     }//GEN-LAST:event_BtnResueltoActionPerformed
 
     private void BtnReabrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnReabrirActionPerformed
         controlador.reabrirTicket(ticket);
+        panel.cargarTickets();
+        panel.reiniciarLista();
+        this.dispose();
     }//GEN-LAST:event_BtnReabrirActionPerformed
-
-    private void tituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tituloActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tituloActionPerformed
 
     @Override
     public Ticket getTicket() {

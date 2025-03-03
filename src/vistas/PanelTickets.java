@@ -42,7 +42,7 @@ public class PanelTickets extends javax.swing.JPanel {
      */
     public PanelTickets(Usuario usuario) {
         this.usuario = usuario;
-        this.controlador = new TicketControlador();
+        this.controlador = new TicketControlador(usuario);
         this.listaCompleta = new ListaTickets();
         this.listaFiltrada = new ListaTickets();
         initComponents();
