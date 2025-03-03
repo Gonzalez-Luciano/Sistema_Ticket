@@ -5,9 +5,13 @@
  */
 package vistas;
 
+import Clases.ListaSolicitudes;
 import Clases.ListaTickets;
+import Clases.Solicitud;
 import Clases.Ticket;
+import Clases.TicketDatosVista;
 import Clases.Usuario;
+import controladores.ListaSolicitudesControlador;
 import controladores.TicketControlador;
 import java.util.List;
 import javax.swing.JFrame;
@@ -27,6 +31,10 @@ public class PanelMisTickets extends javax.swing.JPanel {
     private TicketControlador controlador;
     private ListaTickets listaCompleta;
     private ListaTickets listaAtendidos;
+    private ListaSolicitudes listaSolicitudes;
+    private ListaSolicitudes listaSolicitudesFiltrada;
+    int filaListaTicketSeleccionada;
+    private ListaSolicitudesControlador listaSolicitudescontrolador;
     
     /**
      * Creates new form PanelMisTickets
@@ -46,8 +54,12 @@ public class PanelMisTickets extends javax.swing.JPanel {
         this.controlador = new TicketControlador();
         this.listaCompleta = new ListaTickets();
         this.listaAtendidos = new ListaTickets();
+        this.listaSolicitudes = new ListaSolicitudes();
+        this.listaSolicitudesFiltrada = new ListaSolicitudes();
+        this.listaSolicitudescontrolador = new ListaSolicitudesControlador();
         initComponents();
         cargarTickets();
+        cargarSolicitudes();
         
     }
 
@@ -130,6 +142,13 @@ public class PanelMisTickets extends javax.swing.JPanel {
         tablaTickets = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        BtnReapertura = new javax.swing.JButton();
+        BtnAbrir = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablaSolicitudes = new javax.swing.JTable();
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(690, 500));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setText("Estado:");
@@ -173,6 +192,54 @@ public class PanelMisTickets extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel4.setText("Asignados a mí");
 
+        BtnReapertura.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        BtnReapertura.setText("Solicitar Reapertura");
+        BtnReapertura.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnReaperturaMouseClicked(evt);
+            }
+        });
+
+        BtnAbrir.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        BtnAbrir.setText("Abrir");
+        BtnAbrir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnAbrirMouseClicked(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel5.setText("Solicitudes de Reapertura Pendientes");
+
+        tablaSolicitudes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "N° Solicitud", "N° Ticket", "Titulo", "Estado de solicitud"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        for (int i = 0; i < tablaSolicitudes.getColumnModel().getColumnCount(); i++) {
+            tablaSolicitudes.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+        tablaSolicitudes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaSolicitudesMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tablaSolicitudes);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -186,6 +253,17 @@ public class PanelMisTickets extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addGap(65, 65, 65))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(BtnReapertura, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(BtnAbrir, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addComponent(jLabel5)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 690, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -196,8 +274,16 @@ public class PanelMisTickets extends javax.swing.JPanel {
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel5)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(BtnReapertura, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                    .addComponent(BtnAbrir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(22, 22, 22))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -208,42 +294,148 @@ public class PanelMisTickets extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    public void setFilaSeleccionada(int fila){
+        this.filaListaTicketSeleccionada = fila;
+    }
+    
+    private int getFilaSeleccionada(){
+        return this.filaListaTicketSeleccionada;
+    }
+    
     private void tablaTicketsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaTicketsMouseClicked
         int filaSeleccionada = tablaTickets.getSelectedRow();
 
         if (filaSeleccionada != -1) { // Verifica que haya una fila seleccionada
-
-            Ticket ticket = listaAtendidos.buscarPorIndice(filaSeleccionada);
-
-            TicketVistaTecnico dialog = new TicketVistaTecnico((JFrame) SwingUtilities.getWindowAncestor(this), usuario, this, ticket);
-            dialog.setSize(800, 500);
-            dialog.setLocationRelativeTo(this); // Centrar el diálogo
-            dialog.setVisible(true);
-            
+            setFilaSeleccionada(filaSeleccionada);
+           
         }else{
             System.out.println(filaSeleccionada);
         }
     }//GEN-LAST:event_tablaTicketsMouseClicked
 
-  
+    
+    private void BtnReaperturaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnReaperturaMouseClicked
+        int filaSeleccionada = getFilaSeleccionada();
+
+        if (filaSeleccionada != -1) { // Verifica que haya una fila seleccionada
+
+            Ticket ticket = listaAtendidos.buscarPorIndice(filaSeleccionada);
+
+            
+            TicketDatosVista dialog = new SolicitarVista((JFrame) SwingUtilities.getWindowAncestor(this), usuario, this, ticket);
+            dialog.setSize(800, 500);
+            dialog.setLocationRelativeTo(this); // Centrar el diálogo
+            dialog.setVisible(true);
+        }else{
+            mensajeError();
+        }
+    }//GEN-LAST:event_BtnReaperturaMouseClicked
+
+    private void BtnAbrirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnAbrirMouseClicked
+        int filaSeleccionada = getFilaSeleccionada();
+
+        if (filaSeleccionada != -1) { // Verifica que haya una fila seleccionada
+
+            Ticket ticket = listaAtendidos.buscarPorIndice(filaSeleccionada);
+
+            TicketDatosVista dialog = new TicketVistaTecnico((JFrame) SwingUtilities.getWindowAncestor(this), usuario, this, ticket);
+            dialog.setSize(800, 500);
+            dialog.setLocationRelativeTo(this); // Centrar el diálogo
+            dialog.setVisible(true);
+           
+        }else{
+            mensajeError();
+        }
+    }//GEN-LAST:event_BtnAbrirMouseClicked
+
+    private void tablaSolicitudesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaSolicitudesMouseClicked
+        setFilaSeleccionada(-1);
+        int filaSeleccionada = tablaSolicitudes.getSelectedRow();
+        if (filaSeleccionada != -1){
+            Solicitud solicitud = listaSolicitudesFiltrada.buscarPorIndice(filaSeleccionada);
+            
+            SolicitudVista dialog = new SolicitudVista((JFrame) SwingUtilities.getWindowAncestor(this), solicitud.getIdSolicitudReapertura(),controlador , solicitud.getTicket());
+            dialog.setSize(800, 500);
+            dialog.setLocationRelativeTo(this); // Centrar el diálogo
+            dialog.setVisible(true);
+        }
+        else{
+            mensajeError();
+        }
+        reiniciarListaSolicitudes();
+    }//GEN-LAST:event_tablaSolicitudesMouseClicked
+
+    public void cargarSolicitudes(){
+        try {
+            if (listaSolicitudescontrolador == null) {
+                System.err.println("Error: listaUsuariosControlador es null. No se pueden cargar los usuarios.");
+                return;
+            }
+
+            // Obtener la lista desde el controlador
+            List<Solicitud> solicitudes = listaSolicitudescontrolador.obtenerSolicitudesTecnico(usuario);
+            if (solicitudes == null) {
+                System.err.println("Error: La lista de usuarios obtenida es null.");
+                return;
+            }
+            
+            listaSolicitudes.removerSolicitudes();
+            listaSolicitudesFiltrada.removerSolicitudes();
+
+            // Almacenar usuarios en las listas
+            listaSolicitudes.agregarSolicitudes(solicitudes);
+            listaSolicitudesFiltrada.agregarSolicitudes(listaSolicitudes.obtenerSolicitudesPorEstado("pendiente"));
+            
+            DefaultTableModel modelo = (DefaultTableModel) tablaSolicitudes.getModel();
+            modelo.setRowCount(0); // Limpiar la tabla
+            
+            
+            for (Solicitud solicitud : listaSolicitudesFiltrada.obtenerTodasLasSolicitudes()) {
+                if (solicitud != null) {
+                    modelo.addRow(new Object[]{
+                        solicitud.getIdSolicitudReapertura(),
+                        solicitud.getTicket().getTicket_id(),
+                        solicitud.getTicket().getTitulo(),
+                        solicitud.getEstado()
+                    });
+                }
+            }
+
+        } catch (Exception e) {
+            System.err.println("Error inesperado al cargar usuarios: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
+    public void reiniciarListaSolicitudes(){
+        cargarTickets();
+    }
+    
     public TicketControlador getControlador(){
         return controlador;
     }
     
+    public void mensajeError(){
+        JOptionPane.showMessageDialog(null, "Debe seleccionar una fila para poder abrir", "⚠ Error", JOptionPane.ERROR_MESSAGE);
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnAbrir;
+    private javax.swing.JButton BtnReapertura;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable tablaSolicitudes;
     private javax.swing.JTable tablaTickets;
     // End of variables declaration//GEN-END:variables
 }

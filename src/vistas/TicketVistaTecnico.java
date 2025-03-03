@@ -245,12 +245,20 @@ public class TicketVistaTecnico extends TicketDatosVista {
             panel.reiniciarLista();
         }else {
             panelM.reiniciarLista();
+            panelM.reiniciarListaSolicitudes();
         }
         this.dispose();
     }//GEN-LAST:event_BtnCerrarActionPerformed
 
     private void BtnResolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnResolverActionPerformed
         //controlador.cerrarTicket(ticket);
+        if(panel != null){
+            panel.reiniciarLista();
+        }else {
+            panelM.reiniciarLista();
+            panelM.reiniciarListaSolicitudes();
+        }
+        this.dispose();
     }//GEN-LAST:event_BtnResolverActionPerformed
 
     private void BtnTomarTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnTomarTicketActionPerformed

@@ -6,6 +6,7 @@
 package controladores;
 
 import Clases.Solicitud;
+import Clases.Usuario;
 import java.util.List;
 import modelos.SolicitudModelo;
 
@@ -22,5 +23,9 @@ public class ListaSolicitudesControlador {
 
     public List<Solicitud> obtenerTodasLasSolicitudes() {
         return solicitudModelo.obtenerTodasLasSolicitudes();
+    }
+    
+    public List<Solicitud> obtenerSolicitudesTecnico(Usuario usuario){
+        return solicitudModelo.obtenerSolicitudesTecnico(usuario);
     }
 }
