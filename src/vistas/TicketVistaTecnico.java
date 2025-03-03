@@ -242,8 +242,11 @@ public class TicketVistaTecnico extends TicketDatosVista {
 
     private void BtnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCerrarActionPerformed
         if(panel != null){
+            panel.cargarTickets();
             panel.reiniciarLista();
         }else {
+            panelM.cargarSolicitudes();
+            panelM.cargarTickets();
             panelM.reiniciarLista();
             panelM.reiniciarListaSolicitudes();
         }
@@ -257,8 +260,11 @@ public class TicketVistaTecnico extends TicketDatosVista {
             controlador.resolverTicket(ticket);
         }
         if(panel != null){
+            panel.cargarTickets();
             panel.reiniciarLista();
         }else {
+            panelM.cargarSolicitudes();
+            panelM.cargarTickets();
             panelM.reiniciarLista();
             panelM.reiniciarListaSolicitudes();
         }
