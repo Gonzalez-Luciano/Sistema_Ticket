@@ -9,6 +9,7 @@ import Clases.Mensaje;
 import Clases.Solicitud;
 import Clases.Tecnico;
 import Clases.Ticket;
+import Clases.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -92,4 +93,58 @@ public class SolicitudModelo {
         }
         return solicitudes;
     }
-}
+    
+    
+    public List<Solicitud> obtenerSolicitudesTecnico(Usuario usuario){
+        List<Solicitud> solicitudes = new ArrayList<>();
+        String query = "SELECT s.id_solicitud_reapertura ,s.estado, s.tecnico_id, "
+                + "tk.ticket_id, tk.titulo, tk.descripcion, tk.estado AS estado_ticket "
+                + "FROM solicitudes_reapertura s "
+                + "JOIN tickets tk ON s.ticket_id = tk.ticket_id "
+                + "WHERE s.tecnico_id=? ;";
+        int aux = usuario.getLegajo()-99;
+        try (Connection conn = dbConnection.conectar();
+            PreparedStatement stmt = conn.prepareStatement(query)){
+            
+            stmt.setInt(1,aux);
+            if(stmt.execute()){
+                try(ResultSet rs = stmt.getResultSet()){
+                    while (rs.next()) {
+                        Tecnico tecnico =  (Tecnico) Tecnico.obtenerTecnico(rs.getInt("tecnico_id")).getUsuario();
+
+                        // Crear el objeto Ticket
+                        Ticket ticket = new Ticket(
+                                rs.getInt("ticket_id"),
+                                rs.getString("titulo"),
+                                rs.getString("descripcion"),
+                                rs.getString("estado_ticket"),
+                                null,
+                                tecnico,
+                                null
+                        );
+                        // Crear el objeto Solicitud con el ticket y el técnico
+                        Solicitud solicitud = new Solicitud(
+                                rs.getInt("id_solicitud_reapertura"),
+                                ticket,
+                                tecnico,
+                                rs.getString("estado")
+                        );
+
+                        solicitudes.add(solicitud);
+                    }
+                }
+            }
+            
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return solicitudes;        
+    }
+        
+}            
+        
+        
+        
+
+    
+

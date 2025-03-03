@@ -9,128 +9,28 @@ import Clases.Ticket;
 import Clases.TicketDatosVista;
 import Clases.Usuario;
 import controladores.SolicitudVistaControlador;
-import controladores.TecnicoControlador;
-import controladores.TicketControlador;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
 /**
  *
- * @author TuKK
+ * @author ramir
  */
-public class SolicitudVista extends TicketDatosVista {
+public class SolicitarVista extends TicketDatosVista {
 
-    private ListaSolicitudesVista listaVista;
-    private int solicitudId;
-    private Ticket ticketObtenido;
-    private SolicitudVistaControlador controladorSolicitud;
-
-    public SolicitudVista(JFrame jFrame, int solicitudId, ListaSolicitudesVista listaVista, Ticket ticket) {
-        super(jFrame, "Solicitud " + solicitudId, listaVista.getControlador());
-        this.solicitudId = solicitudId;
-        this.ticketObtenido = ticket;
-        this.listaVista = listaVista;
-        this.controladorSolicitud = new SolicitudVistaControlador(this);
-        initComponents();
-        setFrame();
-    }
+    private Usuario usuario;
+    private PanelMisTickets panel;
+    private Ticket ticket;
+    private SolicitudVistaControlador controlador;
     
-    public SolicitudVista(JFrame jFrame, int solicitudId, TicketControlador controlador, Ticket ticket){
-        super(jFrame, "Solicitud "+ solicitudId, controlador);
-        this.solicitudId = solicitudId;
-        this.ticketObtenido = ticket;
-        this.controladorSolicitud = new SolicitudVistaControlador(this);
+    
+    public SolicitarVista(JFrame Jframe, Usuario usuario, PanelMisTickets panel, Ticket ticket){
+        super(Jframe, "Solicitud de reapertura", panel.getControlador());
+        this.ticket = ticket;
+        this.panel = panel;
+        this.usuario = usuario;
+        this.controlador = new SolicitudVistaControlador(this);
         initComponents();
         setFrame();
-    }
-
-    @Override
-    public Ticket getTicket() {
-        return ticketObtenido;
-    }
-
-    @Override
-    public void setTicket(Ticket ticket) {
-        this.ticketObtenido = ticket;
-    }
-
-    @Override
-    public String getDescripcion() {
-        return descripcion.getText();
-    }
-
-    @Override
-    public void setDescripcion(String description) {
-        descripcion.setText(description);
-    }
-
-    @Override
-    public String getEstado() {
-        return estado.getText();
-    }
-
-    @Override
-    public void setEstado(String status) {
-        estado.setText(status);
-    }
-
-    @Override
-    public String getTitulo() {
-        return titulo.getText();
-    }
-
-    @Override
-    public void setTitulo(String title) {
-        titulo.setText(title);
-    }
-
-    @Override
-    public void mostrarMensaje(String mensaje, String titulo, int tipoMensaje) {
-        JOptionPane.showMessageDialog(null, mensaje, titulo, tipoMensaje);
-    }
-
-    @Override
-    public String getTecnico() {
-        return nombreTecnico.getText();
-    }
-
-    @Override
-    public void setTecnico(String tecnico) {
-        nombreTecnico.setText(tecnico);
-    }
-
-    @Override
-    public void setId(int id) {
-        if (id < 10) {
-            soliId.setText("0000" + id);
-        } else {
-            if (id < 100) {
-                soliId.setText("000" + id);
-            } else {
-                if (id < 1000) {
-                    soliId.setText("00" + id);
-                } else {
-                    if (id < 10000) {
-                        soliId.setText("0" + id);
-                    } else {
-                        soliId.setText("" + id);
-                    }
-                }
-            }
-        }
-    }
-
-    @Override
-    public void setFrame() {
-        setId(solicitudId);
-        setTitulo(ticketObtenido.getTitulo());
-        setDescripcion(ticketObtenido.getDescripcion());
-        setTecnico(ticketObtenido.getTecnico().getNombre());
-        if(listaVista== null){
-            getBtnReabrirTicket().setEnabled(false);
-            getBtnReabrirTicket().setContentAreaFilled(false);
-        }
     }
 
     /**
@@ -143,14 +43,14 @@ public class SolicitudVista extends TicketDatosVista {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        solicitudIDTitulo = new javax.swing.JLabel();
+        TicketIDTitulo = new javax.swing.JLabel();
         BtnCerrar = new javax.swing.JButton();
         titulo = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane = new javax.swing.JScrollPane();
         descripcion = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
-        soliId = new javax.swing.JLabel();
+        ticketId = new javax.swing.JLabel();
         ticketEstadoTitulo = new javax.swing.JLabel();
         estado = new javax.swing.JLabel();
         BtnReabrirTicket = new javax.swing.JButton();
@@ -158,12 +58,14 @@ public class SolicitudVista extends TicketDatosVista {
         nombreTecnico = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setResizable(false);
+        setSize(new java.awt.Dimension(800, 500));
 
         jPanel1.setPreferredSize(new java.awt.Dimension(600, 400));
 
-        solicitudIDTitulo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        solicitudIDTitulo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        solicitudIDTitulo.setText("Solicitud - ");
+        TicketIDTitulo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        TicketIDTitulo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        TicketIDTitulo.setText("Ticket - ");
 
         BtnCerrar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         BtnCerrar.setText("Cerrar");
@@ -197,9 +99,9 @@ public class SolicitudVista extends TicketDatosVista {
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Descripción");
 
-        soliId.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        soliId.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        soliId.setText("00001");
+        ticketId.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        ticketId.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        ticketId.setText("00001");
 
         ticketEstadoTitulo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         ticketEstadoTitulo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -210,7 +112,7 @@ public class SolicitudVista extends TicketDatosVista {
         estado.setText("Pendiente");
 
         BtnReabrirTicket.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        BtnReabrirTicket.setText("Reabrir");
+        BtnReabrirTicket.setText("Solicitar Reabrir");
         BtnReabrirTicket.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnReabrirTicketActionPerformed(evt);
@@ -219,7 +121,7 @@ public class SolicitudVista extends TicketDatosVista {
 
         nombreTecnicoTitulo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         nombreTecnicoTitulo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        nombreTecnicoTitulo.setText("A pedido de:");
+        nombreTecnicoTitulo.setText("A cargo de:");
 
         nombreTecnico.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         nombreTecnico.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -237,10 +139,10 @@ public class SolicitudVista extends TicketDatosVista {
                             .addComponent(jLabel3)
                             .addComponent(jScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE)
                             .addComponent(titulo))
-                        .addContainerGap(99, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 381, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(ticketEstadoTitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(nombreTecnicoTitulo, javax.swing.GroupLayout.Alignment.TRAILING))
@@ -251,13 +153,13 @@ public class SolicitudVista extends TicketDatosVista {
                         .addGap(24, 24, 24))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(39, 39, 39)
-                .addComponent(solicitudIDTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(TicketIDTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(soliId, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ticketId, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(54, 54, 54)
-                .addComponent(BtnReabrirTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(BtnReabrirTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(BtnCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(60, 60, 60))
@@ -269,8 +171,8 @@ public class SolicitudVista extends TicketDatosVista {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(solicitudIDTitulo)
-                            .addComponent(soliId, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(TicketIDTitulo)
+                            .addComponent(ticketId, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(22, 22, 22)
                         .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -287,7 +189,7 @@ public class SolicitudVista extends TicketDatosVista {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnReabrirTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -310,34 +212,126 @@ public class SolicitudVista extends TicketDatosVista {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public JButton getBtnReabrirTicket() {
-        return BtnReabrirTicket;
-    }
-    
-    
     private void BtnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCerrarActionPerformed
-        if(listaVista!= null)
-            listaVista.cargarSolicitudes();
+        panel.cargarTickets();
+        panel.reiniciarLista();
+        panel.setFilaSeleccionada(-1);
         this.dispose();
     }//GEN-LAST:event_BtnCerrarActionPerformed
 
     private void BtnReabrirTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnReabrirTicketActionPerformed
-        try {
-            controlador.reabrirTicket(ticketObtenido);
-            controladorSolicitud.actualizarEstadoSolicitud(solicitudId, "aprobado");
-            this.dispose();
-        } catch (Exception e) {
-            e.printStackTrace();
+        
+        int resultado = JOptionPane.showConfirmDialog(this, "Está a punto de solicitar la reapertura del ticket.\n"+
+                                                            "Esto podría demorar la resolución del problema y usted podría ser sancionado.\n"+
+                                                            "Desea solicitar la reapertura de todos modos?",
+                                                            "Solicitud de reapertura",JOptionPane.YES_NO_OPTION);
+        if (resultado == 0) {
+            try{
+                controlador.crearSolicitud(getTicket().getTicket_id(),usuario.getLegajo());
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+        panel.cargarTickets();
+        panel.reiniciarLista(); 
+        panel.setFilaSeleccionada(-1);
+        this.dispose();
     }//GEN-LAST:event_BtnReabrirTicketActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    @Override
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    @Override
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
+    }
+    
+    @Override
+    public String getDescripcion() {
+        return descripcion.getText();
+    }
+    
+    @Override
+    public void setDescripcion(String description) {
+        descripcion.setText(description);
+    }
+
+    @Override
+    public String getEstado() {
+        return estado.getText();
+    }
+
+    @Override
+    public void setEstado(String status) {
+        estado.setText(status);
+        
+    }
+
+    public String getTicketId() {
+        return ticketId.getText();
+    }
+
+    @Override
+    public void setId(int ticket_id) {
+        if(ticket_id<10){
+            ticketId.setText("0000"+ticket_id);
+        }else{
+            if(ticket_id<100){
+                ticketId.setText("000"+ticket_id);
+            }else{
+                if(ticket_id<1000){
+                    ticketId.setText("00"+ticket_id);
+                }else{if (ticket_id<10000) {
+                        ticketId.setText("0"+ticket_id);
+                    }else{
+                        ticketId.setText(""+ticket_id);
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public String getTitulo() {
+        return titulo.getText();
+    }
+
+    @Override
+    public void setTitulo(String title) {
+        titulo.setText(title);
+    }
+
+    @Override
+    public void mostrarMensaje(String mensaje, String titulo, int tipoMensaje){
+        JOptionPane.showMessageDialog(null, mensaje, titulo, tipoMensaje);
+    }
+    
+    @Override
+    public String getTecnico(){
+        return nombreTecnico.getText();
+    }
+    
+    @Override
+    public void setTecnico(String tecnico){
+        nombreTecnico.setText(tecnico);
+    }
+    
+    @Override
+    public void setFrame(){
+        setId(ticket.getTicket_id());
+        setEstado(ticket.getEstado());
+        setTitulo(ticket.getTitulo());
+        setDescripcion(ticket.getDescripcion());
+        setTecnico(ticket.getTecnico().getNombre());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnCerrar;
     private javax.swing.JButton BtnReabrirTicket;
+    private javax.swing.JLabel TicketIDTitulo;
     private javax.swing.JTextArea descripcion;
     private javax.swing.JLabel estado;
     private javax.swing.JLabel jLabel1;
@@ -346,11 +340,9 @@ public class SolicitudVista extends TicketDatosVista {
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JLabel nombreTecnico;
     private javax.swing.JLabel nombreTecnicoTitulo;
-    private javax.swing.JLabel soliId;
-    private javax.swing.JLabel solicitudIDTitulo;
     private javax.swing.JLabel ticketEstadoTitulo;
+    private javax.swing.JLabel ticketId;
     private javax.swing.JTextField titulo;
     // End of variables declaration//GEN-END:variables
 
-    
 }
