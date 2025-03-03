@@ -215,6 +215,7 @@ public class SolicitarVista extends TicketDatosVista {
     private void BtnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCerrarActionPerformed
         panel.cargarTickets();
         panel.reiniciarLista();
+        panel.reiniciarListaSolicitudes();
         panel.setFilaSeleccionada(-1);
         this.dispose();
     }//GEN-LAST:event_BtnCerrarActionPerformed
@@ -235,6 +236,7 @@ public class SolicitarVista extends TicketDatosVista {
         }
         panel.cargarTickets();
         panel.reiniciarLista(); 
+        panel.reiniciarListaSolicitudes();
         panel.setFilaSeleccionada(-1);
         this.dispose();
     }//GEN-LAST:event_BtnReabrirTicketActionPerformed

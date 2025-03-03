@@ -213,17 +213,17 @@ public class PanelMisTickets extends javax.swing.JPanel {
 
         tablaSolicitudes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "N° Solicitud", "Titulo", "Estado de solicitud"
+                "N° Solicitud", "N° Ticket", "Titulo", "Estado de solicitud"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -331,7 +331,6 @@ public class PanelMisTickets extends javax.swing.JPanel {
             dialog.setSize(800, 500);
             dialog.setLocationRelativeTo(this); // Centrar el diálogo
             dialog.setVisible(true);
-           
         }else{
             mensajeError();
         }
@@ -368,7 +367,7 @@ public class PanelMisTickets extends javax.swing.JPanel {
         else{
             mensajeError();
         }
-        
+        reiniciarListaSolicitudes();
     }//GEN-LAST:event_tablaSolicitudesMouseClicked
 
     public void cargarSolicitudes(){
@@ -384,9 +383,9 @@ public class PanelMisTickets extends javax.swing.JPanel {
                 System.err.println("Error: La lista de usuarios obtenida es null.");
                 return;
             }
-
-            // Reiniciar listas
+            
             listaSolicitudes.removerSolicitudes();
+            listaSolicitudesFiltrada.removerSolicitudes();
 
             // Almacenar usuarios en las listas
             listaSolicitudes.agregarSolicitudes(solicitudes);
@@ -400,6 +399,7 @@ public class PanelMisTickets extends javax.swing.JPanel {
                 if (solicitud != null) {
                     modelo.addRow(new Object[]{
                         solicitud.getIdSolicitudReapertura(),
+                        solicitud.getTicket().getTicket_id(),
                         solicitud.getTicket().getTitulo(),
                         solicitud.getEstado()
                     });
@@ -412,7 +412,9 @@ public class PanelMisTickets extends javax.swing.JPanel {
         }
     }
     
-    
+    public void reiniciarListaSolicitudes(){
+        cargarTickets();
+    }
     
     public TicketControlador getControlador(){
         return controlador;
