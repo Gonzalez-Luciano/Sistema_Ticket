@@ -142,15 +142,23 @@ BEGIN
         SET MESSAGE_TEXT = 'Error: Estado inválido';
     END IF;
 
-    -- Un solo UPDATE con manejo de NULLs
+    -- Actualizar el estado del ticket
     UPDATE tickets 
     SET estado = estadoValido, 
         tecnico_id = p_tecnicoId, 
         tecnico_anterior_id = p_tecnicoAntId
     WHERE ticket_id = p_ticketId;
+
+    -- Si el estado es "Finalizado", cerrar todas las solicitudes de reapertura asociadas
+    IF p_estado = 'Finalizado' THEN
+        UPDATE solicitudes_reapertura
+        SET estado = 'rechazado'
+        WHERE ticket_id = p_ticketId AND estado = 'pendiente';
+    END IF;
 END$$
 
 DELIMITER ;
+
 
 
 DELIMITER $$

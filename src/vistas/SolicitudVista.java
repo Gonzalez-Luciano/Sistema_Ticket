@@ -35,9 +35,9 @@ public class SolicitudVista extends TicketDatosVista {
         initComponents();
         setFrame();
     }
-    
-    public SolicitudVista(JFrame jFrame, int solicitudId, TicketControlador controlador, Ticket ticket){
-        super(jFrame, "Solicitud "+ solicitudId, controlador);
+
+    public SolicitudVista(JFrame jFrame, int solicitudId, TicketControlador controlador, Ticket ticket) {
+        super(jFrame, "Solicitud " + solicitudId, controlador);
         this.solicitudId = solicitudId;
         this.ticketObtenido = ticket;
         this.controladorSolicitud = new SolicitudVistaControlador(this);
@@ -127,7 +127,7 @@ public class SolicitudVista extends TicketDatosVista {
         setTitulo(ticketObtenido.getTitulo());
         setDescripcion(ticketObtenido.getDescripcion());
         setTecnico(ticketObtenido.getTecnico().getNombre());
-        if(listaVista== null){
+        if (listaVista == null) {
             getBtnReabrirTicket().setEnabled(false);
             getBtnReabrirTicket().setContentAreaFilled(false);
         }
@@ -313,11 +313,12 @@ public class SolicitudVista extends TicketDatosVista {
     public JButton getBtnReabrirTicket() {
         return BtnReabrirTicket;
     }
-    
-    
+
+
     private void BtnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCerrarActionPerformed
-        if(listaVista!= null)
+        if (listaVista != null) {
             listaVista.cargarSolicitudes();
+        }
         this.dispose();
     }//GEN-LAST:event_BtnCerrarActionPerformed
 
@@ -325,6 +326,9 @@ public class SolicitudVista extends TicketDatosVista {
         try {
             controlador.reabrirTicket(ticketObtenido);
             controladorSolicitud.actualizarEstadoSolicitud(solicitudId, "aprobado");
+            if (listaVista != null) {
+                listaVista.cargarSolicitudes();
+            }
             this.dispose();
         } catch (Exception e) {
             e.printStackTrace();
@@ -352,5 +356,4 @@ public class SolicitudVista extends TicketDatosVista {
     private javax.swing.JTextField titulo;
     // End of variables declaration//GEN-END:variables
 
-    
 }
