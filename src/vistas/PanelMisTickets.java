@@ -325,14 +325,25 @@ public class PanelMisTickets extends javax.swing.JPanel {
         if (filaSeleccionada != -1) { // Verifica que haya una fila seleccionada
 
             Ticket ticket = listaAtendidos.buscarPorIndice(filaSeleccionada);
-
-            
-            TicketDatosVista dialog = new SolicitarVista((JFrame) SwingUtilities.getWindowAncestor(this), usuario, this, ticket);
-            dialog.setSize(800, 500);
-            dialog.setLocationRelativeTo(this); // Centrar el diálogo
-            dialog.setVisible(true);
+            List<Solicitud> solicitudes = listaSolicitudesFiltrada.obtenerTodasLasSolicitudes();
+            boolean existeSolicitud=true;
+            for(Solicitud sol : solicitudes){
+                if(sol.getTicket().getTicket_id()==ticket.getTicket_id() && sol.getEstado().equals("pendiente")){
+                    existeSolicitud=false;
+                    break;
+                }
+            }   
+            if(existeSolicitud){
+                TicketDatosVista dialog = new SolicitarVista((JFrame) SwingUtilities.getWindowAncestor(this), usuario, this, ticket);
+                dialog.setSize(800, 500);
+                dialog.setLocationRelativeTo(this); // Centrar el diálogo
+                dialog.setVisible(true);
+            }
+            else{
+                mensajeError("Ya existe una solicitud de reapertura pendiente");
+            }
         }else{
-            mensajeError();
+            mensajeError("Debe seleccionar una fila para poder abrir");
         }
     }//GEN-LAST:event_BtnReaperturaMouseClicked
 
@@ -349,7 +360,7 @@ public class PanelMisTickets extends javax.swing.JPanel {
             dialog.setVisible(true);
            
         }else{
-            mensajeError();
+            mensajeError("Debe seleccionar una fila para poder abrir");
         }
     }//GEN-LAST:event_BtnAbrirMouseClicked
 
@@ -365,7 +376,7 @@ public class PanelMisTickets extends javax.swing.JPanel {
             dialog.setVisible(true);
         }
         else{
-            mensajeError();
+            mensajeError("Debe seleccionar una fila para poder abrir");
         }
         reiniciarListaSolicitudes();
     }//GEN-LAST:event_tablaSolicitudesMouseClicked
@@ -420,8 +431,8 @@ public class PanelMisTickets extends javax.swing.JPanel {
         return controlador;
     }
     
-    public void mensajeError(){
-        JOptionPane.showMessageDialog(null, "Debe seleccionar una fila para poder abrir", "⚠ Error", JOptionPane.ERROR_MESSAGE);
+    public void mensajeError(String mensaje){
+        JOptionPane.showMessageDialog(null, mensaje, "⚠ Error", JOptionPane.ERROR_MESSAGE);
     }
     
 

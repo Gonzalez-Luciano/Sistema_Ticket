@@ -214,6 +214,7 @@ public class SolicitarVista extends TicketDatosVista {
 
     private void BtnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCerrarActionPerformed
         panel.cargarTickets();
+        panel.cargarSolicitudes();
         panel.reiniciarLista();
         panel.reiniciarListaSolicitudes();
         panel.setFilaSeleccionada(-1);
@@ -229,12 +230,13 @@ public class SolicitarVista extends TicketDatosVista {
         if (resultado == 0) {
             try{
                 controlador.crearSolicitud(getTicket().getTicket_id(),usuario.getLegajo());
-                
+                System.out.println("Pasa por acá");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         panel.cargarTickets();
+        panel.cargarSolicitudes();
         panel.reiniciarLista(); 
         panel.reiniciarListaSolicitudes();
         panel.setFilaSeleccionada(-1);
