@@ -251,13 +251,18 @@ public class TicketVistaTecnico extends TicketDatosVista {
     }//GEN-LAST:event_BtnCerrarActionPerformed
 
     private void BtnResolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnResolverActionPerformed
-        //controlador.cerrarTicket(ticket);
+        int resultado = JOptionPane.showConfirmDialog(this, "¿Está seguro que quiere marcar\n el ticket como resuelto?",
+                                                            "Resolver ticket",JOptionPane.YES_NO_OPTION);
+        if (resultado == 0) {
+            controlador.resolverTicket(ticket);
+        }
         if(panel != null){
             panel.reiniciarLista();
         }else {
             panelM.reiniciarLista();
             panelM.reiniciarListaSolicitudes();
         }
+        
         this.dispose();
     }//GEN-LAST:event_BtnResolverActionPerformed
 
