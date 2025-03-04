@@ -122,6 +122,13 @@ public class UsuarioModelo {
         }
     }
 
+    /**
+     * Verifica si existe al menos un administrador activo en la base de datos.
+     *
+     * @return {@code true} si hay al menos un usuario con tipo "administrador"
+     * y estado "activo", {@code false} en caso contrario o si ocurre un error
+     * en la consulta.
+     */
     public boolean existeAdmin() {
         String sql = "SELECT COUNT(*) FROM usuarios WHERE tipo = 'administrador' AND estado = 'activo'";
 
