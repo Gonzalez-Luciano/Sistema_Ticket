@@ -66,7 +66,7 @@ public class UsuarioModelo {
      * @return AuthResponse con el usuario autenticado y el mensaje
      * correspondiente.
      */
-      public AuthResponse validarUsuario(String dni, String contrasena) {
+    public AuthResponse validarUsuario(String dni, String contrasena) {
         String sql = "SELECT u.*, t.fallas, t.marcas "
                 + "FROM usuarios u "
                 + "LEFT JOIN tecnicos t ON u.usuario_id = t.usuario_id "
@@ -109,8 +109,8 @@ public class UsuarioModelo {
                 default:
                     return new AuthResponse(null, Mensaje.USUARIO_NO_ENCONTRADO);
             }
-            
-            if(usuario.getEstado().equals("bloqueado")){
+
+            if (usuario.getEstado().equals("bloqueado")) {
                 return new AuthResponse(null, Mensaje.BLOQUEADO);
             }
 
@@ -120,6 +120,22 @@ public class UsuarioModelo {
             e.printStackTrace();
             return new AuthResponse(null, Mensaje.ERROR_CONEXION);
         }
+    }
+
+    public boolean existeAdmin() {
+        String sql = "SELECT COUNT(*) FROM usuarios WHERE tipo = 'administrador' AND estado = 'activo'";
+
+        try (Connection conn = dbConnection.conectar();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Si hay error o no se encuentra ningún admin, devuelve false
     }
 
     /**
@@ -179,8 +195,8 @@ public class UsuarioModelo {
         return usuarios;
     }
 
-    public Mensaje modificarContrasenia(String dni, String antiguaContrasena, String nuevaContrasena){
-        
+    public Mensaje modificarContrasenia(String dni, String antiguaContrasena, String nuevaContrasena) {
+
         // valido la existencia del usuario
         String sql = "SELECT u.* "
                 + " FROM usuarios u "
@@ -205,43 +221,43 @@ public class UsuarioModelo {
             if (!BCrypt.checkpw(antiguaContrasena, hashedPassword)) {
                 return Mensaje.ERROR_DATO_INCORRECTO;
             } else {
-                System.out.println("ContraseÃ±a correcta: "+antiguaContrasena+"\n");
+                System.out.println("ContraseÃ±a correcta: " + antiguaContrasena + "\n");
             }
 
             String idStr = rs.getString("usuario_id");
-            
+
             //La contraseÃ±a es igual al ID del usuario
             if (nuevaContrasena.equals(idStr)) {
                 return Mensaje.ERROR_DATO_INCORRECTO;
             } else {
-                System.out.println("ContraseÃ±a valida: "+nuevaContrasena+"\n");
+                System.out.println("ContraseÃ±a valida: " + nuevaContrasena + "\n");
             }
-            
+
             String query = "UPDATE usuarios "
                     + " SET contrasena = ? "
                     + " WHERE dni = ?";
-            
+
             //no es posible reasignar una instancia de PreparedStatement
             PreparedStatement stmt2 = conn.prepareStatement(query);
-            
+
             // reutilizo la variable que utilzamos para validar la password
             hashedPassword = BCrypt.hashpw(nuevaContrasena, BCrypt.gensalt());
-            
+
             stmt2.setString(1, hashedPassword);
             stmt2.setString(2, dni);
-            
+
             int rowsAffected = stmt2.executeUpdate();
             return rowsAffected > 0 ? Mensaje.EXITO : Mensaje.ERROR;
-            
+
         } catch (SQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
             return Mensaje.ERROR_DNI_REPETIDO;
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return Mensaje.ERROR;
         }
     }
-            
+
     /**
      * Reinicia la contraseña de un usuario estableciendo su DNI como nueva
      * contraseña.
