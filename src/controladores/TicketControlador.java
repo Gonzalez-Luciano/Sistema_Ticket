@@ -154,7 +154,7 @@ public class TicketControlador {
             if(!tecnicoControlador.tomarTicket(lista)){ //Evalúa si puede tomar el ticket x cantidad
                 throw new TecnicoException("Superó la cantidad límite permitida de tickets tomados");
             }
-            Mensaje mensaje = modelo.actualizarEstadoTicket(ticket, "Atendido", tecnico, ticket.getTecnico());
+            Mensaje mensaje = modelo.actualizarEstadoTicket(ticket, "Atendido", tecnico, ticket.getTecnicoAnterior());
             
             switch(mensaje){
                 case EXITO: String msg = "Ticket atendido por usted!";
@@ -184,10 +184,6 @@ public class TicketControlador {
         
         return lista;
      
-    }
-
-    public void Prueba(){
-        ticketDatosVista.mostrarMensaje("prueba", "prueba", JOptionPane.ERROR_MESSAGE);
     }
     
     
