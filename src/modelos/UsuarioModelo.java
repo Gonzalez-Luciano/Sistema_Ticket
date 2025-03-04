@@ -202,6 +202,16 @@ public class UsuarioModelo {
         return usuarios;
     }
 
+    
+    /**
+     * Modifica la contraseña y devuelve un mensaje de éxito o error 
+     * 
+     * @param dni DNI del usuario que modifica su contraseña
+     * @param antiguaContrasena Valor de la contraseña anterior
+     * @param nuevaContrasena Valor de la nueva contraseña
+     * @return Retorna un mensaje de éxito o error 
+     */
+    
     public Mensaje modificarContrasenia(String dni, String antiguaContrasena, String nuevaContrasena) {
 
         // valido la existencia del usuario

@@ -20,6 +20,13 @@ public class ListaUsuariosControlador {
         this.usuarioModelo = new UsuarioModelo();
     }
 
+    /**
+     * Devuelve una lista con todos los usuarios a excepción del indicado por parámetro
+     * 
+     * @param usuarioNoDeseado Usuario que no se desea que devuelva
+     * @return Lista de tipo Usuario con todos los usuarios menos usuarioNoDeseado
+     */
+    
     public List<Usuario> obtenerTodosLosUsuarios(Usuario usuarioNoDeseado) {
         return usuarioModelo.obtenerTodosLosUsuarios(usuarioNoDeseado);
     }

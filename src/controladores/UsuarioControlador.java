@@ -20,6 +20,16 @@ public class UsuarioControlador {
         super();
     }
     
+    /**
+     * Modifica la contraseña y retorna un mensaje según si se logró cambiar la contraseña. 
+     * 
+     * @param dni DNI del usuario que va cambiar la contraseña
+     * @param valorActual Los datos del input valorActual
+     * @param nuevoValor Los datos del input nuevoValor
+     * @param confirmarValor Los datos del input confirmarValor
+     * @return Retorna un mensaje según si se logró cambiar la contraseña
+     */
+    
     public Mensaje cambiarContrasenia(String dni, String valorActual, String nuevoValor, String confirmarValor) {
        
         if((valorActual == null || valorActual.isEmpty()) ||

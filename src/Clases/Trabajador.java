@@ -25,6 +25,14 @@ public class Trabajador extends Usuario {
         super(nombre, dni, legajo, "trabajador", contrasena, estado);
     }
 
+    /**
+     * Obtiene un usuario de la DB y lo autentica mediante AuthResponse
+     * 
+     * @param id El id con el que se identifica al Trabajador
+     * @return Devuelve un AuthResponse, autenticando el usuario obtenido
+     */
+    
+    
     public static AuthResponse obtenerTrabajador(int id) {
         String sql = "SELECT u.* "
                 + " FROM usuarios u "

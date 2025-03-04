@@ -26,6 +26,13 @@ public class ModificarUsuarioControlador {
         this.vista = vista;
     }
 
+    
+    /**
+     * Reinicia la contraseña de un usuario
+     * 
+     * @param usuario Usuario a reiniciar contraseña
+     */
+    
     public void reiniciarContrasenia(Usuario usuario) {
         try {
             Mensaje mensaje = modelo.reiniciarContrasenia(usuario);
@@ -46,6 +53,14 @@ public class ModificarUsuarioControlador {
         }
     }
 
+    
+    /**
+     * Cambia el estado de un usuario  
+     * 
+     * @param usuario Usuario a bloquear/desbloquear
+     * @param estadoNuevo 'activo' o 'bloqueado' son los nuevos estados que permite el modelo
+     */
+    
     public void cambiarEstado(Usuario usuario, String estadoNuevo) {
         try {
             Mensaje mensaje = modelo.cambiarEstado(usuario, estadoNuevo);

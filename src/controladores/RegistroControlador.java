@@ -25,6 +25,10 @@ public class RegistroControlador {
         this.vista = vista;
     }
 
+    /**
+     * Conecta con el modelo para registrar el nuevo usuario en la DB
+     */
+    
     public void registrarUsuario() {
         try {
             String nombre = vista.getNombre().trim();
@@ -90,6 +94,15 @@ public class RegistroControlador {
         }
     }
 
+    /**
+     * Crea una nueva instancia de usuario según el parámetro 'tipo'
+     * 
+     * @param nombre Nombre del nuevo usuario
+     * @param dni DNI del nuevo usuario
+     * @param tipo Tipo del nuevo usuario ('Administrador','Tecnico','Trabajdor')
+     * @return Retorna la nueva instancia de usuario según el tipo
+     * @throws UsuarioException 
+     */
     private Usuario crearUsuario(String nombre, String dni, String tipo) throws UsuarioException {
         switch (tipo) {
             case "Trabajador":

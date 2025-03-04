@@ -21,10 +21,22 @@ public class ListaSolicitudesControlador {
         this.solicitudModelo = new SolicitudModelo();
     }
 
+    /**
+     * Obtiene y devuelve todas las solicitudes de reapertura
+     * 
+     * @return Lista de tipo Solicitud de todas las solicitudes de reapertura
+     */
     public List<Solicitud> obtenerTodasLasSolicitudes() {
         return solicitudModelo.obtenerTodasLasSolicitudes();
     }
     
+    
+    /**
+     * Obtiene y devuelve las listas de solicitudes a nombre del técnico
+     * 
+     * @param usuario Usuario actual que ha generado solicitudes de reapertura
+     * @return Lista de tipo Solicitud con las solicitudes de reapertura a su nombre
+     */
     public List<Solicitud> obtenerSolicitudesTecnico(Usuario usuario){
         return solicitudModelo.obtenerSolicitudesTecnico(usuario);
     }

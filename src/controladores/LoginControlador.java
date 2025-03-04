@@ -32,6 +32,9 @@ public class LoginControlador {
         this.modelo = new UsuarioModelo();
     }
 
+    /**
+     * Muestra la vista que corresponde según el usuario que inicia sesión
+     */
     public void conectarUsuario() {
         try {
             String dni = vista.getDNI(); // Obtener el nombre o DNI

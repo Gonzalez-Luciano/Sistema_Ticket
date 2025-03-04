@@ -46,6 +46,13 @@ public class Tecnico extends Usuario {
         this.marcas = marcas;
     }
 
+    /**
+     * Obtiene un usuario de la DB y devuelve la autenticación mediante AuthResponse
+     * 
+     * @param id Es la id con la que se identifica al usuario en la DB
+     * @return Devuelve un AuthResponse, quien tiene el usuario obtenido
+     */
+    
     public static AuthResponse obtenerTecnico(int id) {
         String sql = "SELECT u.*, t.fallas, t.marcas "
                 + "FROM usuarios u "
