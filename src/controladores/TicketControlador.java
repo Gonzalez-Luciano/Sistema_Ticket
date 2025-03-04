@@ -58,6 +58,11 @@ public class TicketControlador {
         this.ticketDatosVista = vista;
     }
     
+    /**
+     * 
+     * Con los datos de la vista nuevoTicket se llama al modelo a crear el ticket
+     */
+    
     public void crearTicket(){
         try{
             
@@ -90,6 +95,13 @@ public class TicketControlador {
     }
 
     
+    /**
+     * Controla la reapertura por tipo de usuario para asignar una marca o falla 
+     * al técnico y llama al modelo a actualizar el ticket al estado 'Reabierto'
+     * 
+     * @param ticket 
+     */
+    
     public void reabrirTicket(Ticket ticket){
         if("administrador".equals(usuario.getTipo())){
             tecnicoControlador.agregarMarca(ticket.getTecnico());
@@ -116,8 +128,13 @@ public class TicketControlador {
         }catch(Exception e){
             ticketDatosVista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
         }
-        
     }
+    
+    /**
+     * Llama al modelo a actualizar el ticket al estado 'Finalizado'
+     * 
+     * @param ticket 
+     */
     
     public void cerrarTicket(Ticket ticket){
         tecnicoControlador.evaluarMerito(ticket.getTecnico(), ticket);
@@ -141,12 +158,13 @@ public class TicketControlador {
         }
     }
     
+    
     /**
      * Actualiza el estado del ticket de 'No atendido' o 'Reabierto' a 'Atendido'
      * 
      * @param ticket El ticket que va a tomar el técnico
-     * @param lista Lista de tickets filtrada
-     * @param usuario
+     * @param lista Lista de tickets asignados
+     * @param usuario El usuario del técnico que va a tomar el ticket
     **/
     public void ticketTomado(Ticket ticket, List lista, Usuario usuario){
         Tecnico tecnico = (Tecnico)usuario;
@@ -179,6 +197,12 @@ public class TicketControlador {
     }
     
     
+    /**
+     * Entrega una lista de tickets según el usuario
+     * 
+     * @param usuario El usuario que solicita la lista
+     * @return Devuelve una lista de tickets según el usuario
+     */
     public List<Ticket> buscarTickets(Usuario usuario){
         List<Ticket> lista = modelo.obtenerTickets(usuario);       
         
@@ -186,6 +210,11 @@ public class TicketControlador {
      
     }
     
+    /**
+     * Actualiza el estado del ticket a 'Resuelto'
+     * 
+     * @param ticket Ticket que va a pasar a estado 'Resuelto'
+     */
     
     public void resolverTicket(Ticket ticket){
         Mensaje mensaje = modelo.actualizarEstadoTicket(ticket, "Resuelto", ticket.getTecnico(), ticket.getTecnicoAnterior());

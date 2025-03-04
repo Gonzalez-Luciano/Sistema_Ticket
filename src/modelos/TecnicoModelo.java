@@ -19,6 +19,16 @@ import java.sql.SQLException;
  */
 public class TecnicoModelo {
 
+    
+     
+    /**
+     * Actualiza las marcas y fallas del técnico en la DB
+     * 
+     * @param tecnico
+     * @param marca
+     * @param falla 
+     */ 
+    
     public void actualizarTecnico(Tecnico tecnico, int marca, int falla) {
         String sql1 = "UPDATE tecnicos SET marcas=? WHERE usuario_id=?";
         String sql2 = "UPDATE tecnicos SET fallas=? WHERE usuario_id=?";
@@ -58,6 +68,12 @@ public class TecnicoModelo {
         }
     }
 
+    /**
+     * Actualiza en la DB el estado del técnico a 'bloqueado'
+     * 
+     * @param tecnico 
+     */
+    
     public void bloquearTecnico(Usuario tecnico) {
         String sql = "UPDATE usuarios SET estado='bloqueado' WHERE usuario_id=?;";
         int tecnicoId = tecnico.getLegajo() - 99;

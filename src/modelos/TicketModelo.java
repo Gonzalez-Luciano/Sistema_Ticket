@@ -138,6 +138,15 @@ public class TicketModelo {
         return tickets;
     }
 
+    /**
+     * Prepara la statement según el tipo de usuario solicitante para ser retornada
+     * 
+     * @param conn La conexión con la DB
+     * @param solicitante El usuario que solicita los tickets
+     * @return Devuelve una declaración preparada para ser ejecutada
+     * @throws SQLException En caso de error en el stmt lanza una SQLException
+     */
+    
     private PreparedStatement prepararConsulta(Connection conn, Usuario solicitante) throws SQLException {
         String query;
         PreparedStatement stmt = null;

@@ -8,7 +8,6 @@ package controladores;
 
 import Clases.Tecnico;
 import Clases.Ticket;
-import Clases.TicketDatosVista;
 import Clases.Usuario;
 import java.util.List;
 import modelos.TecnicoModelo;
@@ -20,21 +19,14 @@ import modelos.TecnicoModelo;
 public class TecnicoControlador {
     
 
-    private TicketControlador tControlador;
-    private TecnicoModelo modelo;
-    private TicketDatosVista vista;
     
+    private TecnicoModelo modelo;
     
     
     public TecnicoControlador(){
         this.modelo = new TecnicoModelo();
     }
 
-    
-    public TecnicoControlador(Usuario tecnico, TicketDatosVista vista){
-        this();
-        this.vista = vista;
-    }
     
     
     /**
@@ -72,16 +64,37 @@ public class TecnicoControlador {
     }
     
     
+    /**
+     * Evalúa si puede tomar tickets
+     * 
+     * @param lista
+     * @return Devuelve true si puede tomar el ticket y false sino
+     */
     
     public boolean tomarTicket(List lista){
         return lista.size()<3;
     }
+    
+    
+    
+    /**
+     * Le quita una falla al técnico si resuelve un ticket Reabierto
+     * 
+     * @param tecnico
+     * @param ticket 
+     */
     
     public void evaluarMerito(Usuario tecnico, Ticket ticket){
         if(ticket.getTecnicoAnterior()!= null){
             quitarFalla(tecnico);
         }
     }
+    
+    /**
+     * Quita una falla al técnico si es que tiene alguna
+     * 
+     * @param usuario 
+     */
     
     public void quitarFalla(Usuario usuario){
         Tecnico tecnico = (Tecnico)usuario;
