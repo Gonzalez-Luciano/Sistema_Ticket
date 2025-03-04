@@ -13,7 +13,10 @@ import Clases.TicketDatosVista;
 import Clases.Usuario;
 import controladores.ListaSolicitudesControlador;
 import controladores.TicketControlador;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -33,20 +36,20 @@ public class PanelMisTickets extends javax.swing.JPanel {
     private ListaTickets listaAtendidos;
     private ListaSolicitudes listaSolicitudes;
     private ListaSolicitudes listaSolicitudesFiltrada;
+    private Set<Integer> ticketsConSolicitud;
     int filaListaTicketSeleccionada;
     private ListaSolicitudesControlador listaSolicitudescontrolador;
-    
+
     /**
      * Creates new form PanelMisTickets
      */
     public PanelMisTickets() {
         return;  // Llama al otro constructor con un usuario por defecto
     }
-    
-   
-    
+
     /**
      * Creates new form PanelTickets
+     *
      * @param usuario Se la vista
      */
     public PanelMisTickets(Usuario usuario) {
@@ -57,10 +60,12 @@ public class PanelMisTickets extends javax.swing.JPanel {
         this.listaSolicitudes = new ListaSolicitudes();
         this.listaSolicitudesFiltrada = new ListaSolicitudes();
         this.listaSolicitudescontrolador = new ListaSolicitudesControlador();
+        this.ticketsConSolicitud = new HashSet<>();
         initComponents();
-        cargarTickets();
         cargarSolicitudes();
+        cargarTickets();
         
+
     }
 
     public void cargarTickets() {
@@ -72,7 +77,7 @@ public class PanelMisTickets extends javax.swing.JPanel {
 
             // Obtener la lista desde el controlador
             List<Ticket> tickets = controlador.buscarTickets(usuario);
-            
+            List<Solicitud> solicitudes = listaSolicitudesFiltrada.obtenerTodasLasSolicitudes();
             if (tickets == null) {
                 System.err.println("Error: La lista de usuarios obtenida es null.");
                 return;
@@ -84,8 +89,20 @@ public class PanelMisTickets extends javax.swing.JPanel {
 
             // Almacenar usuarios en las listas
             listaCompleta.agregarTickets(tickets);
-            listaAtendidos.agregarTickets(listaCompleta.filtrarPorEstado("Atendido"));
-            
+
+            // Crear un conjunto con los IDs de los tickets con solicitud de reapertura
+            ticketsConSolicitud = solicitudes.stream()
+                    .map(solicitud -> solicitud.getTicket().getTicket_id())
+                    .collect(Collectors.toSet());
+
+            // Filtrar los tickets atendidos que no tienen solicitud de reapertura
+            List<Ticket> ticketsFiltrados = listaCompleta.filtrarPorEstado("Atendido").stream()
+                    .filter(tkt -> !ticketsConSolicitud.contains(tkt.getTicket_id()))
+                    .collect(Collectors.toList());
+
+            // Agregar los tickets filtrados a la lista de atendidos
+            listaAtendidos.agregarTickets(ticketsFiltrados);
+
             DefaultTableModel modelo = (DefaultTableModel) tablaTickets.getModel();
             modelo.setRowCount(0); // Limpiar la tabla
 
@@ -93,7 +110,7 @@ public class PanelMisTickets extends javax.swing.JPanel {
                 if (tkt != null) {
                     modelo.addRow(new Object[]{
                         tkt.getTicket_id(),
-                        tkt.getTecnico().getNombre(),
+                        tkt.getTitulo(),
                         tkt.getInformador().getNombre()
                     });
                 }
@@ -104,29 +121,40 @@ public class PanelMisTickets extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-    
+
     public void reiniciarLista() {
         DefaultTableModel modelo = (DefaultTableModel) tablaTickets.getModel();
         listaAtendidos.removerTickets();
+        List<Solicitud> solicitudes = listaSolicitudesFiltrada.obtenerTodasLasSolicitudes();
+        ticketsConSolicitud = solicitudes.stream()
+                .map(solicitud -> solicitud.getTicket().getTicket_id())
+                .collect(Collectors.toSet());
+
+        // Filtrar los tickets atendidos que no tienen solicitud de reapertura
+        List<Ticket> ticketsFiltrados = listaCompleta.filtrarPorEstado("Atendido").stream()
+                .filter(tkt -> !ticketsConSolicitud.contains(tkt.getTicket_id()))
+                .collect(Collectors.toList());
+
+        // Agregar los tickets filtrados a la lista de atendidos
+        listaAtendidos.agregarTickets(ticketsFiltrados);
         listaAtendidos.agregarTickets(listaCompleta.filtrarPorEstado("Atendido"));
         modelo.setRowCount(0); // Limpiar la tabla
         for (Ticket tkt : listaAtendidos.obtenerTodos()) {
             if (tkt != null) {
                 modelo.addRow(new Object[]{
                     tkt.getTicket_id(),
-                    tkt.getTecnico().getNombre(),
+                    tkt.getTitulo(),
                     tkt.getInformador().getNombre()
                 });
             }
         }
-            
+
     }
-    
-    public void mostrarMensaje(String mensaje, String titulo, int tipoMensaje){
+
+    public void mostrarMensaje(String mensaje, String titulo, int tipoMensaje) {
         JOptionPane.showMessageDialog(null, mensaje, titulo, tipoMensaje);
     }
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -298,27 +326,26 @@ public class PanelMisTickets extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    
-    public void setFilaSeleccionada(int fila){
+    public void setFilaSeleccionada(int fila) {
         this.filaListaTicketSeleccionada = fila;
     }
-    
-    private int getFilaSeleccionada(){
+
+    private int getFilaSeleccionada() {
         return this.filaListaTicketSeleccionada;
     }
-    
+
     private void tablaTicketsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaTicketsMouseClicked
         int filaSeleccionada = tablaTickets.getSelectedRow();
 
         if (filaSeleccionada != -1) { // Verifica que haya una fila seleccionada
             setFilaSeleccionada(filaSeleccionada);
-           
-        }else{
+
+        } else {
             System.out.println(filaSeleccionada);
         }
     }//GEN-LAST:event_tablaTicketsMouseClicked
 
-    
+
     private void BtnReaperturaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnReaperturaMouseClicked
         int filaSeleccionada = getFilaSeleccionada();
 
@@ -326,23 +353,22 @@ public class PanelMisTickets extends javax.swing.JPanel {
 
             Ticket ticket = listaAtendidos.buscarPorIndice(filaSeleccionada);
             List<Solicitud> solicitudes = listaSolicitudesFiltrada.obtenerTodasLasSolicitudes();
-            boolean existeSolicitud=true;
-            for(Solicitud sol : solicitudes){
-                if(sol.getTicket().getTicket_id()==ticket.getTicket_id() && sol.getEstado().equals("pendiente")){
-                    existeSolicitud=false;
+            boolean existeSolicitud = true;
+            for (Solicitud sol : solicitudes) {
+                if (sol.getTicket().getTicket_id() == ticket.getTicket_id() && sol.getEstado().equals("pendiente")) {
+                    existeSolicitud = false;
                     break;
                 }
-            }   
-            if(existeSolicitud){
+            }
+            if (existeSolicitud) {
                 TicketDatosVista dialog = new SolicitarVista((JFrame) SwingUtilities.getWindowAncestor(this), usuario, this, ticket);
                 dialog.setSize(800, 500);
                 dialog.setLocationRelativeTo(this); // Centrar el diálogo
                 dialog.setVisible(true);
-            }
-            else{
+            } else {
                 mensajeError("Ya existe una solicitud de reapertura pendiente");
             }
-        }else{
+        } else {
             mensajeError("Debe seleccionar una fila para poder abrir");
         }
     }//GEN-LAST:event_BtnReaperturaMouseClicked
@@ -358,8 +384,8 @@ public class PanelMisTickets extends javax.swing.JPanel {
             dialog.setSize(800, 500);
             dialog.setLocationRelativeTo(this); // Centrar el diálogo
             dialog.setVisible(true);
-           
-        }else{
+
+        } else {
             mensajeError("Debe seleccionar una fila para poder abrir");
         }
     }//GEN-LAST:event_BtnAbrirMouseClicked
@@ -367,21 +393,20 @@ public class PanelMisTickets extends javax.swing.JPanel {
     private void tablaSolicitudesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaSolicitudesMouseClicked
         setFilaSeleccionada(-1);
         int filaSeleccionada = tablaSolicitudes.getSelectedRow();
-        if (filaSeleccionada != -1){
+        if (filaSeleccionada != -1) {
             Solicitud solicitud = listaSolicitudesFiltrada.buscarPorIndice(filaSeleccionada);
-            
-            SolicitudVista dialog = new SolicitudVista((JFrame) SwingUtilities.getWindowAncestor(this), solicitud.getIdSolicitudReapertura(),controlador , solicitud.getTicket());
+
+            SolicitudVista dialog = new SolicitudVista((JFrame) SwingUtilities.getWindowAncestor(this), solicitud.getIdSolicitudReapertura(), controlador, solicitud.getTicket());
             dialog.setSize(800, 500);
             dialog.setLocationRelativeTo(this); // Centrar el diálogo
             dialog.setVisible(true);
-        }
-        else{
+        } else {
             mensajeError("Debe seleccionar una fila para poder abrir");
         }
         reiniciarListaSolicitudes();
     }//GEN-LAST:event_tablaSolicitudesMouseClicked
 
-    public void cargarSolicitudes(){
+    public void cargarSolicitudes() {
         try {
             if (listaSolicitudescontrolador == null) {
                 System.err.println("Error: listaUsuariosControlador es null. No se pueden cargar los usuarios.");
@@ -394,18 +419,17 @@ public class PanelMisTickets extends javax.swing.JPanel {
                 System.err.println("Error: La lista de usuarios obtenida es null.");
                 return;
             }
-            
+
             listaSolicitudes.removerSolicitudes();
             listaSolicitudesFiltrada.removerSolicitudes();
 
             // Almacenar usuarios en las listas
             listaSolicitudes.agregarSolicitudes(solicitudes);
             listaSolicitudesFiltrada.agregarSolicitudes(listaSolicitudes.obtenerSolicitudesPorEstado("pendiente"));
-            
+
             DefaultTableModel modelo = (DefaultTableModel) tablaSolicitudes.getModel();
             modelo.setRowCount(0); // Limpiar la tabla
-            
-            
+
             for (Solicitud solicitud : listaSolicitudesFiltrada.obtenerTodasLasSolicitudes()) {
                 if (solicitud != null) {
                     modelo.addRow(new Object[]{
@@ -422,19 +446,19 @@ public class PanelMisTickets extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-    
-    public void reiniciarListaSolicitudes(){
+
+    public void reiniciarListaSolicitudes() {
         cargarTickets();
     }
-    
-    public TicketControlador getControlador(){
+
+    public TicketControlador getControlador() {
         return controlador;
     }
-    
-    public void mensajeError(String mensaje){
+
+    public void mensajeError(String mensaje) {
         JOptionPane.showMessageDialog(null, mensaje, "⚠ Error", JOptionPane.ERROR_MESSAGE);
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAbrir;

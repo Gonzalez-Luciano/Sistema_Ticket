@@ -20,13 +20,13 @@ public class SolicitudVistaControlador {
     private SolicitudModelo solicitudModelo;
     private SolicitudVista vista;
     private SolicitarVista solicitarVista;
-    
+
     public SolicitudVistaControlador(SolicitudVista vista) {
         this.vista = vista;
         this.solicitudModelo = new SolicitudModelo();
     }
-    
-    public SolicitudVistaControlador(SolicitarVista vista){
+
+    public SolicitudVistaControlador(SolicitarVista vista) {
         this.solicitarVista = vista;
         this.solicitudModelo = new SolicitudModelo();
     }
@@ -35,19 +35,24 @@ public class SolicitudVistaControlador {
         try {
             solicitudModelo.actualizarEstadoSolicitud(idSolicitud, nuevoEstado);
             
+            // Si el ticket es rechazado
+            if (nuevoEstado.equals("rechazado")) {
+                vista.mostrarMensaje("Ticket rechazado con éxito!", "Ticket actualizado", JOptionPane.INFORMATION_MESSAGE);
+            }
+            
         } catch (Exception e) {
             vista.mostrarMensaje(e.getMessage(), "⚠ Error", JOptionPane.ERROR_MESSAGE);
         }
 
     }
-    
-    public void crearSolicitud(int ticketId, int tecnicoId){
-        int tecnico_Id=tecnicoId-99;
 
-        if(solicitudModelo.crearSolicitud(ticketId,tecnico_Id))
+    public void crearSolicitud(int ticketId, int tecnicoId) {
+        int tecnico_Id = tecnicoId - 99;
+
+        if (solicitudModelo.crearSolicitud(ticketId, tecnico_Id)) {
             solicitarVista.mostrarMensaje("Su solicutud ha sido creada", "Solicitud creada con éxito!", JOptionPane.INFORMATION_MESSAGE);
-         
-        else
+        } else {
             solicitarVista.mostrarMensaje("Error al crear la solicitud!", "⚠ Error", JOptionPane.ERROR_MESSAGE);
-    }       
+        }
+    }
 }

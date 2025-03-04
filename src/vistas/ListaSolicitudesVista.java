@@ -27,17 +27,19 @@ public class ListaSolicitudesVista extends javax.swing.JPanel {
 
     private ListaSolicitudesControlador listaSolicitudescontrolador;
     private ListaSolicitudes listaSolicitudes;
+    private ListaSolicitudes listaSolicitudesFiltradas;
     private TicketControlador controladorTicket;
     private Usuario usuarioObtenido;
 
-    public ListaSolicitudesVista(){
+    public ListaSolicitudesVista() {
         return;
     }
-    
+
     public ListaSolicitudesVista(Usuario usuario) {
         this.usuarioObtenido = usuario;
         this.listaSolicitudescontrolador = new ListaSolicitudesControlador();
         this.listaSolicitudes = new ListaSolicitudes();
+        this.listaSolicitudesFiltradas = new ListaSolicitudes();
         this.controladorTicket = new TicketControlador(usuarioObtenido);
         initComponents();
         cargarSolicitudes();
@@ -59,14 +61,16 @@ public class ListaSolicitudesVista extends javax.swing.JPanel {
 
             // Reiniciar listas
             listaSolicitudes.removerSolicitudes();
+            listaSolicitudesFiltradas.removerSolicitudes();
 
             // Almacenar usuarios en las listas
             listaSolicitudes.agregarSolicitudes(solicitudes);
+            listaSolicitudesFiltradas.agregarSolicitudes(listaSolicitudes.obtenerSolicitudesPorEstado("pendiente"));
 
             DefaultTableModel modelo = (DefaultTableModel) tablaSolicitudes.getModel();
             modelo.setRowCount(0); // Limpiar la tabla
 
-            for (Solicitud solicitud : listaSolicitudes.obtenerSolicitudesPorEstado("pendiente")) {
+            for (Solicitud solicitud : listaSolicitudesFiltradas.obtenerTodasLasSolicitudes()) {
                 if (solicitud != null) {
                     modelo.addRow(new Object[]{
                         solicitud.getTicket().getTicket_id(),
@@ -188,14 +192,14 @@ public class ListaSolicitudesVista extends javax.swing.JPanel {
 
         if (filaSeleccionada != -1) { // Verifica que haya una fila seleccionada
 
-            Solicitud solicitud = listaSolicitudes.buscarPorIndice(filaSeleccionada);
+            Solicitud solicitud = listaSolicitudesFiltradas.buscarPorIndice(filaSeleccionada);
             TicketDatosVista dialog;
-            
-            dialog = new SolicitudVista((JFrame) SwingUtilities.getWindowAncestor(this),solicitud.getIdSolicitudReapertura(), this, solicitud.getTicket());
+
+            dialog = new SolicitudVista((JFrame) SwingUtilities.getWindowAncestor(this), solicitud.getIdSolicitudReapertura(), this, solicitud.getTicket());
             dialog.setSize(800, 500);
             dialog.setLocationRelativeTo(this); // Centrar el diálogo
             dialog.setVisible(true);
-            
+
         } else {
             System.out.println(filaSeleccionada);
         }

@@ -225,7 +225,7 @@ public class SolicitarVista extends TicketDatosVista {
         
         int resultado = JOptionPane.showConfirmDialog(this, "Está a punto de solicitar la reapertura del ticket.\n"+
                                                             "Esto podría demorar la resolución del problema y usted podría ser sancionado.\n"+
-                                                            "Desea solicitar la reapertura de todos modos?",
+                                                            "¿Desea solicitar la reapertura de todos modos?",
                                                             "Solicitud de reapertura",JOptionPane.YES_NO_OPTION);
         if (resultado == 0) {
             try{

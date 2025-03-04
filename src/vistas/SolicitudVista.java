@@ -156,6 +156,7 @@ public class SolicitudVista extends TicketDatosVista {
         BtnReabrirTicket = new javax.swing.JButton();
         nombreTecnicoTitulo = new javax.swing.JLabel();
         nombreTecnico = new javax.swing.JLabel();
+        BtnRechazarTicket = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
@@ -225,6 +226,14 @@ public class SolicitudVista extends TicketDatosVista {
         nombreTecnico.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         nombreTecnico.setText("Sin Asignar");
 
+        BtnRechazarTicket.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        BtnRechazarTicket.setText("Rechazar");
+        BtnRechazarTicket.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnRechazarTicketActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -258,9 +267,11 @@ public class SolicitudVista extends TicketDatosVista {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(54, 54, 54)
                 .addComponent(BtnReabrirTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(192, 192, 192)
                 .addComponent(BtnCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(BtnRechazarTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(58, 58, 58))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -290,7 +301,8 @@ public class SolicitudVista extends TicketDatosVista {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnReabrirTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BtnCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(BtnCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BtnRechazarTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(44, 44, 44))
         );
 
@@ -335,6 +347,18 @@ public class SolicitudVista extends TicketDatosVista {
         }
     }//GEN-LAST:event_BtnReabrirTicketActionPerformed
 
+    private void BtnRechazarTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRechazarTicketActionPerformed
+          try {
+            controladorSolicitud.actualizarEstadoSolicitud(solicitudId, "rechazado");
+            if (listaVista != null) {
+                listaVista.cargarSolicitudes();
+            }
+            this.dispose();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_BtnRechazarTicketActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -342,6 +366,7 @@ public class SolicitudVista extends TicketDatosVista {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnCerrar;
     private javax.swing.JButton BtnReabrirTicket;
+    private javax.swing.JButton BtnRechazarTicket;
     private javax.swing.JTextArea descripcion;
     private javax.swing.JLabel estado;
     private javax.swing.JLabel jLabel1;
