@@ -1,6 +1,11 @@
 CREATE DATABASE IF NOT EXISTS sistema_ticket;
 USE sistema_ticket;
 
+-- Crea el usuario para la conexion con la BD
+CREATE USER IF NOT EXISTS 'UserSistemaTicket'@'%' IDENTIFIED BY '1234';
+GRANT ALL PRIVILEGES ON sistema_ticket.* TO 'UserSistemaTicket'@'%';
+FLUSH PRIVILEGES;
+
 -- Tabla de usuarios
 CREATE TABLE IF NOT EXISTS usuarios (
     usuario_id INT AUTO_INCREMENT PRIMARY KEY,
